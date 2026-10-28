@@ -1,6 +1,7 @@
 import { readFileSync, existsSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { pageMetadata } from "@/lib/seo";
+import { SITE_URL } from "@/lib/site";
 
 const pub = (f: string) => `${process.cwd()}/public/${f}`;
 const png = (f: string) => { const b = readFileSync(pub(f)); return { w: b.readUInt32BE(16), h: b.readUInt32BE(20), sig: b.subarray(1, 4).toString() }; };
@@ -45,7 +46,9 @@ describe("share image", () => {
     for (const p of projects) {
       const meta = pageMetadata({ locale: "en", path: `/projects/${p.slug}/`, title: "t", description: "d" });
       const url = String((meta.openGraph?.images as { url: string }[])[0].url);
-      const file = join(process.cwd(), "public", new URL(url).pathname);
+      // The URL is SITE_URL + site path; for GitHub Pages SITE_URL itself contains "/portfolio".
+      const sitePath = url.startsWith(SITE_URL) ? url.slice(SITE_URL.length) : new URL(url).pathname;
+      const file = join(process.cwd(), "public", sitePath);
       expect(existsSync(file), `${p.slug}: ${url}`).toBe(true);
     }
   });
