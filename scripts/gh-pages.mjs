@@ -18,7 +18,8 @@ if (!existsSync(join(dir, "index.html"))) {
 
 const MEDIA = String.raw`\/(?:art|media|og|cv|fonts|audio|screencast)\/|\/(?:favicon[a-z0-9.-]*|apple-touch-icon[a-z0-9.-]*|icon-\d+)|\/site\.webmanifest`;
 
-const exts = [".html", ".js", ".css", ".xml", ".webmanifest"];
+// .txt = Next RSC payloads (__next.*.txt), fetched on client navigation
+const exts = [".html", ".js", ".css", ".xml", ".webmanifest", ".txt", ".json"];
 let files = 0, edits = 0;
 const walk = (d) => {
   for (const entry of readdirSync(d)) {
@@ -46,9 +47,9 @@ const scan = (d) => {
   for (const entry of readdirSync(d)) {
     const full = join(d, entry);
     if (statSync(full).isDirectory()) scan(full);
-    else if (entry.endsWith(".html")) left += (readFileSync(full, "utf8").match(new RegExp(String.raw`["'(\x60=\s](?:${MEDIA})`, "g")) || []).length;
+    else if (exts.some((e) => entry.endsWith(e))) left += (readFileSync(full, "utf8").match(new RegExp(String.raw`["'(\x60=\s](?:${MEDIA})`, "g")) || []).length;
   }
 };
 scan(dir);
-console.log(`gh-pages: rewrote refs in ${files} files (basePath ${bp}), root-media refs left in html: ${left}`);
+console.log(`gh-pages: rewrote refs in ${files} files (basePath ${bp}), root-media refs left: ${left}`);
 if (left > 0) process.exit(2);
