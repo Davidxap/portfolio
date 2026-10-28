@@ -85,7 +85,7 @@ The illustrations are AI-generated and art-directed by David. The site discloses
 
 The project is a static export (`output: "export"`, `trailingSlash: true`, unoptimized images). `npm run build` writes plain files to `out/`, which any static host can serve.
 
-It works on Vercel without extra configuration. The production URL is picked up automatically. Once a custom domain exists, set `SITE_URL` to that origin.
+Primary deployment is GitHub Pages: `https://davidxap.github.io/portfolio/` (details below). It also works on Vercel without extra configuration — the production URL is picked up automatically. Once a custom domain exists, set `SITE_URL` to that origin.
 
 ### GitHub Pages
 
