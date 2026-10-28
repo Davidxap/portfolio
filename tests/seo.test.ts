@@ -30,7 +30,8 @@ describe("favicon and manifest", () => {
   it("has a manifest with the name, short name, colours and icons that exist", () => {
     const m = JSON.parse(readFileSync(pub("site.webmanifest"), "utf8"));
     expect(m).toMatchObject({ name: "David Arroyave Pérez", short_name: "David A.", background_color: "#16120f", theme_color: "#0f1216" });
-    for (const i of m.icons) expect(existsSync(pub(i.src.slice(1))), i.src).toBe(true);
+    // Icons may be absolute ("/icon-192.png") or relative to the manifest ("icon-192.png").
+    for (const i of m.icons) expect(existsSync(pub(i.src.startsWith("/") ? i.src.slice(1) : i.src)), i.src).toBe(true);
     expect(m.icons.some((i: { purpose?: string }) => i.purpose === "maskable")).toBe(true);
   });
 });

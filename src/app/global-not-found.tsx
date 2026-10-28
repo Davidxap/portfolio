@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { RootHtml } from "@/components/RootHtml";
 import { PixelDavid } from "@/components/world/PixelDavid";
+import { BP } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Page not found · David Arroyave Pérez",
@@ -17,8 +18,8 @@ export default function GlobalNotFound() {
         <h1>This page does not exist.</h1>
         <p lang="es">Esta página no existe.</p>
         <div className="nf-links">
-          <a className="btn primary" href="/">Back to the portfolio</a>
-          <a className="btn" href="/es/" lang="es">Volver al portafolio</a>
+          <a className="btn primary" href={`${BP}/`}>Back to the portfolio</a>
+          <a className="btn" href={`${BP}/es/`} lang="es">Volver al portafolio</a>
         </div>
       </main>
     </RootHtml>

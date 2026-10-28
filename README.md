@@ -87,6 +87,10 @@ The project is a static export (`output: "export"`, `trailingSlash: true`, unopt
 
 It works on Vercel without extra configuration. The production URL is picked up automatically. Once a custom domain exists, set `SITE_URL` to that origin.
 
+### GitHub Pages
+
+`.github/workflows/deploy-pages.yml` publishes `out/` on every push to `main`, serving the site under `https://davidxap.github.io/portfolio/` (GitHub Pages requires the "GitHub Actions" source option once). The workflow sets `SITE_URL=https://davidxap.github.io/portfolio` and `NEXT_PUBLIC_BASE_PATH=/portfolio`; `NEXT_PUBLIC_BASE_PATH` enables the Next.js basePath, and `scripts/gh-pages.mjs` rewrites the root-absolute asset references inside the export (`scripts/gh-pages.mjs` runs after `next build` only in CI — local dev and Vercel need none of this). `site.ts` joins `SITE_URL` paths under that origin, so sitemap, robots and canonical URLs keep working.
+
 ## License
 
 All rights reserved. The code is published to show the work; please ask before reusing it.

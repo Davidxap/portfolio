@@ -27,13 +27,14 @@ export function pageMetadata({ locale, path, title, description }: { locale: Loc
     robots: { index: true, follow: true },
     authors: [{ name: person.name }],
     icons: {
+      // Next prefixes metadata icon/manifest hrefs with basePath automatically.
       icon: [
         { url: `/favicon.ico?v=${ICON_V}`, sizes: "48x48" },
         { url: `/favicon.svg?v=${ICON_V}`, type: "image/svg+xml" },
-        { url: `/favicon-32.png?v=${ICON_V}`, sizes: "32x32", type: "image/png" },
-        { url: `/favicon-16.png?v=${ICON_V}`, sizes: "16x16", type: "image/png" },
+        { url: `/favicon-32.png?v=${ICON_V}`, sizes: "32x32" },
+        { url: `/favicon-16.png?v=${ICON_V}`, sizes: "16x16" },
       ],
-      apple: [{ url: `/apple-touch-icon.png?v=${ICON_V}`, sizes: "180x180", type: "image/png" }],
+      apple: [{ url: `/apple-touch-icon.png?v=${ICON_V}`, sizes: "180x180" }],
     },
     manifest: "/site.webmanifest",
     appleWebApp: { title: "David A." },
