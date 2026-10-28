@@ -118,7 +118,8 @@
 @keyframes ikai-shake2 { 25% { translate: 3px 0; } 75% { translate: -3px 0; } }
 
 @media (max-width: 700px) {
-  .cs-screen[data-cart="ikai"] { aspect-ratio: 4 / 4.9; }
+  .cs-screen[data-cart="ikai"] { aspect-ratio: 4 / 5.3; }
+  .dm-ikai .ikai-hint { font-size: 10px; line-height: 1.35; }
   .dm.dm-ikai { padding: 6px 8px 4px; }
   .ikai-head { flex-wrap: nowrap; gap: 6px; justify-content: space-between; }
   .ikai-title { letter-spacing: 0.25em; }

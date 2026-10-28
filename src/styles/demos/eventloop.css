@@ -88,7 +88,9 @@
 
 @media (max-width: 700px) {
   .lp-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: auto auto auto auto auto; grid-template-areas: "code code" "stack api" "loop loop" "micro task" "out out"; overflow: hidden; }
-  .lp-codebox pre { flex: none; font-size: 10.5px; line-height: 1.5; overflow: hidden; }
+  .lp-codebox pre { flex: none; font-size: 10.5px; line-height: 1.5; overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; }
+  /* the scroll row hides its scrollbar, so fade its right edge to show there are more tabs */
+  .lp-tabs { mask-image: linear-gradient(90deg, #000 calc(100% - 64px), transparent calc(100% - 26px)); }
   .lp-codebox { padding-block: 4px 5px; } .lp-codebox h3 { margin-bottom: 2px; }
   .lp-stack, .lp-api { min-height: 92px; }
   .lp-micro, .lp-task { min-height: 64px; } .lp-console { min-height: 44px; } .lp-micro ul, .lp-task ul { flex-wrap: wrap; }
