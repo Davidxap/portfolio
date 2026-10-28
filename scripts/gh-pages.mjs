@@ -27,7 +27,8 @@ const walk = (d) => {
     else if (exts.some((e) => entry.endsWith(e))) {
       const text = readFileSync(full, "utf8");
       // Wrap the alternation so every branch requires a boundary char ahead of it.
-      const re = new RegExp(String.raw`(["'(=\s])(?:${MEDIA})`, "g");
+      // \x60 = backtick: template literals like src:`/art/v3/icons/...` live in client chunks.
+      const re = new RegExp(String.raw`(["'(\x60=\s])(?:${MEDIA})`, "g");
       const before = (text.match(re) || []).length;
       if (!before) continue;
       const next = text.replace(re, (m, boundary) => m.slice(0, 1) + bp + m.slice(1));
@@ -45,7 +46,7 @@ const scan = (d) => {
   for (const entry of readdirSync(d)) {
     const full = join(d, entry);
     if (statSync(full).isDirectory()) scan(full);
-    else if (entry.endsWith(".html")) left += (readFileSync(full, "utf8").match(new RegExp(String.raw`["'=\s](?:${MEDIA})`, "g")) || []).length;
+    else if (entry.endsWith(".html")) left += (readFileSync(full, "utf8").match(new RegExp(String.raw`["'(\x60=\s](?:${MEDIA})`, "g")) || []).length;
   }
 };
 scan(dir);
