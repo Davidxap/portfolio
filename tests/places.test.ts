@@ -3,6 +3,7 @@ import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { places, placeById, nextPlace } from "@/data/places";
 import { allPages, parsePath } from "@/lib/routes";
+import { withoutBase } from "@/lib/base";
 
 describe("places registry", () => {
   it("has the six map places in map order with unique ids", () => {
@@ -67,7 +68,7 @@ describe("places registry", () => {
 describe("wallpaper art", () => {
   it("points at the 2027 map files that exist (day and night grade, same framing, no upscaling)", async () => {
     const { STAGE_ART, STAGE_RATIO } = await import("@/lib/stage");
-    const pub = (u: string) => join(process.cwd(), "public", u.split(" ")[0]);
+    const pub = (u: string) => join(process.cwd(), "public", withoutBase(u.split(" ")[0]));
     for (const u of [...STAGE_ART.avif, ...STAGE_ART.webp, STAGE_ART.fallback, ...STAGE_ART.night.avif, ...STAGE_ART.night.webp, STAGE_ART.night.fallback]) expect(existsSync(pub(u)), u).toBe(true);
     expect([STAGE_ART.night.width, STAGE_ART.night.height]).toEqual([STAGE_ART.width, STAGE_ART.height]);
     expect(STAGE_RATIO).toBeCloseTo(1672 / 940, 3);

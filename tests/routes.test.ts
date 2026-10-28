@@ -4,6 +4,7 @@ import { allPages, alternatesFor, parsePath } from "@/lib/routes";
 import { places } from "@/data/places";
 import { projects } from "@/data/projects";
 import { games } from "@/data/games";
+import { withoutBase } from "@/lib/base";
 
 // Per locale: the map, every place, the direct view, every project and every game.
 const pagesPerLocale = 1 + places.length + 1 + projects.length + games.length;
@@ -14,7 +15,7 @@ describe("i18n route helpers", () => {
     expect(homePath("es")).toBe("/es/");
     expect(projectPath("en", "ikai")).toBe("/projects/ikai/");
     expect(projectPath("es", "ikai")).toBe("/es/proyectos/ikai/");
-    expect(cvPath("es")).toMatch(/^\/cv\/.*ES\.pdf$/);
+    expect(withoutBase(cvPath("es"))).toMatch(/^\/cv\/.*ES\.pdf$/);
   });
 
   it("parses a path into locale, kind and slug", () => {

@@ -2,6 +2,7 @@ import { readFileSync, existsSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { pageMetadata } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
+import { withoutBase } from "@/lib/base";
 
 const pub = (f: string) => `${process.cwd()}/public/${f}`;
 const png = (f: string) => { const b = readFileSync(pub(f)); return { w: b.readUInt32BE(16), h: b.readUInt32BE(20), sig: b.subarray(1, 4).toString() }; };
@@ -10,9 +11,9 @@ describe("favicon and manifest", () => {
   const md = pageMetadata({ locale: "en", path: "/", title: "t", description: "d" });
   it("declares the svg, the 32 and 16 px pngs, the apple icon, the manifest and the app title", () => {
     const icons = md.icons as { icon: { url: string }[]; apple: { url: string; sizes: string }[] };
-    expect(icons.icon.map((i) => i.url)).toEqual(["/favicon.ico?v=2", "/favicon.svg?v=2", "/favicon-32.png?v=2", "/favicon-16.png?v=2"]);
-    expect(icons.apple[0]).toMatchObject({ url: "/apple-touch-icon.png?v=2", sizes: "180x180" });
-    expect(md.manifest).toBe("/site.webmanifest");
+    expect(icons.icon.map((i) => withoutBase(i.url))).toEqual(["/favicon.ico?v=2", "/favicon.svg?v=2", "/favicon-32.png?v=2", "/favicon-16.png?v=2"]);
+    expect({ ...icons.apple[0], url: withoutBase(icons.apple[0].url) }).toMatchObject({ url: "/apple-touch-icon.png?v=2", sizes: "180x180" });
+    expect(withoutBase(String(md.manifest))).toBe("/site.webmanifest");
     expect(md.appleWebApp).toMatchObject({ title: "David A." });
   });
   it("has every icon file with the size its name promises", () => {
