@@ -1,0 +1,39 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+@import "../styles/base.css";
+@import "../styles/art.css";
+@import "../styles/ui.css";
+@import "../styles/console.css";
+@import "../styles/demos/ikai.css";
+@import "../styles/demos/book.css";
+@import "../styles/carts.css";
+@import "../styles/world.css";
+@import "../styles/desktop.css";
+@import "../styles/panels.css";
+@import "../styles/apps.css";
+@import "../styles/direct.css";
+@import "../styles/brand.css";
+
+/* Theme tokens (src/styles/tokens.css) exposed to Tailwind utilities; values stay CSS variables so
+   <html data-theme> switches every utility at once. */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-panel: var(--panel);
+  --color-line: var(--line);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-2: var(--accent-2);
+  --color-cta: var(--cta);
+  --color-cta-ink: var(--cta-ink);
+  --color-card: var(--card-bg);
+  --font-serif: var(--serif);
+  --font-sans: var(--sans);
+  --font-mono: var(--mono);
+  --radius-card: var(--radius);
+  --ease-out-soft: var(--ease);
+}
+
+@import "../styles/themes.css";

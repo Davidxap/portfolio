@@ -1,0 +1,47 @@
+/* Zen cartridge: a calm palette-matching puzzle over a misty landscape. Scoped under .dm-zenmatch. */
+.dm.dm-zenmatch { --ink: #2b2347; display: grid; grid-template-rows: auto minmax(0, 1fr) auto auto; gap: 6px; height: 100%; padding: 8px 12px 6px; overflow: hidden; color: var(--zfg); transition: color 0.8s; font: 12px var(--mono); background: linear-gradient(180deg, color-mix(in srgb, var(--zbg) 82%, #000), color-mix(in srgb, var(--zbg) 60%, #000)); image-rendering: auto; }
+.zm-head { display: flex; align-items: baseline; justify-content: center; gap: 10px; flex-wrap: wrap; text-align: center; }
+.zm-head b { letter-spacing: 0.22em; text-transform: uppercase; color: var(--zac); transition: color 0.8s; }
+.zm-head em { font-style: normal; display: inline-flex; align-items: center; gap: 8px; padding: 1px 10px; border-radius: 99px; background: rgb(255 255 255 / 0.1); border: 1px solid rgb(255 255 255 / 0.22); white-space: nowrap; }
+.zm-pips { display: inline-flex; gap: 4px; }
+.zm-pips i { width: 8px; height: 8px; border-radius: 50%; border: 1px solid var(--zac); transition: background 0.6s, box-shadow 0.6s; }
+.zm-pips i.on { background: var(--zac); box-shadow: 0 0 8px var(--zac); }
+
+.zm-stage { position: relative; min-height: 0; container-type: size; overflow: hidden; border-radius: 10px; box-shadow: 0 0 0 1px rgb(255 255 255 / 0.18), 0 10px 30px rgb(0 0 0 / 0.45); background: var(--zbg); }
+.zm-scene { position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: max(100cqw, 237.3cqh); aspect-ratio: 1500 / 632; }
+.zm-scene picture, .zm-scene img { display: block; width: 100%; height: 100%; image-rendering: auto; transition: filter 0.9s ease; }
+.zm-tint { position: absolute; inset: 0; background: var(--zbg); mix-blend-mode: soft-light; opacity: 0.55; transition: background 0.9s; pointer-events: none; }
+.zm-window { position: absolute; left: 57.6%; top: 11.9%; width: 13.8%; height: 33%; display: grid; grid-template-rows: auto 1fr auto; gap: 4%; padding: 3% 3% 2%; border-radius: 6px; background: color-mix(in srgb, var(--tbg) 88%, transparent); border: 1px solid color-mix(in srgb, var(--tac) 70%, #fff); box-shadow: 0 0 24px color-mix(in srgb, var(--tac) 55%, transparent), inset 0 0 0 1px rgb(255 255 255 / 0.12); animation: zm-float 6s ease-in-out infinite; color: var(--tfg); font-size: clamp(8px, 1.3cqw, 12px); text-align: center; transition: background 0.6s, border-color 0.6s; }
+.zm-dots { display: flex; gap: 3px; } .zm-dots i { width: 5px; height: 5px; border-radius: 50%; background: var(--tac); }
+.zm-pane { display: grid; align-content: start; gap: 7%; padding: 6% 8%; border-radius: 4px; background: color-mix(in srgb, var(--tfg) 8%, var(--tbg)); } .zm-pane i { height: 5px; border-radius: 3px; background: color-mix(in srgb, var(--tfg) 55%, transparent); } .zm-pane i:first-child { background: var(--tac); width: 60%; } .zm-pane i:last-child { width: 75%; }
+.zm-window b { letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.9em; }
+.zm-window.won { animation: zm-glow 1.4s ease-out both; border-color: #fff; }
+.zm-bloom { position: absolute; left: 64.5%; top: 28%; width: 0; height: 0; pointer-events: none; }
+.zm-bloom i { position: absolute; width: 8px; height: 8px; border-radius: 50% 0 50% 0; background: var(--zac); opacity: 0; animation: zm-petal 1.6s ease-out both; animation-delay: calc(var(--i) * 0.06s); rotate: calc(var(--i) * 40deg); }
+.zm-done { position: absolute; inset: 0; z-index: 3; display: grid; place-content: center; justify-items: center; gap: 8px; padding: 16px; text-align: center; background: radial-gradient(80% 70% at 50% 45%, color-mix(in srgb, var(--zbg) 55%, transparent), color-mix(in srgb, var(--zbg) 94%, #000)); animation: zm-fade 1.2s ease both; }
+.zm-done b { font-size: clamp(18px, 3.4vw, 26px); letter-spacing: 0.3em; text-transform: uppercase; color: var(--zac); }
+.zm-done p { margin: 0; max-width: 46ch; line-height: 1.45; color: var(--zfg); }
+.zm-done button, .zm-bar button { all: unset; cursor: pointer; padding: 3px 12px; border-radius: 99px; border: 1px solid var(--zac); background: rgb(255 255 255 / 0.08); color: var(--zfg); }
+.zm-done button:hover, .zm-bar button:hover { background: color-mix(in srgb, var(--zac) 30%, transparent); }
+.zm-done button:focus-visible, .zm-bar button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.zm-bar { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+.zm-bar button { font-size: 16px; line-height: 1; padding: 3px 12px; } .zm-bar button:disabled { opacity: 0.35; cursor: default; }
+.zm-chip { display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: 99px; background: rgb(255 255 255 / 0.08); border: 1px solid rgb(255 255 255 / 0.2); white-space: nowrap; }
+.zm-chip i { width: 10px; height: 10px; border-radius: 50%; transition: background 0.6s; } .zm-chip b { color: var(--zac); }
+.zm-hint { margin: 0; min-height: 1.2em; text-align: center; font-size: 10.5px; opacity: 0.72; }
+.dm-zenmatch[data-won="true"] .zm-chip.now { border-color: #fff; }
+
+/* the zen frame keeps its retro bezel but not the pixel scanlines over a painting */
+.cs-screen[data-cart="zen"]:has(.dm-zenmatch) { image-rendering: auto; }
+.cs-screen[data-cart="zen"]:has(.dm-zenmatch)::after { opacity: 0.25; }
+
+@keyframes zm-float { 50% { translate: 0 -4px; } }
+@keyframes zm-glow { 0% { box-shadow: 0 0 10px var(--tac); } 40% { box-shadow: 0 0 46px 10px color-mix(in srgb, var(--tac) 80%, #fff); } 100% { box-shadow: 0 0 24px var(--tac); } }
+@keyframes zm-petal { 0% { opacity: 0; translate: 0 0; } 20% { opacity: 0.95; } 100% { opacity: 0; translate: calc(var(--i) * 9px - 36px) -90px; } }
+@keyframes zm-fade { from { opacity: 0; } }
+@media (max-width: 700px) { .cs-screen[data-cart="zen"] { aspect-ratio: 4 / 4.2; } .zm-window { font-size: 7px; } }
+@media (prefers-reduced-motion: reduce) {
+  .zm-window, .zm-window.won, .zm-bloom i, .zm-done { animation: none !important; }
+  .zm-scene img, .zm-tint, .dm.dm-zenmatch, .zm-pips i { transition: none; }
+  .zm-bloom { display: none; }
+}

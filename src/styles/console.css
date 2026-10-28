@@ -1,0 +1,64 @@
+/* Game screen: the CRT glass the arcade minigames run on, the code panel and the shared demo shell. */
+.cs {
+  display: grid; gap: 28px; margin: 36px auto 0; max-width: 920px;
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9 0.045' numOctaves='3' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.9 -0.25'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.cs-screen {
+  aspect-ratio: 3 / 2; border-radius: 64px 64px 12px 12px / 28px 28px 12px 12px; overflow: hidden; position: relative; isolation: isolate;
+  background: radial-gradient(120% 100% at 50% 40%, color-mix(in srgb, #14211f 82%, var(--river-1)), #070d10); color: #efe6d4;
+  box-shadow: 0 0 24px color-mix(in srgb, var(--river-1) 30%, transparent), inset 0 0 50px rgb(0 0 0 / 0.65);
+  animation: crt 6s steps(1) infinite;
+}
+.cs-screen::before { content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none; background: radial-gradient(ellipse at 50% 50%, transparent 55%, rgb(0 0 0 / 0.45)); }
+.cs-screen::after { content: ""; position: absolute; inset: 0; z-index: 4; pointer-events: none; background: var(--grain), repeating-linear-gradient(0deg, rgb(0 0 0 / 0.13) 0 1px, transparent 1px 3px); background-size: 220px, auto; mix-blend-mode: multiply; opacity: 0.8; }
+@keyframes crt { 0%, 92% { filter: brightness(1); } 93% { filter: brightness(1.1); } 94% { filter: brightness(1); } }
+.cs-view { height: 100%; position: relative; z-index: 1; animation: slide-in 0.45s var(--ease) both; }
+@keyframes slide-in { from { transform: translateY(14%); opacity: 0; } }
+
+@keyframes wash { 0% { opacity: 0; transform: translateY(30%); } 25% { opacity: 0.95; transform: none; } 100% { opacity: 0; } }
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+@keyframes nudge { to { transform: translateX(3px); } }
+
+.cs-hint { margin: 0 0 0 24px; color: var(--text); }
+
+/* code panel: paper and ink */
+.cs-code { --paper: color-mix(in srgb, #f4ead6 7%, var(--bg)); margin: 0; border: 1px solid var(--line); border-radius: 22px 22px 22px 8px; overflow: hidden; position: relative; background: var(--paper); box-shadow: inset 4px 0 0 color-mix(in srgb, var(--accent) 55%, transparent); }
+:root[data-theme="paramo"] .cs-code { --paper: #f7f1e4; }
+.cs-code::before { content: ""; position: absolute; inset: 0; background: var(--grain); mix-blend-mode: overlay; opacity: 0.3; pointer-events: none; }
+.cs-code figcaption { padding: 10px 18px 10px 22px; border-bottom: 1px dashed var(--line); color: var(--muted); font-style: italic; }
+.cs-src { display: flex; max-height: 380px; overflow: auto; font: 13px/1.65 var(--mono); padding: 12px 0; }
+.cs-ln { white-space: pre; text-align: right; padding: 0 12px 0 22px; color: color-mix(in srgb, var(--muted) 75%, transparent); user-select: none; border-right: 1px solid var(--line); position: sticky; left: 0; background: var(--paper); }
+.cs-src pre { margin: 0; padding: 0 16px; font: inherit; tab-size: 2; }
+.tk-keyword { color: #e7a0b4; } .tk-string { color: #9ad9a0; } .tk-comment { color: #8fa3a0; font-style: italic; } .tk-number { color: #f2b27a; } .tk-tag { color: #8fd0c2; }
+:root[data-theme="paramo"] .tk-keyword { color: #a3304f; } :root[data-theme="paramo"] .tk-string { color: #2c7a3a; } :root[data-theme="paramo"] .tk-comment { color: #5b6b69; } :root[data-theme="paramo"] .tk-number { color: #a4501f; } :root[data-theme="paramo"] .tk-tag { color: #1f6f66; }
+.tk-rest { visibility: hidden; }
+/* annotated walkthrough: active step lines lit, the rest dimmed; step list under the code */
+.cs-line { display: block; transition: opacity 0.3s, background 0.3s; }
+.cs-line[data-on="true"] { background: color-mix(in srgb, var(--accent) 13%, transparent); box-shadow: inset 3px 0 0 var(--accent); }
+.cs-src[data-has-step="true"] .cs-line:not([data-on="true"]) { opacity: 0.5; }
+.cs-steps { list-style: none; margin: 0; padding: 10px 14px 4px; display: grid; gap: 4px; border-top: 1px dashed var(--line); }
+.cs-step { all: unset; box-sizing: border-box; display: block; width: 100%; padding: 8px 12px; border-left: 3px solid transparent; border-radius: 0 10px 10px 0; cursor: pointer; font-size: 15px; line-height: 1.45; color: var(--text); }
+.cs-step:hover { background: color-mix(in srgb, var(--accent) 8%, transparent); }
+.cs-step:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.cs-step[aria-current="step"] { border-left-color: var(--accent); background: color-mix(in srgb, var(--accent) 13%, transparent); }
+.cs-step .mono { color: var(--muted); margin-right: 8px; }
+@media (prefers-reduced-motion: reduce) { .cs-line { transition: none; } }
+.cs-code p { padding: 10px 18px 12px 22px; color: var(--muted); margin: 0; border-top: 1px dashed var(--line); }
+
+@media (max-width: 720px) {
+  .cs-screen { border-radius: 44px 44px 10px 10px / 20px 20px 10px 10px; }
+
+  .cs-hint { margin-left: 10px; }
+
+  .cs-src { font-size: 12px; max-height: 300px; }
+
+}
+
+/* demos */
+.dm { height: 100%; padding: 12px; display: grid; align-content: start; gap: 8px; position: relative; font-size: clamp(11px, 1.4vw, 13px); }
+.dm-hint { position: absolute; left: 12px; bottom: 8px; margin: 0; font: 12px var(--mono); opacity: 0.75; }
+.dm-note { margin: 0; font-size: clamp(11px, 1.35vw, 13px); line-height: 1.4; }
+
+@media (prefers-reduced-motion: reduce) { .dm-zen, .cs-knob, .knob-tick, .hz-warm, .cs-screen, .cs-view, .cs-cart, .cs-menu li.on button::before, .cs-flash, .rise-sun, .cs-logo, .cs-press { transition: none; animation: none !important; }   }

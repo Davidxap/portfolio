@@ -1,0 +1,38 @@
+/* Theme wallpaper treatment and the theme menu sections 5 and 6).
+   Tokens live in tokens.css: --wall-night only. Themes never tint or filter the painting (like Omarchy themes: they recolour the UI). */
+
+/* night-grade image layer: 0 or 1 per theme (replaces the hard-coded [data-theme="night"] rule in desktop.css) */
+.wallpaper .wp-night { opacity: var(--wall-night, 0); transition: opacity 0.9s ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  .wallpaper .wp-night { transition: none; }
+}
+
+/* ===== theme menu: trigger swatch + 2-column tile listbox ===== */
+.swatch-strip { display: block; width: 36px; height: 12px; border-radius: 6px; border: 1px solid var(--line); flex: none; }
+.theme-list.tm-list {
+  right: 0; left: auto; top: calc(100% + 8px); width: 340px; min-width: 0; max-height: calc(100dvh - 80px); overflow-y: auto; overscroll-behavior: contain;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px; border-radius: 16px;
+}
+.tm-list .tm-opt {
+  display: grid; grid-template-columns: 1fr auto; grid-template-areas: "strip check" "name name" "tag tag"; align-items: center; row-gap: 4px; column-gap: 6px;
+  min-height: 52px; padding: 9px 11px 10px; border-radius: 12px; border: 2px solid transparent; font-size: 14px; box-shadow: none;
+  background: color-mix(in srgb, var(--text) 5%, transparent);
+}
+.tm-list .tm-opt .swatch-strip { grid-area: strip; }
+.tm-list .tm-opt .tm-check { grid-area: check; margin: 0; color: var(--accent-2); }
+.tm-list .tm-name { grid-area: name; font-weight: 600; font-size: 14px; line-height: 1.2; }
+.tm-list .tm-tag { grid-area: tag; font-size: 12px; line-height: 1.25; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tm-list .tm-opt[data-active="true"] { background: color-mix(in srgb, var(--accent-2) 16%, transparent); box-shadow: none; }
+.tm-list .tm-opt[aria-selected="true"] { border-color: var(--accent-2); }
+.theme-list.tm-list .tm-opt[data-active="true"] { outline: none; }
+
+@media (max-width: 720px) {
+  .theme-list.tm-list {
+    position: fixed; left: 16px; right: 16px; top: auto; bottom: calc(16px + env(safe-area-inset-bottom)); width: auto; max-height: calc(100dvh - 96px);
+    z-index: 200; padding: 12px;
+  }
+}
+@media (max-width: 359px) {
+  .tm-list .tm-tag { display: none; }
+}

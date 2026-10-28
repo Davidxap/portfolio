@@ -1,0 +1,77 @@
+/* Per-cartridge visual identities inside the shared console screen. Keyed on .cs-screen[data-cart] (set while a cartridge runs).
+   Colours are fixed per identity (the screen is always a dark glass), so all three site themes stay readable. */
+.cs-screen, .cs-screen::before, .cs-screen::after { transition: background 0.5s ease, box-shadow 0.5s ease, border-radius 0.5s ease, opacity 0.5s ease, filter 0.5s ease; }
+.cs-screen::before, .cs-screen::after { content: ""; }
+
+/* ---- tcg: painterly fantasy, gilt and parchment ---- */
+.cs-screen[data-cart="tcg"] {
+  --text: #f6ead0; --muted: #d9c7a0; --accent: #f0c36a;
+  background: radial-gradient(120% 100% at 50% 35%, #3a2a17, #140e08);
+  box-shadow: 0 0 26px rgb(240 195 106 / 0.28), inset 0 0 60px rgb(20 10 0 / 0.7), inset 0 0 0 2px rgb(240 195 106 / 0.3);
+}
+.cs-screen[data-cart="tcg"]::before { background: radial-gradient(ellipse at 50% 45%, transparent 50%, rgb(40 20 4 / 0.6)); }
+.cs-screen[data-cart="tcg"]::after {
+  background: var(--grain), radial-gradient(90% 70% at 50% 0%, rgb(255 226 160 / 0.14), transparent 70%);
+  background-size: 220px, auto; mix-blend-mode: soft-light; opacity: 0.9;
+}
+
+/* ---- ikai: ink-and-fog horror CRT ---- */
+.cs-screen[data-cart="ikai"] {
+  background: radial-gradient(120% 100% at 50% 45%, #1d1612, #060403);
+  box-shadow: 0 0 22px rgb(138 74 38 / 0.3), inset 0 0 90px rgb(0 0 0 / 0.9);
+  animation: crt-ikai 5s steps(1) infinite;
+}
+.cs-screen[data-cart="ikai"]::before { background: radial-gradient(ellipse at 50% 50%, transparent 38%, rgb(0 0 0 / 0.72) 100%); }
+.cs-screen[data-cart="ikai"]::after {
+  background: repeating-linear-gradient(0deg, rgb(0 0 0 / 0.38) 0 1px, transparent 1px 3px), var(--grain);
+  background-size: auto, 220px; mix-blend-mode: multiply; opacity: 0.95;
+}
+.cs-screen[data-cart="ikai"] .dm-ikai { text-shadow: 0.5px 0 rgb(255 60 40 / 0.22), -0.5px 0 rgb(40 220 255 / 0.18); transform: perspective(900px) scale(1.01); }
+
+@keyframes crt-ikai { 0%, 88% { filter: brightness(1) contrast(1.08); } 89% { filter: brightness(1.22) contrast(1.15); } 90% { filter: brightness(0.85) contrast(1.08); } 91%, 96% { filter: brightness(1) contrast(1.08); } 97% { filter: brightness(1.12) contrast(1.1); } 98% { filter: brightness(1) contrast(1.08); } }
+
+/* ---- book: sleek modern glass and neon ---- */
+.cs-screen[data-cart="book"] {
+  --text: #e8f1ff; --muted: #b6c6e0; --accent: #7ee7ff;
+  background: radial-gradient(90% 80% at 20% 0%, rgb(126 231 255 / 0.14), transparent 60%), radial-gradient(90% 80% at 90% 100%, rgb(168 120 255 / 0.18), transparent 60%), #070b16;
+  box-shadow: 0 0 28px rgb(126 231 255 / 0.22), 0 0 42px rgb(168 120 255 / 0.16), inset 0 0 40px rgb(0 0 0 / 0.5);
+  animation: none;
+}
+.cs-screen[data-cart="book"]::before { background: linear-gradient(135deg, rgb(255 255 255 / 0.07), transparent 35%); }
+.cs-screen[data-cart="book"]::after { background: none; opacity: 0; }
+.cs-screen[data-cart="book"] .dm-book {
+  margin: 8px; height: calc(100% - 16px); border-radius: 12px; color: #e8f1ff;
+  font-family: var(--sans, system-ui, sans-serif);
+  background: linear-gradient(rgb(10 16 32 / 0.72), rgb(10 16 32 / 0.72)) padding-box, linear-gradient(135deg, #22d3ee, #a78bfa) border-box;
+  border: 1px solid transparent; backdrop-filter: blur(14px) saturate(1.3); -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin;
+}
+.cs-screen[data-cart="book"] .bk-code { flex-shrink: 0; min-height: fit-content; background: rgb(0 0 0 / 0.4); border: 1px solid rgb(126 231 255 / 0.2); }
+.cs-screen[data-cart="book"] .bk-bar .hot, .cs-screen[data-cart="book"] .bk-rank { color: #7ee7ff; }
+.cs-screen[data-cart="book"] .bk-opts li { border-radius: 8px; border: 1px solid rgb(168 140 255 / 0.2); background: rgb(255 255 255 / 0.04); }
+.cs-screen[data-cart="book"] .bk-opts li.sel { background: rgb(126 231 255 / 0.14); border-color: #7ee7ff; box-shadow: 0 0 12px rgb(126 231 255 / 0.55), inset 0 0 8px rgb(126 231 255 / 0.2); }
+
+/* ---- zen: 8-bit pixel retro ---- */
+.cs-screen[data-cart="zen"] {
+  border-radius: 0; animation: none; image-rendering: pixelated; background: #0d1018;
+  box-shadow: inset 0 0 0 4px #000, inset 0 0 0 8px #5a6a8c;
+}
+.cs-screen[data-cart="zen"]::before { background: none; }
+.cs-screen[data-cart="zen"]::after {
+  background: repeating-linear-gradient(0deg, rgb(0 0 0 / 0.22) 0 2px, transparent 2px 4px); background-size: auto; mix-blend-mode: multiply; opacity: 1;
+}
+
+.cs-screen[data-cart="zen"] .dm-hint { animation: zen-blink 1s steps(2) infinite; }
+
+@keyframes zen-blink { 0%, 49% { opacity: 0.85; } 50%, 100% { opacity: 0.45; } }
+
+@media (max-width: 720px) {
+  .cs-screen[data-cart="zen"] { border-radius: 0; }
+  .cs-screen[data-cart="zen"] .dm-zen, .cs-screen[data-cart="book"] .dm-book { margin: 4px; height: calc(100% - 8px); }
+  .cs-screen[data-cart="book"] .dm-book { padding: 8px; gap: 5px; }
+  .cs-screen[data-cart="book"] .dm-hint { position: static; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-bezel, .cs-screen, .cs-screen::before, .cs-screen::after { transition: none; }
+  .cs-screen[data-cart], .cs-screen[data-cart] .dm-hint { animation: none !important; }
+}

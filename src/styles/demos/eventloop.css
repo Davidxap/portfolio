@@ -1,0 +1,105 @@
+/* Event Loop, step by step (arcade cartridge). Restyled after the visual language of "JavaScript Visualized: Event Loop, Web APIs, (Micro)task Queue":
+   five labelled areas in bright, distinct colours on a dark screen, with tokens that slide between them. Colours here are fixed on purpose (the screen is always dark). */
+.dm.dm-loop {
+  --c-stack: #ffd23f; --c-api: #36d1ff; --c-micro: #5dff9a; --c-task: #ff5fa2; --c-loop: #b78cff; --c-out: #dfe7f5;
+  display: grid; grid-template-rows: auto minmax(0, 1fr) auto auto auto; gap: 7px; height: 100%; padding: 10px 12px 6px; overflow: hidden; color: #eef2f6;
+  background:
+    radial-gradient(60% 55% at 8% 0%, rgb(183 140 255 / 0.2), transparent 70%),
+    radial-gradient(55% 55% at 100% 100%, rgb(54 209 255 / 0.16), transparent 70%),
+    linear-gradient(rgb(255 255 255 / 0.03) 1px, transparent 1px) 0 0 / 100% 22px,
+    linear-gradient(90deg, rgb(255 255 255 / 0.03) 1px, transparent 1px) 0 0 / 22px 100%,
+    linear-gradient(180deg, #0a0e1c, #060812);
+}
+.dm-loop button { font: inherit; color: inherit; cursor: pointer; }
+.dm-loop button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+.lp-tabs { display: flex; gap: 5px; overflow-x: auto; scrollbar-width: none; padding: 0 30px 1px 0; }
+.lp-tabs::-webkit-scrollbar { display: none; }
+.lp-tabs button { flex: none; padding: 4px 12px; border-radius: 99px; font: 700 11px var(--mono); white-space: nowrap; background: rgb(255 255 255 / 0.05); border: 1px solid rgb(255 255 255 / 0.16); transition: background 0.2s, border-color 0.2s, box-shadow 0.2s; }
+.lp-tabs button:hover { background: rgb(255 255 255 / 0.1); }
+.lp-tabs button[aria-pressed="true"] { background: color-mix(in srgb, var(--c-loop) 32%, transparent); border-color: var(--c-loop); box-shadow: 0 0 14px color-mix(in srgb, var(--c-loop) 55%, transparent); }
+
+.lp-grid { display: grid; gap: 7px; min-height: 0; grid-template-columns: minmax(0, 1.7fr) minmax(0, 0.92fr) minmax(0, 1.04fr); grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) auto;
+  grid-template-areas: "code stack api" "code stack micro" "code stack task" "loop loop out"; }
+.lp-codebox { grid-area: code; } .lp-stack { grid-area: stack; --k: var(--c-stack); } .lp-api { grid-area: api; --k: var(--c-api); }
+.lp-loop { grid-area: loop; } .lp-micro { grid-area: micro; --k: var(--c-micro); } .lp-task { grid-area: task; --k: var(--c-task); } .lp-console { grid-area: out; --k: var(--c-out); }
+
+.lp-box, .lp-codebox { position: relative; min-height: 0; min-width: 0; display: flex; flex-direction: column; padding: 6px 10px 8px; border-radius: 14px; background: linear-gradient(165deg, color-mix(in srgb, var(--k, #cfd8e6) 12%, #0b1020), #080b16); border: 2px solid color-mix(in srgb, var(--k, #cfd8e6) 55%, transparent); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08), 0 6px 18px rgb(0 0 0 / 0.4); transition: border-color 0.3s, box-shadow 0.3s, background 0.3s; }
+.lp-box h3, .lp-codebox h3, .lp-loop h3 { margin: 0 0 5px; font: 800 clamp(11px, 1.35vw, 13px) var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--k, #cfd8e6); display: flex; align-items: center; gap: 7px; }
+.lp-box h3::before { content: ""; width: 9px; height: 9px; border-radius: 3px; background: var(--k); box-shadow: 0 0 10px var(--k); }
+.lp-codebox { --k: #cfd8e6; }
+.lp-box[data-focus="true"] { border-color: var(--k); background: linear-gradient(165deg, color-mix(in srgb, var(--k) 26%, #0b1020), #080b16); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.12), 0 0 0 1px var(--k), 0 0 26px color-mix(in srgb, var(--k) 55%, transparent); }
+.lp-box ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 6px; flex: 1; min-height: 0; align-items: center; flex-wrap: wrap; align-content: center; overflow: hidden; }
+.lp-stack ul, .lp-api ul { flex-direction: column; flex-wrap: nowrap; justify-content: flex-end; align-items: stretch; align-content: stretch; }
+.lp-stack ul { border-bottom: 3px solid color-mix(in srgb, var(--c-stack) 70%, transparent); padding-bottom: 3px; }
+.lp-api ul { justify-content: flex-start; }
+.lp-micro ul, .lp-task ul { flex-wrap: nowrap; }
+.lp-empty { font: italic 11px var(--mono); opacity: 0.4; margin: auto; }
+
+.lp-tok { position: relative; display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 5px 11px; border-radius: 9px; font: 700 clamp(11px, 1.35vw, 13px)/1.25 var(--mono); white-space: nowrap; z-index: 1; color: #070a14;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--k) 100%, #fff 14%), color-mix(in srgb, var(--k) 82%, #000)); border: 1px solid color-mix(in srgb, var(--k) 70%, #fff); box-shadow: 0 0 14px color-mix(in srgb, var(--k) 55%, transparent), inset 0 1px 0 rgb(255 255 255 / 0.45); }
+.lp-tok.k-stack, .lp-ghost.k-stack { --k: var(--c-stack); } .lp-tok.k-api, .lp-ghost.k-api { --k: var(--c-api); } .lp-tok.k-micro, .lp-ghost.k-micro { --k: var(--c-micro); }
+.lp-tok.k-task, .lp-ghost.k-task { --k: var(--c-task); } .lp-tok.k-console { --k: var(--c-out); }
+.lp-tok small { font: 700 10px var(--mono); padding: 0 6px; border-radius: 99px; background: rgb(0 0 0 / 0.25); color: #070a14; }
+.lp-console .lp-tok { background: rgb(6 12 12 / 0.85); border-color: rgb(223 231 245 / 0.55); color: #f1f6ff; box-shadow: none; }
+.lp-console .lp-tok::before { content: "> "; opacity: 0.6; }
+.lp-ghost { display: flex; align-items: center; }
+.lp-micro .lp-tok:first-child, .lp-task .lp-tok:first-child { box-shadow: 0 0 20px var(--k), inset 0 1px 0 rgb(255 255 255 / 0.5); }
+.lp-console ul { flex-wrap: wrap; }
+
+.lp-codebox pre { margin: 0; flex: 1; min-height: 0; overflow: auto; font: clamp(11px, 1.3vw, 12px)/1.75 var(--mono); }
+.lp-codebox code { display: block; font: inherit; }
+.lp-line { display: block; white-space: pre; padding: 0 6px 0 0; border-radius: 6px; border-left: 3px solid transparent; color: rgb(238 242 246 / 0.65); transition: background 0.25s, color 0.25s, border-color 0.25s; }
+.lp-line i { display: inline-block; width: 2.2ch; margin: 0 1.4ch 0 0.6ch; text-align: right; font-style: normal; opacity: 0.35; }
+.lp-line[data-on="true"] { color: #fff; font-weight: 700; border-left-color: var(--c-stack); background: linear-gradient(90deg, rgb(255 210 63 / 0.3), transparent 92%); }
+
+/* the Event Loop indicator: a ring that spins when it moves a job onto the stack */
+.lp-loop { display: flex; align-items: center; gap: 12px; padding: 6px 14px; border-radius: 14px; min-width: 0; --k: var(--c-loop); background: linear-gradient(165deg, rgb(183 140 255 / 0.16), #080b16); border: 2px solid rgb(183 140 255 / 0.5); transition: border-color 0.3s, box-shadow 0.3s; }
+.lp-loop[data-kick="true"] { border-color: var(--c-loop); box-shadow: 0 0 0 1px var(--c-loop), 0 0 26px rgb(183 140 255 / 0.6); }
+.lp-loop h3 { margin: 0 0 2px; }
+.lp-loop em { display: block; font: 600 clamp(11px, 1.4vw, 13px) var(--mono); font-style: normal; color: #e3d6ff; opacity: 0.85; }
+.lp-loop[data-kick="true"] em, .lp-loop[data-active="true"] em { color: #fff; opacity: 1; }
+.lp-spin { display: grid; place-items: center; width: 46px; height: 46px; flex: none; border-radius: 50%; color: var(--c-loop); background: radial-gradient(circle, rgb(183 140 255 / 0.3), rgb(183 140 255 / 0.08)); border: 2px dashed rgb(183 140 255 / 0.7); }
+.lp-spin.kick { color: #fff; border-style: solid; background: var(--c-loop); animation: lp-pulse var(--lp-dur, 450ms) ease-out; }
+.lp-spin.kick svg { animation: lp-kick calc(var(--lp-dur, 450ms) * 1.6) cubic-bezier(0.3, 0.7, 0.3, 1); }
+.lp-paint { margin-left: auto; flex: none; padding: 3px 11px; border-radius: 99px; font: 700 11px var(--mono); opacity: 0.35; border: 1px dashed currentColor; transition: opacity 0.3s, color 0.3s, box-shadow 0.3s; }
+.lp-paint[data-on="true"] { opacity: 1; color: var(--c-task); border-style: solid; box-shadow: 0 0 14px color-mix(in srgb, var(--c-task) 60%, transparent); }
+
+/* the narration: one big readable line per step */
+.lp-note { margin: 0; display: flex; align-items: flex-start; gap: 10px; min-height: 2.8em; padding: 7px 12px; border-radius: 12px; border-left: 4px solid var(--c-stack); background: rgb(255 255 255 / 0.07); font: 600 clamp(14px, 2vw, 21px)/1.35 system-ui, sans-serif; color: #fff; }
+.lp-note b { flex: none; margin-top: 0.12em; font: 800 clamp(10px, 1.2vw, 12px) var(--mono); padding: 2px 9px; border-radius: 99px; color: #070a14; background: var(--c-stack); white-space: nowrap; }
+
+.lp-controls { display: flex; align-items: center; gap: 7px; }
+.lp-controls button, .lp-speed button { display: grid; place-items: center; min-width: 34px; height: 34px; padding: 0 8px; border-radius: 50%; background: rgb(255 255 255 / 0.09); border: 1px solid rgb(255 255 255 / 0.22); transition: background 0.2s, transform 0.1s, opacity 0.2s; }
+.lp-controls button:hover:not(:disabled) { background: rgb(255 255 255 / 0.18); }
+.lp-controls button:active:not(:disabled) { transform: scale(0.94); }
+.lp-controls button:disabled { opacity: 0.35; cursor: default; }
+.lp-controls .main { width: 44px; height: 44px; background: var(--c-stack); color: #070a14; border-color: transparent; box-shadow: 0 0 20px rgb(255 210 63 / 0.55); }
+.lp-controls .main:hover:not(:disabled) { background: #ffe27a; }
+.lp-bar { flex: 1; height: 6px; border-radius: 99px; background: rgb(255 255 255 / 0.14); overflow: hidden; min-width: 20px; }
+.lp-bar i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--c-api), var(--c-micro), var(--c-stack), var(--c-task)); transition: width 0.3s; }
+.lp-speed { display: flex; gap: 3px; }
+.lp-speed button { border-radius: 99px; min-width: 0; height: 28px; padding: 0 9px; font: 700 11px var(--mono); }
+.lp-speed button[aria-pressed="true"] { background: color-mix(in srgb, var(--c-loop) 38%, transparent); border-color: var(--c-loop); }
+.lp-hint { position: static; margin: 0; text-align: center; font-size: 10.5px; opacity: 0.6; }
+
+@keyframes lp-kick { from { rotate: 0deg; scale: 1.3; } to { rotate: 360deg; scale: 1; } }
+@keyframes lp-pulse { from { box-shadow: 0 0 0 0 rgb(183 140 255 / 0.9); } to { box-shadow: 0 0 0 16px rgb(183 140 255 / 0); } }
+
+@media (max-width: 700px) {
+  .lp-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: auto auto auto auto auto; grid-template-areas: "code code" "stack api" "loop loop" "micro task" "out out"; overflow: hidden; }
+  .lp-codebox pre { flex: none; font-size: 10.5px; line-height: 1.5; overflow: hidden; }
+  .lp-codebox { padding-block: 4px 5px; } .lp-codebox h3 { margin-bottom: 2px; }
+  .lp-stack, .lp-api { min-height: 92px; }
+  .lp-micro, .lp-task { min-height: 64px; } .lp-console { min-height: 44px; } .lp-micro ul, .lp-task ul { flex-wrap: wrap; }
+  .lp-tok { font-size: 11px; padding: 3px 8px; }
+  .lp-loop { padding: 4px 10px; gap: 8px; } .lp-spin { width: 34px; height: 34px; } .lp-spin svg { width: 22px; height: 22px; } .lp-loop em { font-size: 10.5px; } .lp-paint { display: none; }
+  .lp-speed { display: none; }
+  .lp-note { font-size: 13.5px; padding: 5px 9px; }
+  .lp-hint { display: none; }
+}
+@media (max-width: 700px) { .cs-screen[data-cart="eventloop"] { aspect-ratio: 11 / 19; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-spin.kick, .lp-spin.kick svg, .lp-line, .lp-box, .lp-bar i, .lp-tabs button, .lp-loop { animation: none; transition: none; }
+}

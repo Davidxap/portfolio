@@ -1,0 +1,5 @@
+/* The brand mark (the coffee mug) and the inline CV icon. Colours come from the active theme. */
+.brand-art { flex: none; display: block; }
+.brand-mark .brand-art, .bar-brand .brand-art { filter: drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 45%, transparent)); }
+.win-brand { opacity: 0.9; }
+.cv-icon { flex: none; display: block; }

@@ -1,0 +1,125 @@
+/* The world frame: the deep-ink page, the direct view's top bar and the identity block. The Hyprland
+   desktop (wallpaper, bar, windows, dock, guide) lives in desktop.css; panels, project select and the direct view in panels.css. Colours come only from tokens.css. */
+
+html { scroll-behavior: auto; }
+body { background: var(--frame); }
+.muted { color: var(--muted); }
+.print-only { display: none; }
+.chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { display: inline-flex; align-items: center; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--line); background: color-mix(in srgb, var(--text) 5%, transparent); color: var(--text); font: 500 13px var(--sans); }
+
+.chip-accent2 { border-color: color-mix(in srgb, var(--accent-2) 60%, var(--line)); background: color-mix(in srgb, var(--accent-2) 14%, transparent); }
+.chip-key { border-color: color-mix(in srgb, var(--k, var(--accent)) 70%, var(--line)); background: color-mix(in srgb, var(--k, var(--accent)) 16%, transparent); font-family: var(--mono); font-size: 12.5px; }
+
+/* buttons: curiosity on interactive things, the ember only on the three decisions */
+.btn { border-color: var(--line); }
+.btn:hover { border-color: var(--accent-2); }
+.btn.primary { background: var(--accent-2); color: var(--accent-2-ink); border-color: var(--accent-2); font-weight: 600; }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn.cta { margin: 0; flex-wrap: nowrap; white-space: nowrap; background: var(--cta); color: var(--cta-ink); border-color: var(--cta); font-weight: 700; box-shadow: 0 8px 22px -10px var(--cta); }
+.btn.cta:hover { filter: brightness(1.08); border-color: var(--cta); }
+.btn.cta-ghost { border-color: color-mix(in srgb, var(--cta) 70%, var(--line)); }
+.btn.cta.big { min-height: 56px; padding: 0 28px; font-size: 18px; }
+.btn.primary > span small { display: block; font: 500 11px var(--mono); letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.8; }
+.btn:focus-visible, .hud-btn:focus-visible, .row:focus-visible, .tab:focus-visible, .text-link:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 3px; box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent-2) 35%, transparent); }
+.text-link { display: inline-flex; align-items: center; gap: 4px; color: var(--accent-2); text-underline-offset: 4px; font-weight: 500; }
+:focus-visible { outline-color: var(--accent-2); }
+
+/* the page: deep ink with the card inset (12-16 px gutter, 28 px radius), 100svh */
+.world { --gap: clamp(10px, 1.1vw, 16px); position: relative; background: var(--frame); }
+.world[data-mode="world"] { height: 100svh; overflow: hidden; }
+@media (max-width: 720px) { .world[data-mode="world"] { height: 100dvh; } }
+.world-card { overflow: hidden; isolation: isolate; background: var(--field-2); }
+
+/* top bar: name, one CV pill and the settings cluster */
+.topbar { position: absolute; z-index: 20; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px 0 22px; pointer-events: none; }
+.topbar > * { pointer-events: auto; }
+.topbar[data-flat="true"] { position: sticky; top: 0; padding: 10px var(--gutter); background: color-mix(in srgb, var(--bg) 90%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.brand-mark { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--dock-text); font: 500 19px var(--serif); letter-spacing: 0.01em; padding: 6px 4px; }
+.topbar[data-flat="true"] .brand-mark { color: var(--text); }
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+.pill-cv { min-height: 40px; padding: 0 18px; font-size: 15px; }
+.settings { display: flex; align-items: center; gap: 4px; padding: 3px; border-radius: 999px; background: rgb(14 11 9 / 0.55); backdrop-filter: blur(12px); border: 1px solid rgb(255 255 255 / 0.12); color: var(--dock-text); }
+.topbar[data-flat="true"] .settings { background: color-mix(in srgb, var(--bg-2) 90%, transparent); border-color: var(--line); color: var(--text); }
+.settings .hud-btn { border-color: transparent; background: transparent; color: inherit; min-height: 34px; padding: 4px 10px; }
+.settings .hud-btn:hover { background: color-mix(in srgb, currentColor 10%, transparent); color: inherit; border-color: transparent; }
+.settings .hud-btn.icon-only { width: 36px; padding: 0; justify-content: center; }
+.settings .lang-switch { border: 0; background: transparent; padding: 0 2px; }
+.settings .lang-opt { color: color-mix(in srgb, currentColor 78%, transparent); }
+.settings .lang-opt.on { background: var(--accent-2); color: var(--accent-2-ink); }
+.theme-list { color: var(--text); }
+.world[data-mode="world"] .theme-list { right: 0; }
+
+.art-icon { display: inline-block; flex: none; object-fit: contain; vertical-align: middle; }
+
+.mirror { width: min(1320px, calc(100% - 24px)); margin: 0 auto; padding: 28px 0 32px; display: grid; gap: 8px; justify-items: center; text-align: center; }
+.mirror nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 22px; }
+.mirror a { color: var(--muted); padding: 10px 2px; }
+.world[data-mode="world"] .mirror { position: absolute; left: 24px; top: 70px; width: auto; padding: 8px 14px; margin: 0; z-index: 200; background: var(--bg-2); border-radius: 12px; border: 1px solid var(--line); clip-path: inset(50%); width: 1px; height: 1px; overflow: hidden; }
+.world[data-mode="world"] .mirror:focus-within { clip-path: none; width: auto; height: auto; overflow: visible; }
+
+/* identity block on the map */
+.intro { display: grid; gap: 10px; justify-items: start; padding: 4px 0; color: var(--dock-text); text-shadow: 0 2px 18px rgb(0 0 0 / 0.55); }
+.intro-sign { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 0; }
+.live-time { font-variant-numeric: tabular-nums; display: inline-block; min-width: 5ch; }
+.intro h1, .intro h2 { font: 400 clamp(44px, 4.6vw, 68px)/1 var(--serif); letter-spacing: -0.025em; color: var(--dock-text); }
+.intro h1 em, .intro h2 em, .direct-id h1 em { font-style: italic; color: var(--accent); }
+.intro-role { font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dock-text); opacity: 0.9; margin: 0; }
+.intro-value { max-width: 46ch; font-size: clamp(15px, 1.2vw, 18px); line-height: 1.5; color: color-mix(in srgb, var(--dock-text) 88%, transparent); }
+.intro-avail { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.intro-avail-label { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: color-mix(in srgb, var(--dock-text) 75%, transparent); }
+.intro .chip { color: var(--dock-text); background: rgb(14 11 9 / 0.45); }
+.intro .text-link { color: var(--accent-2); }
+.intro-links { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 22px; margin: 2px 0 0; }
+.intro .tiny { color: color-mix(in srgb, var(--dock-text) 70%, transparent); margin: 0; }
+.intro-hint { display: none; }
+/* the widget's switch is compact (no hint line): it must never reach the painted pin labels beside it */
+.intro .mode-switch .mode-opt small { display: none; }
+.intro .mode-switch .mode-opt { min-height: 40px; padding: 0 22px; }
+@media (max-height: 820px) and (min-width: 721px) { .intro-value, .intro-links { display: none; } .intro h1, .intro h2 { font-size: clamp(40px, 4.6vw, 64px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .place-view, .win, .pin-glint, .pin-wrap { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-delay: 0s !important; }
+  .win { animation: fade-quick 120ms linear both !important; }
+}
+@keyframes fade-quick { from { opacity: 0; } }
+
+/* flat mode (direct view): a normal document, body scroll */
+.world[data-mode="flat"] .sheet-scroll { overflow: visible; }
+
+@media print {
+  :root, :root[data-theme] { --bg: #fff; --bg-2: #f3f3f3; --panel: #fff; --text: #111; --muted: #333; --line: #bbb; --accent: #7a3200; --accent-ink: #fff; --accent-2: #1d5a50; --frame: #fff; }
+  body { background: #fff; color: #111; font-size: 11pt; }
+  .grain, .skip, .topbar, .mirror, .no-print, .place-nav, .world-card, .palette, .direct-art { display: none !important; }
+  .print-only { display: block; }
+  .world[data-mode="flat"] { background: #fff; }
+}
+
+/* The painting card is always a dark surface (the art is a golden-hour scene), even in the light theme Páramo Morning:
+   inside it the light theme borrows the Golden Hour values, outside it (the frame, the direct view) the real light tokens apply. */
+:root[data-theme="paramo"] .world-card {
+  --bg: #0f1216; --bg-2: #1a1f27; --text: #f6ecdc; --muted: #b8ab98; --line: rgba(246, 236, 220, 0.16);
+  --accent: #e9a55c; --accent-ink: #1d1206; --accent-2: #6fcfc2; --accent-2-ink: #06201c; --cta: #ff7a45; --cta-ink: #1a0d06;
+  --glass: rgba(20, 24, 30, 0.84); --glass-line: rgba(246, 236, 220, 0.14); --river-2: #a995d8; --river-3: #e9a55c;
+  color: var(--text);
+}
+
+/* the pixel figure: calm only, never interactive */
+.pdavid { position: relative; display: inline-block; flex: none; height: var(--h, 144px); aspect-ratio: 220 / 288; }
+.pdavid img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; }
+.pdavid[data-crisp="true"] img { image-rendering: pixelated; }
+
+/* Motion polish: one easing curve, compositor-friendly properties only, a real press state, and no hover lift on touch screens. */
+.btn { transition: transform 0.35s var(--ease-cam), border-color 0.25s var(--ease), background-color 0.25s var(--ease), box-shadow 0.35s var(--ease-cam), filter 0.25s var(--ease); }
+.btn:hover { transform: none; }
+@media (hover: hover) {
+  .btn:hover { transform: translateY(-2px); }
+}
+.btn:active { transform: translateY(0) scale(0.97); transition-duration: 0.1s; }
+.row, .lg-tile, .tab-place, .mail-link, .text-link { transition: transform 0.35s var(--ease-cam), background-color 0.25s var(--ease), border-color 0.25s var(--ease), color 0.25s var(--ease), box-shadow 0.35s var(--ease-cam); }
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
+@media (prefers-reduced-motion: reduce) {
+  .btn, .btn:hover, .btn:active { transform: none; transition-duration: 0.01ms; }
+}
+@media print { .btn, .btn:hover { transition: none; } }
