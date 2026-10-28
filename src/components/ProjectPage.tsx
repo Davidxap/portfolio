@@ -6,6 +6,7 @@ import { useT, type UiKey } from "@/i18n/ui";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { EventLoopLab } from "./EventLoopLab";
 import { PlaceNav } from "./world/PlaceNav";
+import { withBase } from "@/lib/base";
 
 export function ProjectPage({ locale, project: p }: { locale: Locale; project: Project }) {
   const t = useT(locale);
@@ -55,7 +56,7 @@ export function ProjectPage({ locale, project: p }: { locale: Locale; project: P
         <h2 className="sr-only">{t("exp.evidence")}</h2>
         <div className="links">
           {p.links.map((l) => <a key={l.url} className="btn primary" href={l.url} target="_blank" rel="noopener noreferrer">{t(`link.${l.kind}` as UiKey)}<ExternalLink className="ic" size={16} aria-hidden="true" /></a>)}
-          <a className="btn" href={placeById("projects").path[locale]}><ArrowLeft className="ic" size={16} aria-hidden="true" />{t("exp.back")}</a>
+          <a className="btn" href={withBase(placeById("projects").path[locale])}><ArrowLeft className="ic" size={16} aria-hidden="true" />{t("exp.back")}</a>
         </div>
         {p.credit && <p className="tiny credit">{p.credit[locale]}</p>}
       </article>

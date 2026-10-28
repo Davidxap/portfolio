@@ -6,6 +6,7 @@ import { useT } from "@/i18n/ui";
 import { copyText } from "@/lib/copy";
 import { buildCommands, filterCommands, type Command } from "@/lib/palette";
 import { applyTheme } from "@/lib/theme";
+import { withBase } from "@/lib/base";
 
 export function CommandPalette({ locale, altPath, onNavigate }: { locale: Locale; altPath: string; onNavigate?: (href: string) => void }) {
   const t = useT(locale);
@@ -34,10 +35,10 @@ export function CommandPalette({ locale, altPath, onNavigate }: { locale: Locale
 
   const run = (c: Command) => {
     hide();
-    if (c.action === "nav" && c.href) { if (onNavigate) onNavigate(c.href); else location.href = c.href; }
+    if (c.action === "nav" && c.href) { if (onNavigate) onNavigate(c.href); else location.href = withBase(c.href); }
     else if (c.action === "cv" && c.href) { const l = document.createElement("a"); l.href = c.href; l.download = ""; document.body.append(l); l.click(); l.remove(); }
     else if (c.action === "copy") void copyText(person.email);
-    else if (c.action === "lang") location.href = altPath;
+    else if (c.action === "lang") location.href = withBase(altPath);
     else if (c.action === "theme" && c.theme) { const th = c.theme; setTimeout(() => applyTheme(th, { x: innerWidth / 2, y: innerHeight / 2 }), 0); }
   };
 

@@ -10,6 +10,7 @@ import {
 } from "@/lib/games/ikai";
 import { useConsoleInput, useStep, type Action } from "../input";
 import { HowTo, useHowTo } from "../HowTo";
+import { withBase } from "@/lib/base";
 
 const T = {
   en: {
@@ -421,7 +422,7 @@ export function IkaiDemo({ locale }: { locale: "en" | "es" }) {
             </div>
             <p className="ikai-small">{t.endBody}</p>
             <div className="ikai-actions">
-              <a className="ikai-btn go" href={projectPath(locale, "ikai")}>{t.project}</a>
+              <a className="ikai-btn go" href={withBase(projectPath(locale, "ikai"))}>{t.project}</a>
               <button type="button" className="ikai-btn" onClick={() => (typing ? setTyped(t.epilogue.length) : restart())}>{typing ? t.skip : t.again}</button>
             </div>
           </div>

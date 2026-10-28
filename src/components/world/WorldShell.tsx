@@ -19,6 +19,7 @@ import { DesktopBar } from "./DesktopBar";
 import { TabBar } from "./TabBar";
 import { TopBar } from "./TopBar";
 import { Wallpaper } from "./Wallpaper";
+import { withBase, withoutBase } from "@/lib/base";
 
 const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
 const INTERACTIVE = "a, button, input, textarea, select, summary, [role=tab], [role=option]";
@@ -185,7 +186,7 @@ export function WorldShell({ locale, children }: { locale: Locale; children: Rea
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.defaultPrevented) return;
-      const v = viewOf(parsePath(location.pathname).kind);
+      const v = viewOf(parsePath(withoutBase(location.pathname)).kind);
       const a = resolveKey(e, v, targetOf(e.target));
       if (!a) return;
       e.preventDefault();
@@ -195,7 +196,7 @@ export function WorldShell({ locale, children }: { locale: Locale; children: Rea
     const move = (ev: Event) => {
       if (open()) return;
       const { dx, dy } = (ev as CustomEvent<{ dx: number; dy: number }>).detail;
-      const v = viewOf(parsePath(location.pathname).kind);
+      const v = viewOf(parsePath(withoutBase(location.pathname)).kind);
       const dir: Dir | null = dx ? (dx > 0 ? "right" : "left") : dy ? (dy > 0 ? "down" : "up") : null;
       if (!dir) return;
       pad(() => {
@@ -207,10 +208,10 @@ export function WorldShell({ locale, children }: { locale: Locale; children: Rea
     const pad = (fn: () => void) => { viaPad.current = true; try { fn(); } finally { viaPad.current = false; } };
     const a = () => {
       if (open()) return;
-      const v = viewOf(parsePath(location.pathname).kind);
+      const v = viewOf(parsePath(withoutBase(location.pathname)).kind);
       pad(() => runRef.current(v === "game" ? { type: "game", action: "a" } : { type: "open" }));
     };
-    const b = () => { if (!open()) pad(() => runRef.current(viewOf(parsePath(location.pathname).kind) === "game" ? { type: "game", action: "b" } : { type: "back" })); };
+    const b = () => { if (!open()) pad(() => runRef.current(viewOf(parsePath(withoutBase(location.pathname)).kind) === "game" ? { type: "game", action: "b" } : { type: "back" })); };
     const onClose = () => closeRef.current();
     window.addEventListener("keydown", onKey);
     window.addEventListener("win:close", onClose);
@@ -228,10 +229,11 @@ export function WorldShell({ locale, children }: { locale: Locale; children: Rea
     const a = (e.target as Element).closest("a");
     if (!a || a.hasAttribute("download") || a.target || a.origin !== location.origin || a.getAttribute("hreflang")) return;
     const url = new URL(a.href);
-    if (!url.pathname.endsWith("/") || parsePath(url.pathname).locale !== locale) return;
+    const path = withoutBase(url.pathname);
+    if (!path.endsWith("/") || parsePath(path).locale !== locale) return;
     if (url.pathname === location.pathname && url.hash) return;
     e.preventDefault();
-    go(url.pathname + url.search + url.hash);
+    go(path + url.search + url.hash);
   };
 
   const current = info.kind === "place" ? info.id : active;
@@ -268,8 +270,8 @@ export function WorldShell({ locale, children }: { locale: Locale; children: Rea
       )}
       <footer className="mirror">
         <nav aria-label={t("bz.mirror")}>
-          {places.map((p) => <a key={p.id} href={p.path[locale]}>{p.label[locale]}</a>)}
-          <a href={directPath(locale)}>{t("bz.direct")}</a>
+          {places.map((p) => <a key={p.id} href={withBase(p.path[locale])}>{p.label[locale]}</a>)}
+          <a href={withBase(directPath(locale))}>{t("bz.direct")}</a>
           <a href={cvPath(locale)} download>{t("cv.download")}</a>
         </nav>
         <p className="mono tiny">{t("foot.built")}</p>

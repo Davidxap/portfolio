@@ -9,6 +9,7 @@ import { isMuted, onMuteChange, play, setMuted } from "@/lib/sound";
 import { ThemeMenu } from "../ThemeMenu";
 import { BrandMark } from "./BrandMark";
 import { ArtIcon } from "./icons";
+import { withBase } from "@/lib/base";
 
 /** The settings cluster shared by both bars: theme, EN/ES and sound. */
 export function Settings({ locale, altPath }: { locale: Locale; altPath: string }) {
@@ -22,7 +23,7 @@ export function Settings({ locale, altPath }: { locale: Locale; altPath: string 
       <div className="lang-switch" role="group" aria-label="Language / Idioma">
         {(["en", "es"] as const).map((l) => l === locale
           ? <span key={l} className="lang-opt on" aria-current="true" lang={l}>{l.toUpperCase()}</span>
-          : <a key={l} className="lang-opt" href={altPath} hrefLang={l} lang={l} aria-label={t("hud.lang")}>{l.toUpperCase()}</a>)}
+          : <a key={l} className="lang-opt" href={withBase(altPath)} hrefLang={l} lang={l} aria-label={t("hud.lang")}>{l.toUpperCase()}</a>)}
       </div>
       <button className="hud-btn icon-only" type="button" aria-pressed={muted} aria-label={t("hud.sound")} title={muted ? t("hud.soundOff") : t("hud.soundOn")} onClick={() => { const m = !muted; setMuted(m); if (!m) play("boot"); }}>
         <ArtIcon name={muted ? "muted" : "sound"} size={24} />

@@ -5,6 +5,7 @@ import { projectPath } from "@/i18n/ui";
 import { useW } from "@/i18n/world";
 import { PlaceNav } from "../world/PlaceNav";
 import { Cmd, TypeSeq } from "./TypeSeq";
+import { withBase } from "@/lib/base";
 
 type Commit = {
   id: string; when: string; title: string; body: string; refs: string[]; tone: number; branch?: boolean;
@@ -46,7 +47,7 @@ export function ExperiencePanel({ locale, embedded }: { locale: Locale; embedded
                 {c.stack && c.stack.length > 0 && <ul className="gl-stack mono">{c.stack.map((x) => <li key={x}>{x}</li>)}</ul>}
                 {c.matters && <p className="gl-matters">{c.matters}</p>}
                 {c.related && (
-                  <p className="gl-related mono"><span>{c.related.label}:</span> {c.related.links.map((l) => <a key={l.slug} href={projectPath(locale, l.slug)}>{l.name}</a>)}</p>
+                  <p className="gl-related mono"><span>{c.related.label}:</span> {c.related.links.map((l) => <a key={l.slug} href={withBase(projectPath(locale, l.slug))}>{l.name}</a>)}</p>
                 )}
               </li>
             ))}

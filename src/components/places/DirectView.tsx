@@ -18,6 +18,7 @@ import { PaintField } from "../world/PaintField";
 import { PixelDavid } from "../world/PixelDavid";
 import { PrintButton } from "../world/PrintButton";
 import { Headline } from "./PanelHead";
+import { withBase } from "@/lib/base";
 
 /** Tones of the six stack groups, in the order of `stack` (frontend, backend, data, testing, tools, ai). Colours come from the active theme. */
 const TONES = ["var(--accent)", "var(--accent-2)", "var(--cta)", "var(--paint-1)", "color-mix(in srgb, var(--accent-2) 55%, var(--accent))", "color-mix(in srgb, var(--cta) 55%, var(--paint-2))"];
@@ -138,7 +139,7 @@ export async function DirectView({ locale }: { locale: Locale }) {
                   </div>
                   <div className="d-body">
                     <div className="chips">{p.metric && <span className="chip chip-key">{p.metric[locale]}</span>}<span className="chip">{p.period}</span></div>
-                    <h3><a href={projectPath(locale, p.slug)}>{p.name}<ArrowUpRight className="d-arrow" size={20} aria-hidden="true" /></a></h3>
+                    <h3><a href={withBase(projectPath(locale, p.slug))}>{p.name}<ArrowUpRight className="d-arrow" size={20} aria-hidden="true" /></a></h3>
                     <p>{p.tagline[locale]}</p>
                     <p className="d-meta mono">{p.role[locale]} · {p.stack.slice(0, 4).join(" · ")}</p>
                   </div>
@@ -151,7 +152,7 @@ export async function DirectView({ locale }: { locale: Locale }) {
               {rest.map((p) => (
                 <li key={p.slug} className="d-rv" style={tone(p.color)}>
                   <span className="row-bar" aria-hidden="true" />
-                  <a href={projectPath(locale, p.slug)}>{p.name}</a>
+                  <a href={withBase(projectPath(locale, p.slug))}>{p.name}</a>
                   <span className="muted">{p.tagline[locale]}{p.metric ? ` · ${p.metric[locale]}` : ""} · {p.role[locale]}</span>
                   <span className="mono tiny">{p.period}</span>
                 </li>
@@ -174,7 +175,7 @@ export async function DirectView({ locale }: { locale: Locale }) {
                   {e.bullets.length > 0 && <ul className="d-bullets">{e.bullets.map((b) => <li key={b.en}>{b[locale]}</li>)}</ul>}
                   {e.stack.length > 0 && <ul className="chips">{e.stack.map((x) => <li key={x} className="chip">{x}</li>)}</ul>}
                   {e.matters && <p>{e.matters[locale]}</p>}
-                  {e.related && <p className="d-meta mono">{e.related.label[locale]}: {e.related.slugs.map((slug, k) => <span key={slug}>{k ? ", " : ""}<a href={projectPath(locale, slug)}>{projects.find((p) => p.slug === slug)?.name ?? slug}</a></span>)}</p>}
+                  {e.related && <p className="d-meta mono">{e.related.label[locale]}: {e.related.slugs.map((slug, k) => <span key={slug}>{k ? ", " : ""}<a href={withBase(projectPath(locale, slug))}>{projects.find((p) => p.slug === slug)?.name ?? slug}</a></span>)}</p>}
                 </div>
               </li>
             ))}
@@ -206,7 +207,7 @@ export async function DirectView({ locale }: { locale: Locale }) {
           <p className="d-art-body d-rv">{arcadeIntro.body[locale]}</p>
           <ul className="d-rows">
             {games.map((g, i) => (
-              <li key={g.id} className="d-rv" style={tone(TONES[i % TONES.length])}><span className="row-bar" aria-hidden="true" /><a href={gamePath(locale, g.id)}>{gameTitle(g, locale)}</a><span className="muted">{g.blurb[locale]}</span></li>
+              <li key={g.id} className="d-rv" style={tone(TONES[i % TONES.length])}><span className="row-bar" aria-hidden="true" /><a href={withBase(gamePath(locale, g.id))}>{gameTitle(g, locale)}</a><span className="muted">{g.blurb[locale]}</span></li>
             ))}
           </ul>
         </section>
