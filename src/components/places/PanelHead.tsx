@@ -3,6 +3,7 @@ import type { Locale } from "@/data/projects";
 import { useW } from "@/i18n/world";
 import { ArtIcon } from "../world/icons";
 import { PixelDavid } from "../world/PixelDavid";
+import { withBase } from "@/lib/base";
 
 /** Header art per place: the crops in public/art/v3/cards. `pos` is the CSS object-position that frames the subject. */
 const ART: Partial<Record<PlaceId, { name: string; w: number; h: number; pos: string }>> = {
@@ -17,9 +18,9 @@ const ART: Partial<Record<PlaceId, { name: string; w: number; h: number; pos: st
 export function CardArt({ name, w, h, pos = "50% 50%", className }: { name: string; w: number; h: number; pos?: string; className?: string }) {
   return (
     <picture className={className}>
-      <source type="image/avif" srcSet={`/art/v3/cards/${name}.avif`} />
+      <source type="image/avif" srcSet={withBase(`/art/v3/cards/${name}.avif`)} />
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={`/art/v3/cards/${name}.webp`} width={w} height={h} alt="" loading="lazy" decoding="async" style={{ objectPosition: pos }} />
+      <img src={withBase(`/art/v3/cards/${name}.webp`)} width={w} height={h} alt="" loading="lazy" decoding="async" style={{ objectPosition: pos }} />
     </picture>
   );
 }

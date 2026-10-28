@@ -1,5 +1,6 @@
 import { useId } from "react";
 import type { Art } from "@/lib/games/packs";
+import { withBase } from "@/lib/base";
 
 /** Painterly SVG scenes and creatures for the card-pack cards: layered gradients, soft light and a paper grain. All shapes are drawn here, nothing is imported. */
 const hsl = (h: number, s: number, l: number, a = 1) => `hsl(${((h % 360) + 360) % 360} ${s}% ${l}% / ${a})`;
@@ -281,9 +282,9 @@ function Whale({ p, trait, id }: { p: P; trait?: string; id: string }) {
 export function PaintedArt({ id }: { id: string }) {
   return (
     <picture>
-      <source srcSet={`/art/v3/games/${id}.avif`} type="image/avif" />
+      <source srcSet={withBase(`/art/v3/games/${id}.avif`)} type="image/avif" />
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className="pk-art pk-painted" src={`/art/v3/games/${id}.webp`} alt="" width={336} height={422} loading="lazy" decoding="async" draggable={false} />
+      <img className="pk-art pk-painted" src={withBase(`/art/v3/games/${id}.webp`)} alt="" width={336} height={422} loading="lazy" decoding="async" draggable={false} />
     </picture>
   );
 }

@@ -1,6 +1,7 @@
 // The arcade: one demo module (src/components/console/demos) plus one entry here per game. The page lazy-loads the module.
 import type { ComponentType } from "react";
 import type { Locale } from "./projects";
+import { withBase } from "@/lib/base";
 
 export type GameStyle = "painterly" | "pixel-horror" | "glass" | "retro";
 type L = Record<Locale, string>;
@@ -39,14 +40,14 @@ export const games: Game[] = [
         ["Five random cards appear at once. The glow shows how rare each one is.", "Aparecen cinco cartas al azar a la vez. El brillo indica qué tan rara es cada una."],
         ["Press Open another pack to keep going. The counter shows how many different cards you have found.", "Pulsa Abrir otro sobre para seguir. El contador muestra cuántas cartas distintas has encontrado."]],
       ["Enter or click: open a pack · Esc: back", "Enter o clic: abrir un sobre · Esc: volver"]),
-    thumb: "/art/v3/games/thumbs/tcg",
+    thumb: withBase("/art/v3/games/thumbs/tcg"),
     origin: { project: "tcg-store", note: { en: "From TCG Store, my trading-card shop", es: "De TCG Store, mi tienda de cartas coleccionables" } },
   },
   {
     id: "ikai", title: "IKAI Shell", style: "pixel-horror", source: "IkaiDemo.tsx",
     blurb: { en: "Escape three rooms: solve one puzzle in each and open the last door", es: "Escapa de tres cuartos: resuelve un acertijo en cada uno y abre la última puerta" },
     load: () => import("@/components/console/demos/IkaiDemo").then((m) => ({ default: m.IkaiDemo })),
-    thumb: "/art/v3/games/thumbs/ikai",
+    thumb: withBase("/art/v3/games/thumbs/ikai"),
     howTo: h(
       ["Escape the three rooms by solving one puzzle in each.", "Escapa de los tres cuartos resolviendo un acertijo en cada uno."],
       [["Move the light with the mouse, or step through the clues with the arrow keys. Press Enter or click to inspect.", "Mueve la luz con el mouse, o recorre las pistas con las flechas. Pulsa Enter o haz clic para inspeccionar."],
@@ -59,7 +60,7 @@ export const games: Game[] = [
     id: "book", title: "JS Trivia", style: "glass", source: "BookDemo.tsx",
     blurb: { en: "Questions from my JavaScript book", es: "Preguntas de mi libro de JavaScript" },
     load: () => import("@/components/console/demos/BookDemo").then((m) => ({ default: m.BookDemo })),
-    thumb: "/art/v3/games/thumbs/book",
+    thumb: withBase("/art/v3/games/thumbs/book"),
     howTo: h(
       ["Answer 10 JavaScript questions and earn a rank.", "Responde 10 preguntas de JavaScript y consigue un rango."],
       [["Read the code and the question.", "Lee el código y la pregunta."],
@@ -72,7 +73,7 @@ export const games: Game[] = [
     id: "eventloop", title: "Event Loop, step by step", style: "glass", source: "EventLoopDemo.tsx",
     blurb: { en: "An interactive explainer: watch the stack, the queues and the console move, one step at a time", es: "Un explicativo interactivo: mira cómo se mueven la pila, las colas y la consola, un paso a la vez" },
     load: () => import("@/components/console/demos/EventLoopDemo").then((m) => ({ default: m.EventLoopDemo })),
-    thumb: "/art/v3/games/thumbs/eventloop",
+    thumb: withBase("/art/v3/games/thumbs/eventloop"),
     howTo: h(
       ["See in which order JavaScript runs your code.", "Mira en qué orden ejecuta JavaScript tu código."],
       [["Pick an example with the tabs at the top.", "Elige un ejemplo con las pestañas de arriba."],
@@ -85,7 +86,7 @@ export const games: Game[] = [
     id: "zen", title: "omarchy-zen", style: "retro", source: "ZenDemo.tsx",
     blurb: { en: "Match 5 palettes in a row on a calm zen desktop", es: "Empareja 5 paletas seguidas en un escritorio zen y tranquilo" },
     load: () => import("@/components/console/demos/ZenDemo").then((m) => ({ default: m.ZenDemo })),
-    thumb: "/art/v3/games/thumbs/zen",
+    thumb: withBase("/art/v3/games/thumbs/zen"),
     howTo: h(
       ["Make the desktop palette match the floating window, 5 times in a row.", "Haz que la paleta del escritorio sea igual a la de la ventana flotante, 5 veces seguidas."],
       [["Look at the colours of the floating window: that is the target.", "Mira los colores de la ventana flotante: ese es el objetivo."],
@@ -98,7 +99,7 @@ export const games: Game[] = [
     id: "forecast", title: "Forecast", style: "glass", source: "ForecastDemo.tsx",
     blurb: { en: "Pack right for 5 forecasts: umbrella, sunglasses, jacket or coffee", es: "Empaca bien para 5 pronósticos: paraguas, gafas de sol, chaqueta o café" },
     load: () => import("@/components/console/demos/ForecastDemo").then((m) => ({ default: m.ForecastDemo })),
-    thumb: "/art/v3/games/thumbs/forecast",
+    thumb: withBase("/art/v3/games/thumbs/forecast"),
     howTo: h(
       ["Pack the right item for 5 weather forecasts.", "Empaca el objeto correcto para 5 pronósticos del clima."],
       [["Read the city and its weather.", "Lee la ciudad y su clima."],
@@ -111,7 +112,7 @@ export const games: Game[] = [
     id: "films", title: "Film Order", style: "painterly", source: "FilmsDemo.tsx",
     blurb: { en: "Put 5 films in release order, then reveal the years", es: "Pon 5 películas en orden de estreno y descubre los años" },
     load: () => import("@/components/console/demos/FilmsDemo").then((m) => ({ default: m.FilmsDemo })),
-    thumb: "/art/v3/games/thumbs/films",
+    thumb: withBase("/art/v3/games/thumbs/films"),
     howTo: h(
       ["Put 5 films in release order, oldest first.", "Pon 5 películas en orden de estreno, de la más antigua a la más nueva."],
       [["Select a card with the arrows and press Enter to pick it up.", "Selecciona una carta con las flechas y pulsa Enter para tomarla."],

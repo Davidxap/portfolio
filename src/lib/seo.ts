@@ -5,6 +5,7 @@ import { projects, type Locale } from "@/data/projects";
 import { person } from "@/data/site";
 import { abs, SITE_URL } from "@/lib/site";
 import { alternatesFor, parsePath } from "@/lib/routes";
+import { withBase } from "@/lib/base";
 
 /** Bump when the icon art changes: browsers cache favicons very aggressively. */
 const ICON_V = 2;
@@ -27,16 +28,16 @@ export function pageMetadata({ locale, path, title, description }: { locale: Loc
     robots: { index: true, follow: true },
     authors: [{ name: person.name }],
     icons: {
-      // Next prefixes metadata icon/manifest hrefs with basePath automatically.
+      // Next does not prefix metadata icon/manifest hrefs with basePath, so withBase() does.
       icon: [
-        { url: `/favicon.ico?v=${ICON_V}`, sizes: "48x48" },
-        { url: `/favicon.svg?v=${ICON_V}`, type: "image/svg+xml" },
-        { url: `/favicon-32.png?v=${ICON_V}`, sizes: "32x32" },
-        { url: `/favicon-16.png?v=${ICON_V}`, sizes: "16x16" },
+        { url: withBase(`/favicon.ico?v=${ICON_V}`), sizes: "48x48" },
+        { url: withBase(`/favicon.svg?v=${ICON_V}`), type: "image/svg+xml" },
+        { url: withBase(`/favicon-32.png?v=${ICON_V}`), sizes: "32x32" },
+        { url: withBase(`/favicon-16.png?v=${ICON_V}`), sizes: "16x16" },
       ],
-      apple: [{ url: `/apple-touch-icon.png?v=${ICON_V}`, sizes: "180x180" }],
+      apple: [{ url: withBase(`/apple-touch-icon.png?v=${ICON_V}`), sizes: "180x180" }],
     },
-    manifest: "/site.webmanifest",
+    manifest: withBase("/site.webmanifest"),
     appleWebApp: { title: "David A." },
     alternates: { canonical: abs(path), languages: { en: abs(alt.en), es: abs(alt.es), "x-default": abs(alt.en) } },
     openGraph: {

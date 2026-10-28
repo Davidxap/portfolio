@@ -5,6 +5,7 @@ import { play } from "@/lib/sound";
 import { PALETTES, ZEN_GOAL, cyclePalette, isComplete, isMatch, newRound, nextRound, type Round } from "@/lib/games/zen";
 import { useConsoleInput, useStep, type Action } from "../input";
 import { HowTo, useHowTo } from "../HowTo";
+import { withBase } from "@/lib/base";
 
 const T = {
   en: {
@@ -86,9 +87,9 @@ export function ZenDemo({ locale }: { locale: "en" | "es" }) {
       <div className="zm-stage">
         <div className="zm-scene">
           <picture>
-            <source srcSet="/art/v3/games/zen-landscape.avif" type="image/avif" />
+            <source srcSet={withBase("/art/v3/games/zen-landscape.avif")} type="image/avif" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/art/v3/games/zen-landscape.webp" alt={t.scene} width={1500} height={632} decoding="async" draggable={false} style={{ filter: `hue-rotate(${hue}deg) saturate(${sat}%) brightness(${bri}%)` }} />
+            <img src={withBase("/art/v3/games/zen-landscape.webp")} alt={t.scene} width={1500} height={632} decoding="async" draggable={false} style={{ filter: `hue-rotate(${hue}deg) saturate(${sat}%) brightness(${bri}%)` }} />
           </picture>
           <i className="zm-tint" />
           <div className={`zm-window${won ? " won" : ""}`} aria-label={`${t.target}: ${t.names[tg.id]}`}>

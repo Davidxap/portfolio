@@ -1,4 +1,5 @@
 import type { Locale } from "../data/projects";
+import { withBase } from "@/lib/base";
 
 export const ui = {
   en: {
@@ -195,4 +196,4 @@ export const projectPath = (locale: Locale, slug: string) =>
 export const directPath = (locale: Locale) => (locale === "en" ? "/direct/" : "/es/directo/");
 export const gamePath = (locale: Locale, id: string) => (locale === "en" ? `/arcade/${id}/` : `/es/arcade/${id}/`);
 export const cvPath = (locale: Locale) =>
-  locale === "en" ? "/cv/David-Arroyave-Perez-Full-Stack-Developer-EN.pdf" : "/cv/David-Arroyave-Perez-Desarrollador-Full-Stack-ES.pdf";
+  locale === "en" ? withBase("/cv/David-Arroyave-Perez-Full-Stack-Developer-EN.pdf") : withBase("/cv/David-Arroyave-Perez-Desarrollador-Full-Stack-ES.pdf");

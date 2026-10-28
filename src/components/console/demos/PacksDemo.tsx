@@ -6,6 +6,7 @@ import { PACK_CARDS, PACK_SIZE, TOTAL_CARDS, collect, mulberry32, openPack, rari
 import { CardArt, PaintedArt } from "../CardArt";
 import { HowTo, useHowTo } from "../HowTo";
 import { useConsoleInput, useStep } from "../input";
+import { withBase } from "@/lib/base";
 
 // @step copy: Every visible string lives in one table per language; card names and flavour lines come from the pure rules module.
 // @paso copy: Todo el texto visible está en una tabla por idioma; los nombres y frases de las cartas vienen del módulo de reglas puro.
@@ -92,9 +93,9 @@ export function PacksDemo({ locale }: { locale: "en" | "es" }) {
             <span className="pk-burst" aria-hidden="true" />
             <span className="pk-body">
               <picture>
-                <source srcSet="/art/v3/games/card-back.avif" type="image/avif" />
+                <source srcSet={withBase("/art/v3/games/card-back.avif")} type="image/avif" />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/art/v3/games/card-back.webp" alt="" width={492} height={762} decoding="async" draggable={false} />
+                <img src={withBase("/art/v3/games/card-back.webp")} alt="" width={492} height={762} decoding="async" draggable={false} />
               </picture>
               <span className="pk-foil" aria-hidden="true" />
               <span className="pk-label" aria-hidden="true"><b>{t.title}</b><small>{PACK_SIZE}</small></span>

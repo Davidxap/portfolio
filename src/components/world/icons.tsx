@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { withBase } from "@/lib/base";
 
 /** The pixel icon set from David's asset pack (public/art/v3/icons, transparent WebP: 64 px, and 128 px for the six places). Decorative by default: the label next to it
  * (keycap, button, heading) already names the thing, so alt is empty. */
@@ -11,7 +12,7 @@ export function ArtIcon({ name, size = 24, className }: { name: ArtIconName; siz
   const style = { width: size, height: size } as CSSProperties;
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img className={`art-icon${className ? ` ${className}` : ""}`} src={`/art/v3/icons/${name}-${file}.webp`} width={size} height={size} alt="" aria-hidden="true" decoding="async" loading="lazy" style={style} />
+    <img className={`art-icon${className ? ` ${className}` : ""}`} src={withBase(`/art/v3/icons/${name}-${file}.webp`)} width={size} height={size} alt="" aria-hidden="true" decoding="async" loading="lazy" style={style} />
   );
 }
 

@@ -321,9 +321,9 @@ export function IkaiDemo({ locale }: { locale: "en" | "es" }) {
       <div className="ikai-field" onPointerMove={onMove} onPointerDown={wake}>
         <div ref={roomEl} className={`ikai-room${eased ? " eased" : ""}${shake ? ` shake-${shake % 2}` : ""}`} style={{ aspectRatio: ASPECT[room], "--lx": `${pos.x}%`, "--ly": `${pos.y}%`, "--rx": `${rx}%`, "--ry": `${ry}%` } as React.CSSProperties}>
           <picture key={room}>
-            <source srcSet={`/art/v3/games/ikai-room-${room}.avif`} type="image/avif" />
+            <source srcSet={withBase(`/art/v3/games/ikai-room-${room}.avif`)} type="image/avif" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="ikai-img" src={`/art/v3/games/ikai-room-${room}.webp`} alt="" decoding="async" draggable={false} />
+            <img className="ikai-img" src={withBase(`/art/v3/games/ikai-room-${room}.webp`)} alt="" decoding="async" draggable={false} />
           </picture>
           <div className="ikai-dark" />
           <div className="ikai-glow" />
@@ -416,9 +416,9 @@ export function IkaiDemo({ locale }: { locale: "en" | "es" }) {
             <p className="ikai-small">{g.notes.length}/{CLUES.length} {t.clues} · {t.caseTitle}</p>
             <div className="ikai-shots" aria-label={t.caption}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/media/projects/ikai/icons-dark.avif" alt={t.caption} width={1178} height={780} />
+              <img src={withBase("/media/projects/ikai/icons-dark.avif")} alt={t.caption} width={1178} height={780} />
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/media/projects/ikai/bar-dark.avif" alt="" width={1600} height={26} />
+              <img src={withBase("/media/projects/ikai/bar-dark.avif")} alt="" width={1600} height={26} />
             </div>
             <p className="ikai-small">{t.endBody}</p>
             <div className="ikai-actions">
