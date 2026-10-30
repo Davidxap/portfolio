@@ -1,0 +1,104 @@
+/* Theme atmosphere: one animated layer per theme over the painting (Wallpaper.tsx ThemeFx). The .fx-box is sized and placed exactly like
+   the painting, so every effect sits on its painted object in % of the image; .fx-win is the view through the window and clips what
+   happens outside. Transforms and opacity only; colours come from the theme tokens. Under reduced motion everything runs at a calmer pace. */
+.wp-fx { --pace: 1; position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.fx-box { position: absolute; width: var(--iw); height: var(--ih); left: calc((100cqw - var(--iw)) * var(--ox)); top: calc((100cqh - var(--ih)) * 0.5); }
+.fx-box > span, .fx-win i { position: absolute; display: none; }
+.fx-win { position: absolute; left: 37%; top: 0; width: 42%; height: 56%; overflow: hidden; translate: calc(var(--mx, 0) * -10px) calc(var(--my, 0) * -6px); transition: translate 0.6s var(--ease, ease-out);
+  mask-image: linear-gradient(90deg, transparent, #000 14%, #000 90%, transparent), linear-gradient(180deg, #000 80%, transparent); mask-composite: intersect; }
+.fx-win i::after { content: ""; position: absolute; }
+@media (prefers-reduced-motion: reduce) { .wp-fx { --pace: 2.2; } }
+
+/* ----- shared pieces ----- */
+/* the sun (or the moon on the night painting): a halo that breathes */
+.fx-sun {
+  left: 57.6%; top: 26%; width: 17%; aspect-ratio: 1; translate: calc(-50% + var(--mx, 0) * -14px) calc(-50% + var(--my, 0) * -8px); border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--fx-sun, var(--cta)) 60%, transparent), color-mix(in srgb, var(--fx-sun, var(--cta)) 18%, transparent) 55%, transparent);
+  mix-blend-mode: screen; animation: fx-breathe calc(7s * var(--pace)) ease-in-out infinite;
+}
+/* the desk lamp: a warm pool that flickers now and then */
+.fx-lamp {
+  left: 75.2%; top: 48%; width: 15%; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 45%, transparent), transparent);
+  mix-blend-mode: screen; animation: fx-lamp calc(5s * var(--pace)) ease-in-out infinite;
+}
+/* steam curling up from the coffee mug */
+.fx-steam { left: 47%; top: 58%; width: 3.6%; height: 16%; }
+.fx-steam i { position: absolute; bottom: 0; left: 20%; width: 60%; height: 55%; border-radius: 50%; background: radial-gradient(closest-side, rgb(255 255 255 / 0.42), transparent); animation: fx-steam calc(4.6s * var(--pace)) ease-out infinite; }
+.fx-steam i:nth-child(2) { left: 5%; animation-delay: calc(-1.5s * var(--pace)); --sway: -1; }
+.fx-steam i:nth-child(3) { left: 35%; animation-delay: calc(-3.1s * var(--pace)); }
+/* a glint on the Nevado peak */
+.fx-peak {
+  left: 69%; top: 21.5%; width: 2.4%; aspect-ratio: 1; translate: -50% -50%;
+  background: linear-gradient(90deg, transparent 46%, #fff 50%, transparent 54%), linear-gradient(0deg, transparent 46%, #fff 50%, transparent 54%), radial-gradient(closest-side, #fff, transparent 40%);
+  animation: fx-glint calc(5.5s * var(--pace)) ease-in-out infinite;
+}
+/* stained glass on the cathedral: colours that move across the windows */
+.fx-glass {
+  left: 49.2%; top: 38%; width: 3.2%; height: 9%; translate: -50% -50%; border-radius: 50% 50% 20% 20%;
+  background: linear-gradient(120deg, var(--accent-2), var(--accent), color-mix(in srgb, var(--cta) 80%, #e0457b), var(--accent-2)) 0 0 / 300% 300%;
+  mix-blend-mode: screen; filter: blur(5px); animation: fx-glass calc(9s * var(--pace)) linear infinite;
+}
+/* a lit cabin riding the cable */
+.fx-wire { left: 36.4%; top: 25.6%; width: 19%; height: 0; rotate: 22deg; transform-origin: 0 0; }
+.fx-wire > span { position: absolute; left: 0; top: 0; width: 100%; height: 0; animation: fx-ride calc(16s * var(--pace)) linear infinite; }
+.fx-wire > span::before { content: ""; position: absolute; left: -1px; top: 0; width: 1px; height: 9px; background: color-mix(in srgb, var(--text) 50%, transparent); }
+.fx-wire > span::after {
+  content: ""; position: absolute; left: -5px; top: 8px; width: 10px; height: 8px; border-radius: 2px; rotate: -22deg;
+  background: color-mix(in srgb, var(--accent) 85%, #fff); box-shadow: 0 0 10px 3px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+/* ----- particle behaviours (.fx-win i) ----- */
+/* fall: a full-height column with the flake at its foot, slid from above the window to below it */
+:root[data-theme="nevado"] .wp-fx .fx-win i { display: block; left: var(--x); top: 0; width: calc(5px * var(--k)); height: 100%; animation: fx-fall calc(var(--d) * 1s * var(--pace)) linear calc(var(--ph) * -1s) infinite; }
+:root[data-theme="nevado"] .wp-fx .fx-win i::after { left: 0; bottom: 0; width: 100%; aspect-ratio: 1; border-radius: 50%; background: var(--fx-dot); box-shadow: 0 0 6px var(--fx-dot); opacity: 0.85; }
+/* rise: the same column, slid upwards and fading out */
+:root:is([data-theme="chipre"], [data-theme="catedral"]) .wp-fx .fx-win i { display: block; left: var(--x); top: 0; width: calc(4px * var(--k)); height: 100%; animation: fx-rise calc(var(--d) * 1.2s * var(--pace)) ease-out calc(var(--ph) * -1s) infinite; }
+:root:is([data-theme="chipre"], [data-theme="catedral"]) .wp-fx .fx-win i::after { left: 0; bottom: 0; width: 100%; aspect-ratio: 1; border-radius: 50%; background: var(--fx-dot); box-shadow: 0 0 8px 2px var(--fx-dot); }
+/* blink: lights that glow, wander a little and go out (fireflies, city windows) */
+:root:is([data-theme="cafetal"], [data-theme="cable"]) .wp-fx .fx-win i { display: block; left: var(--x); top: calc(var(--fx-top, 50%) + var(--y) * var(--fx-band, 0.5)); width: calc(5px * var(--k)); aspect-ratio: 1; border-radius: 50%; background: var(--fx-dot); box-shadow: 0 0 9px 3px var(--fx-dot); animation: fx-blink calc(var(--d) * 0.5s * var(--pace)) ease-in-out calc(var(--ph) * -1s) infinite; }
+/* drift: wide soft banks slid across the window (clouds, fog); only the first six */
+:root:is([data-theme="paramo"], [data-theme="niebla"]) .wp-fx .fx-win i { display: block; left: 0; width: 100%; top: calc(var(--fx-top, 50%) + var(--y) * var(--fx-band, 0.4)); height: calc(var(--fx-h, 10%) * var(--k)); animation: fx-drift calc(var(--d) * 5s * var(--pace)) linear calc(var(--ph) * -6s) infinite; }
+:root:is([data-theme="paramo"], [data-theme="niebla"]) .wp-fx .fx-win i:nth-child(n + 7) { display: none; }
+:root:is([data-theme="paramo"], [data-theme="niebla"]) .wp-fx .fx-win i::after { left: 0; top: 0; width: 45%; height: 100%; border-radius: 50%; background: radial-gradient(closest-side, var(--fx-dot), transparent); }
+
+/* ----- the themes ----- */
+/* Chipre: the sunset breathes and golden dust rises over the city */
+:root[data-theme="chipre"] .wp-fx { --fx-dot: color-mix(in srgb, var(--accent) 80%, #fff); }
+:root[data-theme="chipre"] .fx-sun { display: block; }
+/* Páramo: clouds drift below the viewpoint in the morning light */
+:root[data-theme="paramo"] .wp-fx { --fx-dot: rgb(255 255 255 / 0.7); --fx-top: 52%; --fx-band: 0.35; --fx-h: 12%; }
+:root[data-theme="paramo"] .fx-sun { display: block; --fx-sun: #fff3d6; }
+/* Tinto: the coffee steams and the lamp keeps the room warm */
+:root[data-theme="tinto"] .fx-steam, :root[data-theme="tinto"] .fx-lamp { display: block; }
+:root[data-theme="tinto"] .wp-fx { --fx-dot: color-mix(in srgb, var(--accent) 70%, #fff); }
+/* Cafetal: fireflies over the coffee hills and a fresh cup on the desk */
+:root[data-theme="cafetal"] .wp-fx { --fx-dot: color-mix(in srgb, var(--accent) 75%, #fff); --fx-top: 48%; --fx-band: 0.5; }
+:root[data-theme="cafetal"] .fx-steam { display: block; }
+/* Niebla: fog banks come down over the valley */
+:root[data-theme="niebla"] .wp-fx { --fx-dot: color-mix(in srgb, var(--text) 62%, transparent); --fx-top: 40%; --fx-band: 0.55; --fx-h: 18%; }
+/* Nevado: snow falls and the peak catches the light */
+:root[data-theme="nevado"] .wp-fx { --fx-dot: color-mix(in srgb, var(--accent) 35%, #fff); }
+:root[data-theme="nevado"] .fx-peak { display: block; }
+/* Cable: a lit cabin crosses on the wire, the city windows blink and the moon glows */
+:root[data-theme="cable"] .wp-fx { --fx-dot: color-mix(in srgb, var(--accent) 85%, #fff); --fx-top: 70%; --fx-band: 0.28; }
+:root[data-theme="cable"] .fx-wire, :root[data-theme="cable"] .fx-lamp { display: block; }
+:root[data-theme="cable"] .fx-sun { display: block; width: 7%; opacity: 0.6; --fx-sun: color-mix(in srgb, var(--accent-2) 60%, #fff); }
+/* Catedral: light moves through the stained glass and gold sparks rise from the spire */
+:root[data-theme="catedral"] .wp-fx { --fx-dot: color-mix(in srgb, var(--accent) 85%, #fff); }
+:root[data-theme="catedral"] .fx-glass { display: block; }
+
+@keyframes fx-breathe { 0%, 100% { opacity: 0.55; scale: 0.92; } 50% { opacity: 1; scale: 1.08; } }
+@keyframes fx-lamp { 0%, 100% { opacity: 0.75; } 46% { opacity: 1; } 50% { opacity: 0.6; } 53% { opacity: 0.95; } }
+@keyframes fx-steam {
+  0% { transform: translate(0, 0) scale(0.5, 0.6); opacity: 0; }
+  25% { opacity: 0.8; }
+  100% { transform: translate(calc(var(--sway, 1) * 40%), -150%) scale(1.5, 1.3); opacity: 0; }
+}
+@keyframes fx-glint { 0%, 70%, 100% { opacity: 0; scale: 0.3; rotate: 0deg; } 82% { opacity: 1; scale: 1; rotate: 45deg; } }
+@keyframes fx-glass { 0%, 100% { background-position: 0% 50%; opacity: 0.18; } 50% { background-position: 100% 50%; opacity: 0.45; } }
+@keyframes fx-ride { 0% { transform: translateX(-6%); opacity: 0; } 8%, 88% { opacity: 1; } 100% { transform: translateX(100%); opacity: 0; } }
+@keyframes fx-fall { from { transform: translate(0, -100%); } to { transform: translate(calc(var(--k) * 26px), 4%); } }
+@keyframes fx-rise { 0% { transform: translate(0, 0); opacity: 0; } 15% { opacity: 0.9; } 100% { transform: translate(calc(var(--k) * -20px), -75%); opacity: 0; } }
+@keyframes fx-blink { 0%, 100% { opacity: 0; transform: translate(0, 0); } 45%, 55% { opacity: 0.95; } 50% { transform: translate(calc(var(--k) * 6px), -5px); } }
+@keyframes fx-drift { from { transform: translateX(-45%); } to { transform: translateX(100%); } }
