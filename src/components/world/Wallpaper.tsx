@@ -5,7 +5,6 @@ import { places, type Place, type PlaceId } from "@/data/places";
 import type { Locale } from "@/data/projects";
 import { useW } from "@/i18n/world";
 import { STAGE_ART, STAGE_RATIO } from "@/lib/stage";
-import { SteamCanvas } from "./SteamCanvas";
 
 type Props = {
   locale: Locale;
@@ -34,9 +33,9 @@ function useNightArt() {
   return night;
 }
 
-/** The theme atmosphere over the painting, kept subtle on purpose: a few details glued to the painted objects like the pins (the sun or
- * the moon breathing, the desk lamp, steam curling from the mug, a lit cabin on the cable, a glint on the peak), so the painting breathes
- * without pulling attention from the content. Nudged by the pointer on desktop; paused with the motion toggle. */
+/** The theme atmosphere over the painting, kept to two touches on purpose, for a professional, recruiter-facing site: the sun or moon
+ * breathing and the desk lamp's warm flicker, glued to the painted objects like the pins. Nudged by the pointer on desktop; paused with
+ * the motion toggle. */
 function ThemeFx() {
   const root = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -55,10 +54,7 @@ function ThemeFx() {
     <div ref={root} className="wp-fx" aria-hidden="true">
       <div className="fx-box">
         <span className="fx-sun" />
-        <span className="fx-peak" />
-        <span className="fx-wire"><span /></span>
         <span className="fx-lamp" />
-        <span className="fx-steam"><SteamCanvas /></span>
       </div>
     </div>
   );

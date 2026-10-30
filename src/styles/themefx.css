@@ -1,13 +1,14 @@
 /* Theme atmosphere: one animated layer per theme over the painting (Wallpaper.tsx ThemeFx). The .fx-box is sized and placed exactly like
-   the painting, so every effect sits on its painted object in % of the image. Subtle by design: the sun, the lamp, the mug's steam
-   (SteamCanvas), the peak and the cabin, nothing that competes with the content. Colours come from the theme tokens. */
+   the painting, so every effect sits on its painted object in % of the image. Kept to two touches on purpose, for a professional,
+   recruiter-facing site: the desk lamp's warm flicker everywhere, and a sun breathing only on the sunset paintings, where it blends into
+   the sky's own warm tones. The night paintings already have their own small painted moon; a CSS glow next to it only looked tacked on. */
 .wp-fx { --pace: 1; position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .fx-box { position: absolute; width: var(--iw); height: var(--ih); left: calc((100cqw - var(--iw)) * var(--ox)); top: calc((100cqh - var(--ih)) * 0.5); }
 .fx-box > span { position: absolute; display: none; }
 @media (prefers-reduced-motion: reduce) { .wp-fx { --pace: 2.2; } }
 
 /* ----- shared pieces ----- */
-/* the sun (or the moon on the night painting): a halo that breathes */
+/* the sun: a halo that breathes, only on the sunset (day) paintings */
 .fx-sun {
   left: 57.6%; top: 26%; width: 17%; aspect-ratio: 1; translate: calc(-50% + var(--mx, 0) * -14px) calc(-50% + var(--my, 0) * -8px); border-radius: 50%;
   background: radial-gradient(closest-side, color-mix(in srgb, var(--fx-sun, var(--cta)) 60%, transparent), color-mix(in srgb, var(--fx-sun, var(--cta)) 18%, transparent) 55%, transparent);
@@ -19,38 +20,13 @@
   background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 45%, transparent), transparent);
   mix-blend-mode: screen; animation: fx-lamp calc(5s * var(--pace)) ease-in-out infinite;
 }
-/* steam curling up from the coffee mug (SteamCanvas), on every theme: the mug is always on the desk */
-.fx-box > .fx-steam { display: block; left: 46.2%; top: 52%; width: 5.4%; height: 22.5%; }
-.fx-steam-cv { display: block; width: 100%; height: 100%; }
-/* a glint on the Nevado peak */
-.fx-peak {
-  left: 69%; top: 21.5%; width: 2.4%; aspect-ratio: 1; translate: -50% -50%;
-  background: linear-gradient(90deg, transparent 46%, #fff 50%, transparent 54%), linear-gradient(0deg, transparent 46%, #fff 50%, transparent 54%), radial-gradient(closest-side, #fff, transparent 40%);
-  animation: fx-glint calc(5.5s * var(--pace)) ease-in-out infinite;
-}
-/* a lit cabin riding the cable */
-.fx-wire { left: 36.4%; top: 25.6%; width: 19%; height: 0; rotate: 22deg; transform-origin: 0 0; }
-.fx-wire > span { position: absolute; left: 0; top: 0; width: 100%; height: 0; animation: fx-ride calc(16s * var(--pace)) linear infinite; }
-.fx-wire > span::before { content: ""; position: absolute; left: -1px; top: 0; width: 1px; height: 9px; background: color-mix(in srgb, var(--text) 50%, transparent); }
-.fx-wire > span::after {
-  content: ""; position: absolute; left: -5px; top: 8px; width: 10px; height: 8px; border-radius: 2px; rotate: -22deg;
-  background: color-mix(in srgb, var(--accent) 85%, #fff); box-shadow: 0 0 10px 3px color-mix(in srgb, var(--accent) 70%, transparent);
-}
-
 /* ----- the themes ----- */
-/* every theme: the sun (or the moon) breathes, the lamp keeps the room warm and the mug steams; each theme adds at most one touch of its own */
-.fx-box > .fx-sun, .fx-box > .fx-lamp { display: block; }
+/* every theme: the lamp keeps the room warm; the five day themes also breathe their sun */
+.fx-box > .fx-lamp { display: block; }
+:root:is([data-theme="chipre"], [data-theme="paramo"], [data-theme="tinto"], [data-theme="cafetal"], [data-theme="niebla"]) .fx-sun { display: block; }
 :root[data-theme="paramo"] .fx-sun { --fx-sun: #fff3d6; }
 :root[data-theme="niebla"] .fx-sun { --fx-sun: color-mix(in srgb, var(--cta) 50%, #fff); }
-/* night paintings: a small, cool moon glow */
-:root:is([data-theme="cable"], [data-theme="nevado"], [data-theme="catedral"]) .fx-sun { width: 7%; --fx-sun: color-mix(in srgb, var(--accent-2) 55%, #fff); }
-/* Nevado: the peak catches the light */
-:root[data-theme="nevado"] .fx-peak { display: block; }
-/* Cable: a lit cabin crosses on the wire */
-:root[data-theme="cable"] .fx-wire { display: block; }
 
 @keyframes fx-breathe { 0%, 100% { opacity: 0.45; scale: 0.94; } 50% { opacity: 0.8; scale: 1.05; } }
 @keyframes fx-lamp { 0%, 100% { opacity: 0.75; } 46% { opacity: 1; } 50% { opacity: 0.6; } 53% { opacity: 0.95; } }
-@keyframes fx-glint { 0%, 70%, 100% { opacity: 0; scale: 0.3; rotate: 0deg; } 82% { opacity: 1; scale: 1; rotate: 45deg; } }
-@keyframes fx-ride { 0% { transform: translateX(-6%); opacity: 0; } 8%, 88% { opacity: 1; } 100% { transform: translateX(100%); opacity: 0; } }
 

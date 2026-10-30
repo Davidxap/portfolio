@@ -24,19 +24,20 @@ describe("theme set", () => {
     const b = block(id);
     for (const k of REQUIRED) expect(b, `${id} --${k}`).toMatch(new RegExp(`--${k}:\\s*[^;]+;`));
   });
-  it("wall-night is 0 or 1 and themes never filter or tint the painting", () => {
+  it("wall-night is 0 or 1 and day themes never set a wall-level filter or overlay token", () => {
     for (const id of THEMES) expect(block(id).match(/--wall-night:\s*([^;]+);/)![1]).toMatch(/^[01]$/);
     expect(css).not.toMatch(/--wall-(filter|overlay|blend)/);
     const night = THEMES.filter((id) => block(id).includes("--wall-night: 1;"));
     expect(night.sort()).toEqual(["cable", "catedral", "nevado"]);
   });
-  it("themes.css drives .wp-night from the token, has no wallpaper tint, and is imported by globals.css", () => {
+  it("themes.css shows the night painting at full opacity (never blended with the day painting, which would ghost the clouds), tames its blue cast with a filter and a flat warm overlay, leaves the day painting untouched, and is imported by globals.css", () => {
     const t = readFileSync("src/styles/themes.css", "utf8");
-    // the night grade sits partly over the sunset so it never reads as a flat filter
-    expect(t).toMatch(/\.wp-night\s*\{[^}]*opacity:\s*calc\(var\(--wall-night, 0\) \* 0\.7\d?\)/);
-    expect(t).not.toMatch(/wp-tint|wall-filter|wall-overlay|wall-blend/);
+    expect(t).toMatch(/\.wp-night\s*\{[^}]*opacity:\s*var\(--wall-night, 0\)/);
+    expect(t).not.toMatch(/\.wp-night\s*\{[^}]*opacity:\s*calc/);
+    expect(t).toMatch(/\.wp-night img\s*\{[^}]*filter:\s*saturate/);
+    expect(t).toMatch(/\.wp-night::after\s*\{[^}]*mix-blend-mode:\s*soft-light/);
+    expect(t).not.toMatch(/\.wp-day\s*\{[^}]*filter/);
     expect(t).not.toMatch(/\.wp-art\s*\{[^}]*filter/);
-    expect(readFileSync("src/components/world/Wallpaper.tsx", "utf8")).not.toContain("wp-tint");
     expect(readFileSync("src/app/globals.css", "utf8")).toContain('@import "../styles/themes.css"');
   });
   it("tokens.css has no legacy theme selectors and :root carries Chipre", () => {

@@ -1,11 +1,17 @@
 /* Theme wallpaper treatment and the theme menu sections 5 and 6).
-   Tokens live in tokens.css: --wall-night only. Themes never tint or filter the painting (like Omarchy themes: they recolour the UI). */
+   Tokens live in tokens.css: --wall-night only. Day themes never tint or filter the painting (like Omarchy themes: they recolour the UI);
+   only the night-grade layer below gets a filter and a flat warm overlay, to tame its blue cast. */
 
-/* night-grade image layer: 0 or 1 per theme (replaces the hard-coded [data-theme="night"] rule in desktop.css) */
-/* The night grade is laid at 76 % over the sunset, a touch desaturated and lifted: the sunset's painted clouds and warmth show through
-   its strong blue-violet sky, so night themes read as a painted dusk instead of a heavy blue filter. */
-.wallpaper .wp-night { opacity: calc(var(--wall-night, 0) * 0.76); transition: opacity 0.9s ease; }
-.wallpaper .wp-night img { filter: saturate(0.8) brightness(1.04); }
+/* night-grade image layer: 0 or 1 per theme (replaces the hard-coded [data-theme="night"] rule in desktop.css). Shown at full opacity
+   (never blended with the day painting: two separate paintings don't line up pixel for pixel, and mixing them ghosts the clouds and
+   mountain edges). The heavy blue is tamed with a desaturating filter and a flat warm overlay instead, so it reads as a calm painted
+   night, not a cold filter. */
+.wallpaper .wp-night { opacity: var(--wall-night, 0); transition: opacity 0.9s ease; position: relative; }
+.wallpaper .wp-night img { filter: saturate(0.62) brightness(1.1) contrast(0.96); }
+.wallpaper .wp-night::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; mix-blend-mode: soft-light; opacity: 0.4;
+  background: radial-gradient(120% 90% at 30% 70%, color-mix(in srgb, var(--accent) 70%, #fff), transparent 60%);
+}
 
 @media (prefers-reduced-motion: reduce) {
   .wallpaper .wp-night { transition: none; }
