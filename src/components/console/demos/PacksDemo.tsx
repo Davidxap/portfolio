@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import "@/styles/demos/packs.css";
 import { play } from "@/lib/sound";
 import { PACK_CARDS, PACK_SIZE, TOTAL_CARDS, collect, mulberry32, openPack, rarityOf, type PackCard, type Rarity } from "@/lib/games/packs";
-import { CardArt, PaintedArt } from "../CardArt";
+import { CardArt } from "../CardArt";
 import { HowTo, useHowTo } from "../HowTo";
 import { useConsoleInput, useStep } from "../input";
 import { withBase } from "@/lib/base";
@@ -31,7 +31,7 @@ const TEAR_MS = 780;
 function Face({ card, locale }: { card: PackCard; locale: "en" | "es" }) {
   return (
     <div className="pk-face">
-      <div className={`pk-window${card.painted ? " painted" : ""}`}>{card.painted ? <PaintedArt id={card.id} /> : <CardArt art={card.art} />}</div>
+      <div className="pk-window"><CardArt id={card.id} /></div>
       <span className="pk-name">{card.name[locale]}</span>
     </div>
   );

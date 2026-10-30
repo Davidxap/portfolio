@@ -2,43 +2,40 @@
 export type Rng = () => number;
 type L = { en: string; es: string };
 
-export type ArtKind = "fox" | "bird" | "serpent" | "golem" | "wisp" | "whale";
-export type Art = { kind: ArtKind; hue: number; trait?: string; scene: "ember" | "water" | "storm" | "stone" | "forest" | "night" | "snow" | "city" | "sun" };
-/** `painted` cards use David's painted art (public/art/v3/games/<id>.avif); the others are drawn as SVG. */
-export type PackCard = { id: string; name: L; art: Art; line: L; painted: boolean };
+/** Every card shows its painting (public/art/v3/games/<id>.avif / .webp). */
+export type PackCard = { id: string; name: L; line: L };
 
-const PAINTED = new Set(["ember-fox", "lantern-spirit", "moss-wyrm", "stone-sentinel", "storm-owl", "tide-colossus"]);
-const c = (id: string, en: string, es: string, art: Art, lineEn: string, lineEs: string): PackCard =>
-  ({ id, name: { en, es }, art, line: { en: lineEn, es: lineEs }, painted: PAINTED.has(id) });
+const c = (id: string, en: string, es: string, lineEn: string, lineEs: string): PackCard => ({ id, name: { en, es }, line: { en: lineEn, es: lineEs } });
 
 /** 18 original creatures. Names and flavour lines are invented here; nothing comes from any existing card game. */
 export const PACK_CARDS: readonly PackCard[] = [
-  c("ember-fox", "Ember Fox", "Zorro de brasa", { kind: "fox", hue: 22, trait: "flame", scene: "ember" }, "Its tail leaves warm paw prints in the snow.", "Su cola deja huellas tibias en la nieve."),
-  c("moss-wyrm", "Moss Wyrm", "Sierpe de musgo", { kind: "serpent", hue: 112, trait: "moss", scene: "forest" }, "Sleeps so long that ferns grow on its back.", "Duerme tanto que le crecen helechos en el lomo."),
-  c("lantern-spirit", "Lantern Spirit", "Espíritu del farol", { kind: "wisp", hue: 44, trait: "lantern", scene: "night" }, "It lights the way home, never the way out.", "Ilumina el camino a casa, nunca el de salida."),
-  c("storm-owl", "Storm Owl", "Búho de tormenta", { kind: "bird", hue: 232, trait: "bolt", scene: "storm" }, "Its hoot arrives a second before the thunder.", "Su ulular llega un segundo antes del trueno."),
-  c("stone-sentinel", "Stone Sentinel", "Centinela de piedra", { kind: "golem", hue: 210, trait: "crest", scene: "stone" }, "Has guarded the same bridge since before the bridge.", "Cuida el mismo puente desde antes de que existiera el puente."),
-  c("tide-colossus", "Tide Colossus", "Coloso de marea", { kind: "whale", hue: 200, trait: "tide", scene: "water" }, "Each step is a high tide somewhere.", "Cada paso es una marea alta en algún lugar."),
-  c("coffee-golem", "Coffee Golem", "Gólem de café", { kind: "golem", hue: 24, trait: "steam", scene: "city" }, "Warm hands, slow words, very strong aroma.", "Manos tibias, palabras lentas, aroma muy fuerte."),
-  c("cable-car-sprite", "Cable-Car Sprite", "Duende del cable aéreo", { kind: "wisp", hue: 190, trait: "cabin", scene: "sun" }, "Rides the wire between two mountains for fun.", "Viaja por el cable entre dos montañas por diversión."),
-  c("paper-crane", "Paper Crane", "Grulla de papel", { kind: "bird", hue: 36, trait: "origami", scene: "sun" }, "Folded once, it learned to fly forever.", "Doblada una vez, aprendió a volar para siempre."),
-  c("tide-pup", "Tide Pup", "Cachorro de marea", { kind: "fox", hue: 190, trait: "wave", scene: "water" }, "Follows the moon and splashes in every puddle.", "Sigue a la luna y chapotea en cada charco."),
-  c("thistle-imp", "Thistle Imp", "Duendecillo de cardo", { kind: "wisp", hue: 285, trait: "thorn", scene: "forest" }, "Prickly outside, shy inside.", "Espinoso por fuera, tímido por dentro."),
-  c("nevado-yeti", "Nevado Yeti", "Yeti del Nevado", { kind: "golem", hue: 196, trait: "fur", scene: "snow" }, "Shares its hot chocolate with lost hikers.", "Comparte su chocolate caliente con caminantes perdidos."),
-  c("glass-stag", "Glass Stag", "Ciervo de cristal", { kind: "fox", hue: 170, trait: "antlers", scene: "night" }, "Its antlers ring softly when the wind turns.", "Sus astas suenan suave cuando cambia el viento."),
-  c("lava-newt", "Lava Newt", "Tritón de lava", { kind: "fox", hue: 8, trait: "newt", scene: "ember" }, "Swims in cooling rivers of stone.", "Nada en ríos de piedra que se enfría."),
-  c("aurora-heron", "Aurora Heron", "Garza de aurora", { kind: "bird", hue: 160, trait: "aurora", scene: "night" }, "Fishes for light in the northern sky.", "Pesca luz en el cielo del norte."),
-  c("clockwork-whale", "Clockwork Whale", "Ballena de relojería", { kind: "whale", hue: 42, trait: "gears", scene: "night" }, "Sings once an hour, perfectly on time.", "Canta una vez por hora, siempre puntual."),
-  c("sun-crowned-condor", "Sun-Crowned Condor", "Cóndor de corona solar", { kind: "bird", hue: 40, trait: "crown", scene: "sun" }, "Carries the morning over the highest ridge.", "Lleva la mañana sobre la cumbre más alta."),
-  c("moonwell-dragon", "Moonwell Dragon", "Dragón del pozo lunar", { kind: "serpent", hue: 262, trait: "wings", scene: "night" }, "Drinks the reflection of the moon, never the water.", "Bebe el reflejo de la luna, nunca el agua."),
+  c("ember-fox", "Ember Fox", "Zorro de brasa", "Its tail leaves warm paw prints in the snow.", "Su cola deja huellas tibias en la nieve."),
+  c("moss-wyrm", "Moss Wyrm", "Sierpe de musgo", "Sleeps so long that ferns grow on its back.", "Duerme tanto que le crecen helechos en el lomo."),
+  c("lantern-spirit", "Lantern Spirit", "Espíritu del farol", "It lights the way home, never the way out.", "Ilumina el camino a casa, nunca el de salida."),
+  c("storm-owl", "Storm Owl", "Búho de tormenta", "Its hoot arrives a second before the thunder.", "Su ulular llega un segundo antes del trueno."),
+  c("stone-sentinel", "Stone Sentinel", "Centinela de piedra", "Has guarded the same bridge since before the bridge.", "Cuida el mismo puente desde antes de que existiera el puente."),
+  c("tide-colossus", "Tide Colossus", "Coloso de marea", "Each step is a high tide somewhere.", "Cada paso es una marea alta en algún lugar."),
+  c("coffee-golem", "Coffee Golem", "Gólem de café", "Warm hands, slow words, very strong aroma.", "Manos tibias, palabras lentas, aroma muy fuerte."),
+  c("cable-car-sprite", "Cable-Car Sprite", "Duende del cable aéreo", "Rides the wire between two mountains for fun.", "Viaja por el cable entre dos montañas por diversión."),
+  c("paper-crane", "Paper Crane", "Grulla de papel", "Folded once, it learned to fly forever.", "Doblada una vez, aprendió a volar para siempre."),
+  c("tide-pup", "Tide Pup", "Cachorro de marea", "Follows the moon and splashes in every puddle.", "Sigue a la luna y chapotea en cada charco."),
+  c("thistle-imp", "Thistle Imp", "Duendecillo de cardo", "Prickly outside, shy inside.", "Espinoso por fuera, tímido por dentro."),
+  c("nevado-yeti", "Nevado Yeti", "Yeti del Nevado", "Shares its hot chocolate with lost hikers.", "Comparte su chocolate caliente con caminantes perdidos."),
+  c("glass-stag", "Glass Stag", "Ciervo de cristal", "Its antlers ring softly when the wind turns.", "Sus astas suenan suave cuando cambia el viento."),
+  c("lava-newt", "Lava Newt", "Tritón de lava", "Swims in cooling rivers of stone.", "Nada en ríos de piedra que se enfría."),
+  c("aurora-heron", "Aurora Heron", "Garza de aurora", "Fishes for light in the northern sky.", "Pesca luz en el cielo del norte."),
+  c("clockwork-whale", "Clockwork Whale", "Ballena de relojería", "Sings once an hour, perfectly on time.", "Canta una vez por hora, siempre puntual."),
+  c("sun-crowned-condor", "Sun-Crowned Condor", "Cóndor de corona solar", "Carries the morning over the highest ridge.", "Lleva la mañana sobre la cumbre más alta."),
+  c("moonwell-dragon", "Moonwell Dragon", "Dragón del pozo lunar", "Drinks the reflection of the moon, never the water.", "Bebe el reflejo de la luna, nunca el agua."),
 ];
 
 
 export type Rarity = "common" | "uncommon" | "rare";
 export const RARITY_ORDER: readonly Rarity[] = ["common", "uncommon", "rare"];
-/** The six painted creatures are the rare ones; four of the drawn ones are uncommon and the other eight common. */
+/** Six legends are rare, four are uncommon and the other eight common. */
+const RARE = new Set(["ember-fox", "lantern-spirit", "moss-wyrm", "stone-sentinel", "storm-owl", "tide-colossus"]);
 const UNCOMMON = new Set(["aurora-heron", "clockwork-whale", "sun-crowned-condor", "moonwell-dragon"]);
-export const rarityOf = (id: string): Rarity => (PAINTED.has(id) ? "rare" : UNCOMMON.has(id) ? "uncommon" : "common");
+export const rarityOf = (id: string): Rarity => (RARE.has(id) ? "rare" : UNCOMMON.has(id) ? "uncommon" : "common");
 
 export const PACK_SIZE = 5;
 export const TOTAL_CARDS = PACK_CARDS.length;

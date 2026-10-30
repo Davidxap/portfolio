@@ -16,10 +16,10 @@ describe("card list", () => {
     const text = JSON.stringify(PACK_CARDS).toLowerCase();
     for (const w of FORBIDDEN) expect(text, w).not.toContain(w);
   });
-  it("the six painted creatures are the rare ones; the other twelve are drawn", () => {
+  it("has six rare legends, four uncommon and eight common creatures", () => {
     const rare = PACK_CARDS.filter((c) => rarityOf(c.id) === "rare").map((c) => c.id).sort();
     expect(rare).toEqual(["ember-fox", "lantern-spirit", "moss-wyrm", "stone-sentinel", "storm-owl", "tide-colossus"]);
-    expect(PACK_CARDS.filter((c) => c.painted).map((c) => c.id).sort()).toEqual(rare);
+    expect(PACK_CARDS.filter((c) => rarityOf(c.id) === "uncommon")).toHaveLength(4);
     for (const c of PACK_CARDS) expect(RARITY_ORDER).toContain(rarityOf(c.id));
   });
 });
