@@ -107,10 +107,23 @@ function snow(): Fx {
   };
 }
 
-// ----- Chipre: god rays from the sunset and embers that rise, sway and flicker; a click sprays sparks -----
+// ----- Chipre: god rays from the sunset and embers that rise, sway and flicker; a click opens a soft flare of sunlight -----
+type Flare = { x: number; y: number; life: number };
+/** A click on a daylight theme: a warm halo that swells and fades, no fireworks. */
+function stepFlares(list: Flare[], f: Frame, col: string) {
+  for (let i = list.length - 1; i >= 0; i--) {
+    const fl = list[i];
+    fl.life += f.dt;
+    if (fl.life > 1.6) { list.splice(i, 1); continue; }
+    const k = fl.life / 1.6, ease = 1 - (1 - k) ** 3;
+    dot(f.c, glow(col), fl.x, fl.y, 30 + ease * 120, (1 - k) * 0.75);
+    f.c.globalAlpha = (1 - k) * 0.7; f.c.strokeStyle = rgba(col, 1); f.c.lineWidth = 1.5;
+    f.c.beginPath(); f.c.arc(fl.x, fl.y, 10 + ease * 70, 0, TAU); f.c.stroke();
+  }
+}
 function embers(): Fx {
   type P = Body & { life: number; max: number; r: number; ph: number; hot: boolean };
-  const ps: P[] = [], burst: Spark[] = [];
+  const ps: P[] = [], flares: Flare[] = [];
   let acc = 0;
   return {
     step(f) {
@@ -143,9 +156,12 @@ function embers(): Fx {
         const fade = Math.sin((Math.PI * p.life) / p.max), flick = 0.6 + 0.4 * Math.sin(f.t * 11 + p.ph * 3);
         dot(c, glow(p.hot ? f.pal.cta : f.pal.accent, 0.25), p.x, p.y, p.r * 4, fade * flick);
       }
-      stepSparks(burst, f, 40);
+      stepFlares(flares, f, f.pal.accent);
     },
-    burst(f, x, y) { sparks(burst, x, y, 46, [f.pal.cta, f.pal.accent, "#fff3c4"], [80, 280], 80); },
+    burst(_f, x, y) {
+      flares.push({ x, y, life: 0 });
+      for (let i = 0; i < 14; i++) ps.push({ x: x + R(-30, 30), y: y + R(-10, 20), vx: R(-20, 20), vy: -R(18, 50), life: 0, max: R(2.5, 5), r: R(1.2, 2.6), ph: R(0, TAU), hot: false });
+    },
   };
 }
 
@@ -349,11 +365,11 @@ function night(): Fx {
   };
 }
 
-// ----- Catedral: stained-glass beams sway slowly, dust motes light up only inside them, gold glints around the spire; a click showers gold -----
+// ----- Catedral: stained-glass beams sway slowly, dust motes light up only inside them, gold glints around the spire; a click blooms glints -----
 function cathedral(): Fx {
   type Mote = Body & { ph: number };
   type Glint = { x: number; y: number; life: number; s: number };
-  const motes: Mote[] = [], glints: Glint[] = [], burst: Spark[] = [];
+  const motes: Mote[] = [], glints: Glint[] = [];
   let acc = 0;
   return {
     step(f) {
@@ -386,13 +402,16 @@ function cathedral(): Fx {
         const g = glints[i];
         g.life += f.dt;
         if (g.life > 1.1) { glints.splice(i, 1); continue; }
+        if (g.life < 0) continue;
         const k = Math.sin((Math.PI * g.life) / 1.1), s = g.s * k;
         c.globalAlpha = k; c.beginPath(); c.moveTo(g.x - s, g.y); c.lineTo(g.x + s, g.y); c.moveTo(g.x, g.y - s); c.lineTo(g.x, g.y + s); c.stroke();
         dot(c, gold, g.x, g.y, s * 0.8, k);
       }
-      stepSparks(burst, f, 90);
     },
-    burst(f, x, y) { sparks(burst, x, y, 50, [f.pal.accent, "#fff3c4", f.pal.accent2], [40, 200], 120); },
+    burst(_f, x, y) {
+      for (let i = 0; i < 9; i++) { const a = (i / 9) * TAU, d = R(14, 60); glints.push({ x: x + Math.cos(a) * d, y: y + Math.sin(a) * d, life: -i * 0.06, s: R(6, 13) }); }
+      for (const m of motes) { const dx = m.x - x, dy = m.y - y, d = Math.hypot(dx, dy) || 1; if (d < 140) { m.vx += (dx / d) * 40; m.vy += (dy / d) * 40; } }
+    },
   };
 }
 

@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { render } from "@testing-library/react";
+import { SteamCanvas } from "@/components/world/SteamCanvas";
 import { ThemeCanvas } from "@/components/world/ThemeCanvas";
 
 /** A just-enough 2D context: every method is a spy, gradients accept colour stops. */
@@ -52,6 +53,21 @@ describe("ThemeCanvas", () => {
     expect(() => { for (let i = 1; i <= 4; i++) tick(i * 16); }).not.toThrow();
     container.querySelector(".bare")!.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true, clientX: 0, clientY: 0 }));
     expect(() => tick(90)).not.toThrow();
+    unmount();
+    expect(cancel).toHaveBeenCalled();
+  });
+
+  it("steams over the mug without throwing, with or without a 2D canvas, and stops on unmount", () => {
+    vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValueOnce(null);
+    expect(() => render(<div><SteamCanvas /></div>).unmount()).not.toThrow();
+    vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(fake2d() as never);
+    let pending: FrameRequestCallback | null = null;
+    vi.spyOn(window, "requestAnimationFrame").mockImplementation((cb) => { pending = cb; return 1; });
+    const cancel = vi.spyOn(window, "cancelAnimationFrame");
+    const { unmount } = render(<div><SteamCanvas /></div>);
+    vi.advanceTimersByTime(800);
+    expect(pending).not.toBeNull();
+    expect(() => { for (let i = 1; i <= 400; i++) { const cb = pending; pending = null; (cb as FrameRequestCallback | null)?.(i * 50); } }).not.toThrow();
     unmount();
     expect(cancel).toHaveBeenCalled();
   });

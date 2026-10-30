@@ -5,6 +5,7 @@ import { places, type Place, type PlaceId } from "@/data/places";
 import type { Locale } from "@/data/projects";
 import { useW } from "@/i18n/world";
 import { STAGE_ART, STAGE_RATIO } from "@/lib/stage";
+import { SteamCanvas } from "./SteamCanvas";
 import { ThemeCanvas } from "./ThemeCanvas";
 
 type Props = {
@@ -56,10 +57,9 @@ function ThemeFx() {
       <div className="fx-box">
         <span className="fx-sun" />
         <span className="fx-peak" />
-        <span className="fx-glass" />
         <span className="fx-wire"><span /></span>
         <span className="fx-lamp" />
-        <span className="fx-steam"><i /><i /><i /></span>
+        <span className="fx-steam"><SteamCanvas /></span>
         <div className="fx-win"><ThemeCanvas place="window" /></div>
       </div>
     </div>
