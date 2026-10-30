@@ -17,7 +17,7 @@
 .wp-art img { position: absolute; max-width: none; width: var(--iw); height: var(--ih); left: calc((100cqw - var(--iw)) * var(--ox)); top: calc((100cqh - var(--ih)) * 0.5); }
 .wp-night { opacity: 0; transition: opacity 0.9s ease; }
 .wp-shade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgb(0 0 0 / 0.42), transparent 18%, transparent 70%, rgb(0 0 0 / 0.34)), radial-gradient(120% 90% at 55% 45%, transparent 58%, rgb(0 0 0 / 0.3)); }
-.world:not([data-view="home"]) .wallpaper .wp-art { filter: saturate(0.92) brightness(0.9); }
+.world:not([data-view="home"]) .wallpaper .wp-art { filter: saturate(0.96) brightness(0.95); }
 .wp-art { transition: filter 0.6s; }
 
 /* hotspots: a glint on each painted object; a label on hover or focus; they open the place's window */

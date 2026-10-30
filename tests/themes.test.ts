@@ -32,7 +32,8 @@ describe("theme set", () => {
   });
   it("themes.css drives .wp-night from the token, has no wallpaper tint, and is imported by globals.css", () => {
     const t = readFileSync("src/styles/themes.css", "utf8");
-    expect(t).toMatch(/\.wp-night\s*\{[^}]*opacity:\s*var\(--wall-night/);
+    // the night grade sits partly over the sunset so it never reads as a flat filter
+    expect(t).toMatch(/\.wp-night\s*\{[^}]*opacity:\s*calc\(var\(--wall-night, 0\) \* 0\.8\d?\)/);
     expect(t).not.toMatch(/wp-tint|wall-filter|wall-overlay|wall-blend/);
     expect(t).not.toMatch(/\.wp-art\s*\{[^}]*filter/);
     expect(readFileSync("src/components/world/Wallpaper.tsx", "utf8")).not.toContain("wp-tint");
