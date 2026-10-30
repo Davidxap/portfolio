@@ -2,9 +2,10 @@
    Tokens live in tokens.css: --wall-night only. Themes never tint or filter the painting (like Omarchy themes: they recolour the UI). */
 
 /* night-grade image layer: 0 or 1 per theme (replaces the hard-coded [data-theme="night"] rule in desktop.css) */
-/* The night grade is laid at 82 % over the sunset: the sunset's painted clouds and warmth show through its flat violet sky, so night
-   themes read as a painted dusk instead of a heavy filter. */
-.wallpaper .wp-night { opacity: calc(var(--wall-night, 0) * 0.82); transition: opacity 0.9s ease; }
+/* The night grade is laid at 76 % over the sunset, a touch desaturated and lifted: the sunset's painted clouds and warmth show through
+   its strong blue-violet sky, so night themes read as a painted dusk instead of a heavy blue filter. */
+.wallpaper .wp-night { opacity: calc(var(--wall-night, 0) * 0.76); transition: opacity 0.9s ease; }
+.wallpaper .wp-night img { filter: saturate(0.8) brightness(1.04); }
 
 @media (prefers-reduced-motion: reduce) {
   .wallpaper .wp-night { transition: none; }

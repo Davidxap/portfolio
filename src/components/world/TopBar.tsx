@@ -5,18 +5,22 @@ import type { Locale } from "@/data/projects";
 import { person } from "@/data/site";
 import { cvPath, homePath, useT } from "@/i18n/ui";
 import { useW } from "@/i18n/world";
+import { Pause, Play } from "lucide-react";
+import { isMotionPaused, onMotionChange, setMotionPaused } from "@/lib/motion";
 import { isMuted, onMuteChange, play, setMuted } from "@/lib/sound";
 import { ThemeMenu } from "../ThemeMenu";
 import { BrandMark } from "./BrandMark";
 import { ArtIcon } from "./icons";
 import { withBase } from "@/lib/base";
 
-/** The settings cluster shared by both bars: theme, EN/ES and sound. */
+/** The settings cluster shared by both bars: theme, EN/ES, sound and the motion toggle. */
 export function Settings({ locale, altPath }: { locale: Locale; altPath: string }) {
   const t = useT(locale);
   const w = useW(locale);
   const [muted, setMutedState] = useState(false);
+  const [still, setStill] = useState(false);
   useEffect(() => { setMutedState(isMuted()); return onMuteChange(setMutedState); }, []);
+  useEffect(() => { setStill(isMotionPaused()); return onMotionChange(setStill); }, []);
   return (
     <div className="settings" role="group" aria-label={w("top.settings")}>
       <ThemeMenu locale={locale} />
@@ -27,6 +31,9 @@ export function Settings({ locale, altPath }: { locale: Locale; altPath: string 
       </div>
       <button className="hud-btn icon-only" type="button" aria-pressed={muted} aria-label={t("hud.sound")} title={muted ? t("hud.soundOff") : t("hud.soundOn")} onClick={() => { const m = !muted; setMuted(m); if (!m) play("boot"); }}>
         <ArtIcon name={muted ? "muted" : "sound"} size={24} />
+      </button>
+      <button className="hud-btn icon-only motion-btn" type="button" aria-pressed={still} aria-label={t("hud.motion")} title={still ? t("hud.motionOff") : t("hud.motionOn")} onClick={() => setMotionPaused(!still)}>
+        {still ? <Play size={18} aria-hidden="true" /> : <Pause size={18} aria-hidden="true" />}
       </button>
     </div>
   );

@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
+import { isMotionPaused } from "@/lib/motion";
 
 const VERT = "attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}";
 // Domain-warped fbm (ported from v1's ArtField): slow painterly paint flow in the theme palette, pulled gently toward the pointer.
@@ -42,7 +43,7 @@ const rgb = (v: string): [number, number, number] => {
  * Paint-flow background of the direct view: v1's domain-warped fbm shader in the active theme palette (--paint-bg, --paint-1..3).
  * The server renders only the CSS fallback (layered radial gradients from the same tokens), so the page is never blank; once mounted the
  * canvas paints one still frame and fades in. It moves only after the first interaction, at ~30 fps, halves its resolution then freezes if
- * frames block (retrying a little later), pauses off-screen, and flows at a third of the speed under prefers-reduced-motion. The theme is
+ * frames block (retrying a little later), pauses off-screen or with the motion toggle, and flows at a third of the speed under prefers-reduced-motion. The theme is
  * re-read when `data-theme` changes.
  */
 export function PaintField() {
@@ -121,9 +122,9 @@ export function PaintField() {
           el.dataset.shader = frozen ? "still" : `q${scale}`;
         }
       }
-      if (visible && !frozen) raf = requestAnimationFrame(loop);
+      if (visible && !frozen && !isMotionPaused()) raf = requestAnimationFrame(loop);
     };
-    const kick = () => { if (live && !frozen && !raf && visible) raf = requestAnimationFrame(loop); };
+    const kick = () => { if (live && !frozen && !raf && visible && !isMotionPaused()) raf = requestAnimationFrame(loop); };
     // One still frame now; move only on the first sign of a person, so loading and first interaction never compete with decoration.
     const wake = ["pointermove", "pointerdown", "scroll", "keydown", "touchstart"] as const;
     const start = () => { wake.forEach((e) => removeEventListener(e, start)); live = true; kick(); };
@@ -135,8 +136,8 @@ export function PaintField() {
     const onLost = (e: Event) => { e.preventDefault(); cancelAnimationFrame(raf); raf = 0; el.dataset.shader = "css"; };
     const ro = typeof ResizeObserver === "function" ? new ResizeObserver(() => { size(); draw(); }) : null;
     const io = typeof IntersectionObserver === "function" ? new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible) kick(); }) : null;
-    const mo = new MutationObserver(() => { palette(); draw(); });
-    mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    const mo = new MutationObserver(() => { palette(); draw(); kick(); });
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "data-motion"] });
     addEventListener("pointermove", onMove, { passive: true });
     cv.addEventListener("webglcontextlost", onLost);
     palette(); size(); draw(); ro?.observe(el); io?.observe(el);

@@ -6,7 +6,6 @@ import type { Locale } from "@/data/projects";
 import { useW } from "@/i18n/world";
 import { STAGE_ART, STAGE_RATIO } from "@/lib/stage";
 import { SteamCanvas } from "./SteamCanvas";
-import { ThemeCanvas } from "./ThemeCanvas";
 
 type Props = {
   locale: Locale;
@@ -35,9 +34,9 @@ function useNightArt() {
   return night;
 }
 
-/** The theme atmosphere over the painting: the particle engine plays in the view through the window (snow on the Nevado, fog down the
- * hills, rain on the glass...), and CSS pieces glued to the painted objects like the pins (the sun, the lamp, the mug's steam, the cabin
- * on the cable) frame it. The whole layer is nudged by the pointer on desktop. */
+/** The theme atmosphere over the painting, kept subtle on purpose: a few details glued to the painted objects like the pins (the sun or
+ * the moon breathing, the desk lamp, steam curling from the mug, a lit cabin on the cable, a glint on the peak), so the painting breathes
+ * without pulling attention from the content. Nudged by the pointer on desktop; paused with the motion toggle. */
 function ThemeFx() {
   const root = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -60,7 +59,6 @@ function ThemeFx() {
         <span className="fx-wire"><span /></span>
         <span className="fx-lamp" />
         <span className="fx-steam"><SteamCanvas /></span>
-        <div className="fx-win"><ThemeCanvas place="window" /></div>
       </div>
     </div>
   );

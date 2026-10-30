@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { Locale } from "@/data/projects";
 import { fontClasses } from "@/lib/fonts";
+import { MOTION_INIT_SCRIPT } from "@/lib/motion";
 import { DEFAULT_THEME, THEME_INIT_SCRIPT } from "@/lib/theme";
 import "@/app/globals.css";
 
@@ -10,6 +11,7 @@ export function RootHtml({ locale, children }: { locale: Locale; children: React
     <html lang={locale} data-theme={DEFAULT_THEME} className={fontClasses} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        <script dangerouslySetInnerHTML={{ __html: MOTION_INIT_SCRIPT }} />
       </head>
       <body>{children}</body>
     </html>

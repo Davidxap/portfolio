@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
+import { isMotionPaused } from "@/lib/motion";
 
 /** One wisp of steam: where it leaves the rim (0..1 of the canvas width), its phase, speed and how long it lives before fading. */
 type Wisp = { x0: number; ph: number; sp: number; age: number; life: number; amp: number };
@@ -9,7 +10,8 @@ const wisp = (age = 0): Wisp => ({ x0: R(0.36, 0.64), ph: R(0, Math.PI * 2), sp:
 /**
  * Steam rising from the painted coffee mug: a few ribbons that leave the rim thin, curl as they climb (two travelling sine waves whose
  * swing grows with height), widen, and fade out at the top and over their life, so the column keeps changing shape. Soft by drawing each
- * ribbon twice, a wide faint pass and a thin brighter core. Sized to its parent; pauses when hidden; calmer under reduced motion.
+ * ribbon twice, a wide faint pass and a thin brighter core. Sized to its parent; pauses when hidden or with the motion toggle;
+ * calmer under reduced motion.
  */
 export function SteamCanvas() {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -59,15 +61,17 @@ export function SteamCanvas() {
         ribbon(p, Math.max(2.5, w * 0.08), 0.09);
         ribbon(p, Math.max(1, w * 0.025), 0.3);
       }
-      if (visible && !document.hidden) raf = requestAnimationFrame(loop);
+      if (visible && !document.hidden && !isMotionPaused()) raf = requestAnimationFrame(loop);
     };
-    const kick = () => { if (visible && !document.hidden && !raf) { last = 0; raf = requestAnimationFrame(loop); } };
+    const kick = () => { if (visible && !document.hidden && !isMotionPaused() && !raf) { last = 0; raf = requestAnimationFrame(loop); } };
     const ro = typeof ResizeObserver === "function" ? new ResizeObserver(size) : null;
     const io = typeof IntersectionObserver === "function" ? new IntersectionObserver(([en]) => { visible = en.isIntersecting; kick(); }) : null;
+    const mo = new MutationObserver(kick);
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-motion"] });
     size(); ro?.observe(host); io?.observe(cv);
     document.addEventListener("visibilitychange", kick);
     const boot = window.setTimeout(kick, 700);
-    return () => { window.clearTimeout(boot); cancelAnimationFrame(raf); ro?.disconnect(); io?.disconnect(); document.removeEventListener("visibilitychange", kick); };
+    return () => { window.clearTimeout(boot); cancelAnimationFrame(raf); ro?.disconnect(); io?.disconnect(); mo.disconnect(); document.removeEventListener("visibilitychange", kick); };
   }, []);
   return <canvas ref={ref} className="fx-steam-cv" aria-hidden="true" />;
 }

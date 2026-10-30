@@ -135,3 +135,5 @@ a.lang-opt:hover, a.lang-opt:focus-visible { color: var(--text); background: col
 .nf h1 { font-size: clamp(36px, 6vw, 64px); margin: 0; }
 .nf p { margin: 0; font-size: 18px; color: var(--muted); }
 .nf-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+/* The motion toggle (src/lib/motion.ts): decorative animations freeze where they are; the arcade games (.cs-screen) keep running. */
+:root[data-motion="paused"] :not(.cs-screen, .cs-screen *), :root[data-motion="paused"] :not(.cs-screen *)::before, :root[data-motion="paused"] :not(.cs-screen *)::after { animation-play-state: paused !important; }
