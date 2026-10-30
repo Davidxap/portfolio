@@ -77,9 +77,13 @@ cv-src/         HTML sources for the English and Spanish CVs
 - `npm run check:contrast`: checks WCAG contrast for the colour palettes.
 - `npm run check:eventloop`: checks the event-loop traces shown in the demos.
 
-## Art and credits
+## Authorship and AI use
 
-The illustrations are AI-generated and art-directed by David. The site discloses this. Fonts are self-hosted from `public/fonts`: Fraunces, Bricolage Grotesque and JetBrains Mono (all under the SIL Open Font License).
+This portfolio was conceived, designed and directed by David Arroyave Pérez. The idea, the Manizales setting, the six places, the colour themes, the content, the minigames and the creative decisions are his.
+
+AI tools were used as an assistant throughout the work: drafting and polishing copy, writing and refactoring code under his direction, and generating illustrations. David guided every step, chose and rejected the output, and made the final calls. The illustrations are AI-generated and art-directed by David, and the site discloses this.
+
+Fonts are self-hosted from `public/fonts`: Fraunces, Bricolage Grotesque and JetBrains Mono (all under the SIL Open Font License).
 
 ## Deploy
 
@@ -93,4 +97,4 @@ Primary deployment is GitHub Pages: `https://davidxap.github.io/portfolio/` (det
 
 ## License
 
-All rights reserved. The code is published to show the work; please ask before reusing it.
+Copyright (c) 2026 David Arroyave Pérez. All rights reserved. The code, text, illustrations and games are published to show the work and are not licensed for copying, modification or redistribution. See [LICENSE](LICENSE) for the full terms.
