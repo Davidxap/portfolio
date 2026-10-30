@@ -11,7 +11,7 @@
 /* ===== the wallpaper: the remastered map, drawn like object-fit: cover inside a size container ===== */
 .wallpaper { position: absolute; inset: 0; z-index: 0; container-type: size; overflow: hidden; background: var(--field-2); }
 .wp-field { position: absolute; inset: 0; background: radial-gradient(60% 55% at 78% 62%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%), linear-gradient(180deg, var(--field-1), var(--field-2) 72%); }
-.wp-art, .pins { --s: max(100cqw / 1672, 100cqh / 940); --iw: calc(var(--s) * 1672); --ih: calc(var(--s) * 940); --ox: 0.5; }
+.wp-art, .pins, .wp-fx { --s: max(100cqw / 1672, 100cqh / 940); --iw: calc(var(--s) * 1672); --ih: calc(var(--s) * 940); --ox: 0.5; }
 .wp-art { position: absolute; inset: 0; }
 .wp-art picture { position: absolute; inset: 0; display: block; }
 .wp-art img { position: absolute; max-width: none; width: var(--iw); height: var(--ih); left: calc((100cqw - var(--iw)) * var(--ox)); top: calc((100cqh - var(--ih)) * 0.5); }
@@ -56,10 +56,9 @@
 .world:not([data-view="home"]) .pin-wrap:has(.pin[aria-current="page"]) { opacity: 1; }
 .world:not([data-view="home"]) .pin-wrap .pin-card { opacity: 0; }
 .world:not([data-view="home"]) .pin:hover .pin-card, .world:not([data-view="home"]) .pin:focus-visible .pin-card { opacity: 1; }
-@media (prefers-reduced-motion: no-preference) {
-  .pin-glint::after { animation: glint 2.8s ease-out infinite; }
-  .pin-wrap:nth-child(2n) .pin-glint::after { animation-delay: 0.9s; } .pin-wrap:nth-child(3n) .pin-glint::after { animation-delay: 1.7s; }
-}
+.pin-glint::after { animation: glint 2.8s ease-out infinite; }
+.pin-wrap:nth-child(2n) .pin-glint::after { animation-delay: 0.9s; } .pin-wrap:nth-child(3n) .pin-glint::after { animation-delay: 1.7s; }
+@media (prefers-reduced-motion: reduce) { .pin-glint::after { animation-duration: 5s; } }
 @keyframes glint { 0% { transform: scale(0.6); opacity: 0.8; } 80%, 100% { transform: scale(1.5); opacity: 0; } }
 
 /* the desktop fills the page: the wallpaper, the bar, the windows, the dock and the phone tabs are layers inside it */
@@ -120,7 +119,8 @@
 .win::before { content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 2px; pointer-events: none; z-index: 3; background: conic-gradient(from var(--ang), var(--accent), var(--accent-2), var(--cta), var(--river-2), var(--accent)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); opacity: 0; transition: opacity 0.4s; }
 .win[data-focus="true"]::before { opacity: 1; }
 .win[data-focus="true"] { border-color: transparent; box-shadow: 0 30px 70px -26px rgb(0 0 0 / 0.9), 0 0 44px -14px color-mix(in srgb, var(--wa) 70%, transparent), inset 0 1px 0 rgb(255 255 255 / 0.08); }
-@media (prefers-reduced-motion: no-preference) { .win[data-focus="true"]::before { animation: ang 8s linear infinite; } }
+.win[data-focus="true"]::before { animation: ang 8s linear infinite; }
+@media (prefers-reduced-motion: reduce) { .win[data-focus="true"]::before { animation-duration: 16s; } }
 @keyframes ang { to { --ang: 360deg; } }
 @keyframes win-in { from { opacity: 0; transform: translate(var(--fx, 0), var(--fy, 22px)) scale(0.9); } 55% { opacity: 1; } to { opacity: 1; transform: none; } }
 @keyframes win-in-l { from { opacity: 0; transform: translateX(-7%) scale(0.92); } 55% { opacity: 1; } to { opacity: 1; transform: none; } }
@@ -162,7 +162,7 @@
 }
 .fx-tune { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0 40%, rgb(255 255 255 / 0.08) 40% 43%, transparent 43%), rgb(255 255 255 / 0.03); opacity: 0; animation: tune 260ms steps(6) both; }
 @keyframes tune { 0% { opacity: 1; transform: translateY(-30%); } 40% { opacity: 0.6; transform: translateY(18%); } 100% { opacity: 0; transform: translateY(40%); } }
-@media (prefers-reduced-motion: reduce) { .fx-tune, .win::before { animation: none !important; } .fx-tune { display: none; } .win { animation: fade-quick 120ms linear both !important; } }
+@media (prefers-reduced-motion: reduce) { .fx-tune { animation: none !important; } .fx-tune { display: none; } .win { animation: fade-quick 120ms linear both !important; } }
 
 @media (max-width: 1100px) and (min-width: 721px) { .bar-mid { display: none; } .bar { grid-template-columns: 1fr auto; } .bar .mode-opt { padding: 0 10px; } .win[data-focus="false"] { display: none; } }
 @media (max-width: 1280px) and (min-width: 1101px) { .bar-city { display: none; } }
@@ -191,7 +191,7 @@
 .walker-sprite { position: absolute; left: -13.75px; top: 0; width: 27.5px; height: 48px; background: url("/art/v3/walk-strip.png") 0 0 / 137.5px 48px no-repeat; image-rendering: pixelated; transform-origin: 50% 100%; filter: drop-shadow(0 2px 0 rgb(0 0 0 / 0.35)); }
 .walker[data-face="l"] .walker-sprite { transform: scaleX(-1); }
 @keyframes walk-cycle { from { background-position: -27.5px 0; } to { background-position: -137.5px 0; } }
-@media (prefers-reduced-motion: no-preference) { .walker[data-walking="true"] .walker-sprite { animation: walk-cycle 0.56s steps(4) infinite; } }
+.walker[data-walking="true"] .walker-sprite { animation: walk-cycle 0.56s steps(4) infinite; }
 @media (prefers-reduced-motion: reduce) { .walker[data-ready="true"] { transition: none; } .key, .key:hover, .key:active, .key[data-pressed="true"] { transition: none; } }
 @media (max-height: 760px) { .windows { inset: 62px 14px 82px; } .key { width: 64px; height: 46px; padding-top: 0; } .key-esc { width: 50px; } .key-label { display: none; } .key-icon { width: 24px; height: 24px; } }
 @media (max-width: 720px) { .dock { display: none; } }
@@ -200,7 +200,7 @@
 @media (max-width: 720px) {
   .windows { inset: 56px 6px calc(72px + env(safe-area-inset-bottom)); }
   /* the compact bar: name dot, the time, settings and the CV as an icon; the workspaces are the tab bar below */
-  .wallpaper .wp-art, .wallpaper .pins { --ox: 0.8; }
+  .wallpaper .wp-art, .wallpaper .pins, .wallpaper .wp-fx { --ox: 0.8; }
   .bar { top: 8px; left: 8px; right: 8px; grid-template-columns: auto 1fr auto; gap: 6px; }
   .bar-left { padding: 2px; } .bar-brand { padding: 0 8px; } .bar-name, .ws, .bar-city, .bar-mid .bar-ic, .bar .mode-switch { display: none; }
   .bar-mid { justify-self: center; padding: 4px 12px; }

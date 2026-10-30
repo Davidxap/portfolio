@@ -42,7 +42,8 @@ const rgb = (v: string): [number, number, number] => {
  * Paint-flow background of the direct view: v1's domain-warped fbm shader in the active theme palette (--paint-bg, --paint-1..3).
  * The server renders only the CSS fallback (layered radial gradients from the same tokens), so the page is never blank; once mounted the
  * canvas paints one still frame and fades in. It moves only after the first interaction, at ~30 fps, halves its resolution then freezes if
- * frames block, pauses off-screen, and stays still under prefers-reduced-motion. The theme is re-read when `data-theme` changes.
+ * frames block (retrying a little later), pauses off-screen, and flows at a third of the speed under prefers-reduced-motion. The theme is
+ * re-read when `data-theme` changes.
  */
 export function PaintField() {
   const root = useRef<HTMLDivElement>(null);
@@ -71,7 +72,8 @@ export function PaintField() {
     const u = (k: string) => g.getUniformLocation(prog, k);
     const U = { r: u("r"), m: u("m"), t: u("t"), s: u("s"), k: u("k"), g: u("g"), bg: u("bg"), c1: u("c1"), c2: u("c2"), c3: u("c3") };
 
-    const still = typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const calm = typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const pace = calm ? 0.35 : 1;
     let tx = 0.6, ty = 0.5, cx = tx, cy = ty, raf = 0, visible = true;
     const t0 = performance.now();
     let scale = 0.5;
@@ -96,12 +98,12 @@ export function PaintField() {
     const draw = () => {
       cx += (tx - cx) * 0.05; cy += (ty - cy) * 0.05;
       g.uniform2f(U.m, cx, cy);
-      g.uniform1f(U.t, still ? 8 : (performance.now() - t0) / 1000);
+      g.uniform1f(U.t, 8 + ((performance.now() - t0) / 1000) * pace);
       g.uniform1f(U.s, window.scrollY / Math.max(1, window.innerHeight));
       g.drawArrays(g.TRIANGLES, 0, 3);
     };
     // ~30 fps is plenty for a slow paint flow. Frames that block the main thread first halve the resolution, then freeze the field.
-    let last = 0, live = false, slow = 0, frozen = false;
+    let last = 0, live = false, slow = 0, frozen = false, retry = 0, retries = 0;
     const loop = (now: number) => {
       raf = 0;
       if (now - last >= 32) {
@@ -111,13 +113,17 @@ export function PaintField() {
         slow = gap > 48 && gap < 1000 ? slow + 1 : 0;
         if (slow >= 3) {
           slow = 0;
-          if (scale > 0.25) { scale /= 2; size(); } else frozen = true;
+          if (scale > 0.25) { scale /= 2; size(); } else {
+            frozen = true;
+            // A busy moment (a heavy page load, a GPU waking up) should not freeze the field for good: try again a few times.
+            if (retries < 3) retry = window.setTimeout(() => { retries++; frozen = false; last = 0; el.dataset.shader = `q${scale}`; kick(); }, 6000);
+          }
           el.dataset.shader = frozen ? "still" : `q${scale}`;
         }
       }
-      if (visible && !still && !frozen) raf = requestAnimationFrame(loop);
+      if (visible && !frozen) raf = requestAnimationFrame(loop);
     };
-    const kick = () => { if (live && !still && !raf && visible) raf = requestAnimationFrame(loop); };
+    const kick = () => { if (live && !frozen && !raf && visible) raf = requestAnimationFrame(loop); };
     // One still frame now; move only on the first sign of a person, so loading and first interaction never compete with decoration.
     const wake = ["pointermove", "pointerdown", "scroll", "keydown", "touchstart"] as const;
     const start = () => { wake.forEach((e) => removeEventListener(e, start)); live = true; kick(); };
@@ -139,7 +145,7 @@ export function PaintField() {
       removeEventListener("pointermove", onMove); wake.forEach((e) => removeEventListener(e, start));
       cv.removeEventListener("webglcontextlost", onLost);
       ro?.disconnect(); io?.disconnect(); mo.disconnect();
-      cancelAnimationFrame(raf);
+      cancelAnimationFrame(raf); window.clearTimeout(retry);
       g.getExtension("WEBGL_lose_context")?.loseContext();
     };
   }, []);

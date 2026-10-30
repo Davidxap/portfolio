@@ -109,9 +109,10 @@ p { margin: 0; }
   .hud-btn { padding: 5px 9px; }
   .ic-opt { display: none; }
 }
+/* Reduced motion reduces, it does not freeze: Windows reports it whenever "Animation effects" is off, which many people never chose.
+   Entrances and window motion become quick fades in their own rules; slow ambient loops keep running at a calmer pace. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
 
 .chip { display: inline-block; padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; font: 400 12.5px var(--mono); color: var(--muted); }

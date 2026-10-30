@@ -106,7 +106,7 @@
 .mail-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 16px 22px 20px; border-top: 1px solid var(--line); background: color-mix(in srgb, #000 16%, transparent); }
 .mail-actions .coffee-mail { color: var(--muted); font-size: 13px; }
 .mail-actions .btn.cta.big { min-height: 52px; }
-@media (prefers-reduced-motion: no-preference) { .mail-actions .btn.cta.big { animation: nudge 3.2s ease-in-out 1.4s infinite; } }
+.mail-actions .btn.cta.big { animation: nudge 3.2s ease-in-out 1.4s infinite; }
 @keyframes nudge { 0%, 88%, 100% { transform: none; } 94% { transform: translateY(-3px); } }
 
 /* ----- launcher: Arcade ----- */

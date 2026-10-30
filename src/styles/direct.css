@@ -184,13 +184,14 @@ a.mode-opt:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2
   .d-id > :nth-child(2) { animation-delay: 70ms; } .d-id > :nth-child(3) { animation-delay: 130ms; } .d-id > :nth-child(4) { animation-delay: 220ms; }
   .d-id > :nth-child(5) { animation-delay: 290ms; } .d-id > :nth-child(n+6) { animation-delay: 350ms; }
   .d-card { animation: d-in 1s var(--ease-cam) 260ms both; }
-  .d-contact .btn.big { animation: d-glow 3.4s ease-in-out infinite; }
 }
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .d-rv { animation: d-rise linear both; animation-timeline: view(); animation-range: entry 0% entry 45%; }
   }
 }
+.d-contact .btn.big { animation: d-glow 3.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .d-contact .btn.big { animation-duration: 6s; } }
 @keyframes d-in { from { opacity: 0; translate: 0 22px; } to { opacity: 1; translate: 0 0; } }
 @keyframes d-rise { from { opacity: 0; translate: 0 30px; } to { opacity: 1; translate: 0 0; } }
 @keyframes d-glow { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--cta) 0%, transparent); } 50% { box-shadow: 0 0 0 10px color-mix(in srgb, var(--cta) 22%, transparent); } }

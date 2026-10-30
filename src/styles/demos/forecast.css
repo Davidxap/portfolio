@@ -73,6 +73,6 @@
   .fc-item { font-size: 10px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .fc-rays, .fc-cloud, .fc-drops line, .fc-steam, .fc-card, .fc-done { animation: none !important; }
+  .fc-card, .fc-done { animation: none !important; }
   .fc-item { transition: none; }
 }

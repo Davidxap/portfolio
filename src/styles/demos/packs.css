@@ -88,6 +88,6 @@
 
 @media (max-width: 700px) { .cs-screen[data-cart="tcg"] { aspect-ratio: 4 / 7; } .pk-fan { flex-wrap: wrap; align-content: center; gap: 4cqh 0; --cw: min(calc(100cqw / 2.6), calc((100cqh - 38px) * 0.3)); --ov: calc(var(--cw) * -0.06); } .pk-card { rotate: calc(var(--mid) * 3deg); translate: 0 0; } .pk-hint { display: none; } }
 @media (prefers-reduced-motion: reduce) {
-  .pk-pack, .pk-pack[data-tear="true"], .pk-pack[data-tear="true"] .pk-burst, .pk-pack[data-tear="true"] .pk-body, .pk-foil, .pk-card, .pk-card[data-r="rare"]::before, .pk-card[data-r="rare"] .pk-face::after { animation: none; }
+  .pk-pack, .pk-pack[data-tear="true"], .pk-pack[data-tear="true"] .pk-burst, .pk-pack[data-tear="true"] .pk-body, .pk-card { animation: none; }
   .pk-card { transition: none; }
 }

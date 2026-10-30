@@ -45,15 +45,15 @@ describe("PaintField", () => {
     expect(raf).toHaveBeenCalled();
   });
 
-  it("is static under prefers-reduced-motion: no rAF loop even after interaction", () => {
+  it("keeps flowing, calmer, under prefers-reduced-motion (Windows reports it whenever animation effects are off)", () => {
     vi.stubGlobal("matchMedia", mq(true));
     vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(fakeGl() as never);
     const raf = vi.spyOn(window, "requestAnimationFrame").mockImplementation(() => 1);
     const { container } = render(<PaintField />);
-    window.dispatchEvent(new Event("pointermove"));
-    window.dispatchEvent(new Event("scroll"));
-    expect(container.querySelector(".paintfield")).toHaveAttribute("data-shader", "on");
     expect(raf).not.toHaveBeenCalled();
+    window.dispatchEvent(new Event("pointermove"));
+    expect(container.querySelector(".paintfield")).toHaveAttribute("data-shader", "on");
+    expect(raf).toHaveBeenCalled();
   });
 
   it("removes every listener and the loop on unmount", () => {
