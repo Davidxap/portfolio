@@ -1,12 +1,14 @@
 /* Theme atmosphere: one animated layer per theme over the painting (Wallpaper.tsx ThemeFx). The .fx-box is sized and placed exactly like
    the painting, so every effect sits on its painted object in % of the image; .fx-win is the view through the window and clips what
-   happens outside. Transforms and opacity only; colours come from the theme tokens. Under reduced motion everything runs at a calmer pace. */
+   happens outside. The particles themselves are drawn by ThemeCanvas.tsx (here and behind the direct view); these CSS pieces add what is
+   painted in place: the sun, the lamp, the mug's steam, the peak, the stained glass, the cabin. Colours come from the theme tokens. */
 .wp-fx { --pace: 1; position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .fx-box { position: absolute; width: var(--iw); height: var(--ih); left: calc((100cqw - var(--iw)) * var(--ox)); top: calc((100cqh - var(--ih)) * 0.5); }
-.fx-box > span, .fx-win i { position: absolute; display: none; }
+.fx-box > span { position: absolute; display: none; }
 .fx-win { position: absolute; left: 37%; top: 0; width: 42%; height: 56%; overflow: hidden; translate: calc(var(--mx, 0) * -10px) calc(var(--my, 0) * -6px); transition: translate 0.6s var(--ease, ease-out);
   mask-image: linear-gradient(90deg, transparent, #000 14%, #000 90%, transparent), linear-gradient(180deg, #000 80%, transparent); mask-composite: intersect; }
-.fx-win i::after { content: ""; position: absolute; }
+.fx-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: 0; transition: opacity 1.2s ease; }
+.fx-canvas[data-live] { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .wp-fx { --pace: 2.2; } }
 
 /* ----- shared pieces ----- */
@@ -48,44 +50,19 @@
   background: color-mix(in srgb, var(--accent) 85%, #fff); box-shadow: 0 0 10px 3px color-mix(in srgb, var(--accent) 70%, transparent);
 }
 
-/* ----- particle behaviours (.fx-win i) ----- */
-/* fall: a full-height column with the flake at its foot, slid from above the window to below it */
-:root[data-theme="nevado"] .wp-fx .fx-win i { display: block; left: var(--x); top: 0; width: calc(5px * var(--k)); height: 100%; animation: fx-fall calc(var(--d) * 1s * var(--pace)) linear calc(var(--ph) * -1s) infinite; }
-:root[data-theme="nevado"] .wp-fx .fx-win i::after { left: 0; bottom: 0; width: 100%; aspect-ratio: 1; border-radius: 50%; background: var(--fx-dot); box-shadow: 0 0 6px var(--fx-dot); opacity: 0.85; }
-/* rise: the same column, slid upwards and fading out */
-:root:is([data-theme="chipre"], [data-theme="catedral"]) .wp-fx .fx-win i { display: block; left: var(--x); top: 0; width: calc(4px * var(--k)); height: 100%; animation: fx-rise calc(var(--d) * 1.2s * var(--pace)) ease-out calc(var(--ph) * -1s) infinite; }
-:root:is([data-theme="chipre"], [data-theme="catedral"]) .wp-fx .fx-win i::after { left: 0; bottom: 0; width: 100%; aspect-ratio: 1; border-radius: 50%; background: var(--fx-dot); box-shadow: 0 0 8px 2px var(--fx-dot); }
-/* blink: lights that glow, wander a little and go out (fireflies, city windows) */
-:root:is([data-theme="cafetal"], [data-theme="cable"]) .wp-fx .fx-win i { display: block; left: var(--x); top: calc(var(--fx-top, 50%) + var(--y) * var(--fx-band, 0.5)); width: calc(5px * var(--k)); aspect-ratio: 1; border-radius: 50%; background: var(--fx-dot); box-shadow: 0 0 9px 3px var(--fx-dot); animation: fx-blink calc(var(--d) * 0.5s * var(--pace)) ease-in-out calc(var(--ph) * -1s) infinite; }
-/* drift: wide soft banks slid across the window (clouds, fog); only the first six */
-:root:is([data-theme="paramo"], [data-theme="niebla"]) .wp-fx .fx-win i { display: block; left: 0; width: 100%; top: calc(var(--fx-top, 50%) + var(--y) * var(--fx-band, 0.4)); height: calc(var(--fx-h, 10%) * var(--k)); animation: fx-drift calc(var(--d) * 5s * var(--pace)) linear calc(var(--ph) * -6s) infinite; }
-:root:is([data-theme="paramo"], [data-theme="niebla"]) .wp-fx .fx-win i:nth-child(n + 7) { display: none; }
-:root:is([data-theme="paramo"], [data-theme="niebla"]) .wp-fx .fx-win i::after { left: 0; top: 0; width: 45%; height: 100%; border-radius: 50%; background: radial-gradient(closest-side, var(--fx-dot), transparent); }
-
-/* ----- the themes ----- */
-/* Chipre: the sunset breathes and golden dust rises over the city */
-:root[data-theme="chipre"] .wp-fx { --fx-dot: color-mix(in srgb, var(--accent) 80%, #fff); }
-:root[data-theme="chipre"] .fx-sun { display: block; }
-/* Páramo: clouds drift below the viewpoint in the morning light */
-:root[data-theme="paramo"] .wp-fx { --fx-dot: rgb(255 255 255 / 0.7); --fx-top: 52%; --fx-band: 0.35; --fx-h: 12%; }
+/* ----- the themes (the canvas brings the matching particles) ----- */
+/* Páramo: morning light over the clouds */
 :root[data-theme="paramo"] .fx-sun { display: block; --fx-sun: #fff3d6; }
-/* Tinto: the coffee steams and the lamp keeps the room warm */
+/* Tinto: the coffee steams and the lamp keeps the room warm while it rains */
 :root[data-theme="tinto"] .fx-steam, :root[data-theme="tinto"] .fx-lamp { display: block; }
-:root[data-theme="tinto"] .wp-fx { --fx-dot: color-mix(in srgb, var(--accent) 70%, #fff); }
-/* Cafetal: fireflies over the coffee hills and a fresh cup on the desk */
-:root[data-theme="cafetal"] .wp-fx { --fx-dot: color-mix(in srgb, var(--accent) 75%, #fff); --fx-top: 48%; --fx-band: 0.5; }
+/* Cafetal: a fresh cup on the desk */
 :root[data-theme="cafetal"] .fx-steam { display: block; }
-/* Niebla: fog banks come down over the valley */
-:root[data-theme="niebla"] .wp-fx { --fx-dot: color-mix(in srgb, var(--text) 62%, transparent); --fx-top: 40%; --fx-band: 0.55; --fx-h: 18%; }
-/* Nevado: snow falls and the peak catches the light */
-:root[data-theme="nevado"] .wp-fx { --fx-dot: color-mix(in srgb, var(--accent) 35%, #fff); }
+/* Nevado: the peak catches the light */
 :root[data-theme="nevado"] .fx-peak { display: block; }
-/* Cable: a lit cabin crosses on the wire, the city windows blink and the moon glows */
-:root[data-theme="cable"] .wp-fx { --fx-dot: color-mix(in srgb, var(--accent) 85%, #fff); --fx-top: 70%; --fx-band: 0.28; }
+/* Cable: a lit cabin crosses on the wire and the moon glows */
 :root[data-theme="cable"] .fx-wire, :root[data-theme="cable"] .fx-lamp { display: block; }
-:root[data-theme="cable"] .fx-sun { display: block; width: 7%; opacity: 0.6; --fx-sun: color-mix(in srgb, var(--accent-2) 60%, #fff); }
-/* Catedral: light moves through the stained glass and gold sparks rise from the spire */
-:root[data-theme="catedral"] .wp-fx { --fx-dot: color-mix(in srgb, var(--accent) 85%, #fff); }
+:root[data-theme="cable"] .fx-sun { display: block; width: 7%; --fx-sun: color-mix(in srgb, var(--accent-2) 60%, #fff); }
+/* Catedral: light moves through the stained glass */
 :root[data-theme="catedral"] .fx-glass { display: block; }
 
 @keyframes fx-breathe { 0%, 100% { opacity: 0.55; scale: 0.92; } 50% { opacity: 1; scale: 1.08; } }
@@ -98,7 +75,6 @@
 @keyframes fx-glint { 0%, 70%, 100% { opacity: 0; scale: 0.3; rotate: 0deg; } 82% { opacity: 1; scale: 1; rotate: 45deg; } }
 @keyframes fx-glass { 0%, 100% { background-position: 0% 50%; opacity: 0.18; } 50% { background-position: 100% 50%; opacity: 0.45; } }
 @keyframes fx-ride { 0% { transform: translateX(-6%); opacity: 0; } 8%, 88% { opacity: 1; } 100% { transform: translateX(100%); opacity: 0; } }
-@keyframes fx-fall { from { transform: translate(0, -100%); } to { transform: translate(calc(var(--k) * 26px), 4%); } }
-@keyframes fx-rise { 0% { transform: translate(0, 0); opacity: 0; } 15% { opacity: 0.9; } 100% { transform: translate(calc(var(--k) * -20px), -75%); opacity: 0; } }
-@keyframes fx-blink { 0%, 100% { opacity: 0; transform: translate(0, 0); } 45%, 55% { opacity: 0.95; } 50% { transform: translate(calc(var(--k) * 6px), -5px); } }
-@keyframes fx-drift { from { transform: translateX(-45%); } to { transform: translateX(100%); } }
+
+/* behind the direct view: only the first screen, where the paint field shows; it fades out before the content */
+.d-paint .fx-canvas { height: min(100%, 110svh); -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent); mask-image: linear-gradient(180deg, #000 60%, transparent); }

@@ -15,6 +15,7 @@ import { GitHubIcon, LinkedInIcon } from "../BrandIcons";
 import { ArtIcon } from "../world/icons";
 import { ModeSwitch } from "../world/ModeSwitch";
 import { PaintField } from "../world/PaintField";
+import { ThemeCanvas } from "../world/ThemeCanvas";
 import { PixelDavid } from "../world/PixelDavid";
 import { PrintButton } from "../world/PrintButton";
 import { Headline } from "./PanelHead";
@@ -52,7 +53,7 @@ export async function DirectView({ locale }: { locale: Locale }) {
   const [first, ...surname] = person.name.split(" ");
   return (
     <div className="direct">
-      <div className="d-paint no-print" aria-hidden="true"><PaintField /></div>
+      <div className="d-paint no-print" aria-hidden="true"><PaintField /><ThemeCanvas place="page" /></div>
       <div className="d-wrap">
         <div className="d-top no-print">
           <ModeSwitch locale={locale} mode="direct" />

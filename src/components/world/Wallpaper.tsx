@@ -5,6 +5,7 @@ import { places, type Place, type PlaceId } from "@/data/places";
 import type { Locale } from "@/data/projects";
 import { useW } from "@/i18n/world";
 import { STAGE_ART, STAGE_RATIO } from "@/lib/stage";
+import { ThemeCanvas } from "./ThemeCanvas";
 
 type Props = {
   locale: Locale;
@@ -33,17 +34,9 @@ function useNightArt() {
   return night;
 }
 
-/** Particles of the theme atmosphere: x and y in % of the window view, duration and phase in seconds, and a size factor. Fixed values,
- * so the server and the client render the same markup. Each theme decides in CSS whether they fall, rise, drift or blink. */
-const MOTES = [
-  [4, 62, 11, 0.0, 1], [11, 38, 14, 3.1, 0.7], [18, 74, 9, 6.2, 1.2], [26, 48, 13, 1.4, 0.8], [33, 22, 10, 8.3, 1.1], [41, 66, 15, 4.6, 0.6],
-  [49, 30, 12, 2.2, 1.3], [57, 80, 10, 7.4, 0.9], [64, 44, 14, 5.1, 1], [71, 58, 11, 9.6, 0.7], [79, 26, 13, 0.8, 1.2], [86, 70, 9, 3.9, 0.8],
-  [92, 40, 12, 6.8, 1], [97, 54, 15, 2.7, 0.9],
-] as const;
-const mote = ([x, y, d, ph, k]: (typeof MOTES)[number]) => ({ "--x": `${x}%`, "--y": `${y}%`, "--d": d, "--ph": ph, "--k": k }) as CSSProperties;
-
-/** The theme atmosphere over the painting: snow on the Nevado, fog down the hills, steam from the tinto, a cabin crossing on the cable...
- * Glued to the painted objects like the pins, drawn with transforms and opacity only, and nudged by the pointer on desktop. */
+/** The theme atmosphere over the painting: the particle engine plays in the view through the window (snow on the Nevado, fog down the
+ * hills, rain on the glass...), and CSS pieces glued to the painted objects like the pins (the sun, the lamp, the mug's steam, the cabin
+ * on the cable) frame it. The whole layer is nudged by the pointer on desktop. */
 function ThemeFx() {
   const root = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -67,7 +60,7 @@ function ThemeFx() {
         <span className="fx-wire"><span /></span>
         <span className="fx-lamp" />
         <span className="fx-steam"><i /><i /><i /></span>
-        <div className="fx-win">{MOTES.map((m, i) => <i key={i} style={mote(m)} />)}</div>
+        <div className="fx-win"><ThemeCanvas place="window" /></div>
       </div>
     </div>
   );
