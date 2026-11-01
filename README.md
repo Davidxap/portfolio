@@ -97,4 +97,8 @@ Primary deployment is GitHub Pages: `https://davidxap.github.io/portfolio/` (det
 
 ## License
 
-Copyright (c) 2026 David Arroyave Pérez. All rights reserved. The code, text, illustrations and games are published to show the work and are not licensed for copying, modification or redistribution. See [LICENSE](LICENSE) for the full terms.
+The source code is licensed under the [MIT License](LICENSE). Forks, reuse and modification are welcome, as long as the copyright notice stays in place.
+
+The creative content (text, illustrations, screenshots, CV documents and the Manizales world) is licensed under [CC BY-NC 4.0](CONTENT-LICENSE.md). Please give credit to David Arroyave Pérez and do not use the content commercially without permission.
+
+If this project helped you, a star on GitHub is a simple way to show it.
