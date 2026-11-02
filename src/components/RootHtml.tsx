@@ -12,6 +12,7 @@ export function RootHtml({ locale, children }: { locale: Locale; children: React
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <script dangerouslySetInnerHTML={{ __html: MOTION_INIT_SCRIPT }} />
+        <script data-goatcounter="https://davidxap.goatcounter.com/count" async src="https://gc.zgo.at/count.js" />
       </head>
       <body>{children}</body>
     </html>
