@@ -97,6 +97,30 @@ export const previews: Record<string, Shot[]> = {
       src: withBase("/media/projects/tcg-store/builder-mobile.avif"), width: 390, height: 844,
       alt: { en: "The deck builder on a phone: collapsible search filters, mana curve buttons and a fixed bottom bar to view the deck.", es: "El constructor de mazos en móvil: filtros de búsqueda plegables, botones de curva de maná y una barra inferior fija para ver el mazo." },
     },
+    {
+      src: withBase("/media/projects/tcg-store/admin-inventory.avif"), width: 1440, height: 900,
+      alt: { en: "Admin inventory screen (demo data): 4,946 results, filters for low and critical stock, CSV import and export, a recommended three-step flow, the stored exchange rate, and cards with condition, base price, stock and an edit button.", es: "Pantalla de inventario del admin (datos de demo): 4.946 resultados, filtros de stock bajo y crítico, importación y exportación CSV, un flujo recomendado de tres pasos, la tasa de cambio guardada y tarjetas con condición, precio base, stock y botón de editar." },
+    },
+    {
+      src: withBase("/media/projects/tcg-store/admin-lifecycle.avif"), width: 1440, height: 900,
+      alt: { en: "Admin set lifecycle screen: the last automated run with its status (partial), sets reviewed, new sets, failures and the failure message shown openly, above a table of upcoming and recent sets with phase, release date, next transition, card and sealed counts and art status.", es: "Pantalla de ciclo de vida de sets del admin: la última ejecución automática con su estado (parcial), sets revisados, sets nuevos, fallos y el mensaje del fallo a la vista, sobre una tabla de sets próximos y recientes con fase, fecha de lanzamiento, próxima transición, conteo de cartas y sellados y estado del arte." },
+    },
+    {
+      src: withBase("/media/projects/tcg-store/admin-orders.avif"), width: 1440, height: 900,
+      alt: { en: "Admin orders screen: tabs per order state with counts (pending, paid, processing, shipped, delivered, cancelled, refunded), a state legend, search by ID, payment ID or user, a date range, CSV export and order rows with totals.", es: "Pantalla de pedidos del admin: pestañas por estado con conteo (pendiente, pagado, procesando, enviado, entregado, cancelado, reembolsado), una leyenda de estados, búsqueda por ID, ID de pago o usuario, rango de fechas, exportación CSV y filas de pedidos con totales." },
+    },
+    {
+      src: withBase("/media/projects/tcg-store/dash-overview.avif"), width: 1440, height: 900,
+      alt: { en: "Customer dashboard overview: profile with counts of orders, favorites, decks and addresses, summary cards for the latest order, favorites, decks and stock alerts, and a side menu for orders, favorites, notifications, addresses, decks and security.", es: "Resumen del panel del cliente: perfil con conteo de pedidos, favoritos, mazos y direcciones, tarjetas de resumen del último pedido, favoritos, mazos y alertas de stock, y un menú lateral con pedidos, favoritos, notificaciones, direcciones, mazos y seguridad." },
+    },
+    {
+      src: withBase("/media/projects/tcg-store/dash-favorites.avif"), width: 1440, height: 900,
+      alt: { en: "Favorites tab of the customer dashboard: ten saved cards and sealed products with search, sort and a grid or table view, each showing rarity, condition, available stock and price.", es: "Pestaña de favoritos del panel del cliente: diez cartas y productos sellados guardados con búsqueda, orden y vista de cuadrícula o tabla, cada uno con rareza, condición, stock disponible y precio." },
+    },
+    {
+      src: withBase("/media/projects/tcg-store/dash-security.avif"), width: 1440, height: 900,
+      alt: { en: "Security tab of the customer dashboard: two-factor authentication setup for authenticator apps such as Google Authenticator or Authy, and a button to sign out of all other devices.", es: "Pestaña de seguridad del panel del cliente: activación de la autenticación de dos factores con apps como Google Authenticator o Authy, y un botón para cerrar sesión en los demás dispositivos." },
+    },
   ],
   "amplixme-fs-0009": [
     {

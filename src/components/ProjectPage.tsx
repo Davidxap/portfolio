@@ -11,8 +11,22 @@ import { withBase } from "@/lib/base";
 export function ProjectPage({ locale, project: p }: { locale: Locale; project: Project }) {
   const t = useT(locale);
   const cover = coverShot(p.slug);
-  const gallery = (previews[p.slug] ?? []).filter((s) => s !== cover);
+  const allShots = (previews[p.slug] ?? []).filter((s) => s !== cover);
+  // Long write-ups keep the page readable: a short gallery up top, the rest below as the "tour".
+  const split = p.deep ? 4 : allShots.length;
+  const gallery = allShots.slice(0, split);
+  const tour = allShots.slice(split);
   const vt = { viewTransitionName: `cover-${p.slug}` } as CSSProperties;
+  const figure = (s: (typeof allShots)[number], lazy = true) => (
+    <figure key={s.src} className={s.width / s.height > 8 ? "strip" : undefined}>
+      {/* Very wide captures (the IKAI bar) are shown full width and zoomed, scrollable sideways. */}
+      <div className="shot">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={s.src} width={s.width} height={s.height} alt={s.alt[locale]} loading={lazy ? "lazy" : undefined} decoding="async" />
+      </div>
+      <figcaption>{s.alt[locale]}</figcaption>
+    </figure>
+  );
 
   return (
     <>
@@ -30,26 +44,52 @@ export function ProjectPage({ locale, project: p }: { locale: Locale; project: P
           </figure>
         )}
 
-        {gallery.length > 0 && (
-          <div className="gallery">
-            {gallery.map((s) => (
-              <figure key={s.src} className={s.width / s.height > 8 ? "strip" : undefined}>
-                {/* Very wide captures (the IKAI bar) are shown full width and zoomed, scrollable sideways. */}
-                <div className="shot">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={s.src} width={s.width} height={s.height} alt={s.alt[locale]} loading="lazy" decoding="async" />
-                </div>
-                <figcaption>{s.alt[locale]}</figcaption>
-              </figure>
-            ))}
-          </div>
-        )}
+        {gallery.length > 0 && <div className="gallery">{gallery.map((s) => figure(s))}</div>}
 
         <div className="chapter-grid">
           <section><h2>{t("exp.summary")}</h2><p>{p.summary[locale]}</p></section>
           <section><h2>{t("exp.built")}</h2><p>{p.built[locale]}</p></section>
           <section><h2>{t("exp.learned")}</h2><p>{p.learned[locale]}</p></section>
         </div>
+
+        {p.deep && (
+          <div className="deep">
+            {p.deep.map((s) => (
+              <section key={s.title.en}>
+                <h2>{s.title[locale]}</h2>
+                <ul>{s.points.map((pt) => <li key={pt.en}>{pt[locale]}</li>)}</ul>
+              </section>
+            ))}
+          </div>
+        )}
+
+        {p.architecture && (
+          <section className="arch" aria-labelledby="arch-title">
+            <h2 id="arch-title">{p.architecture.title[locale]}</h2>
+            <p className="lead">{p.architecture.lead[locale]}</p>
+            <ol className="arch-layers">
+              {p.architecture.layers.map((l) => (
+                <li key={l.name}><strong>{l.name}</strong><span>{l.role[locale]}</span></li>
+              ))}
+            </ol>
+            <div className="arch-decisions">
+              {p.architecture.decisions.map((d) => (
+                <div key={d.title.en}><h3>{d.title[locale]}</h3><p>{d.body[locale]}</p></div>
+              ))}
+            </div>
+            <h3 className="arch-process-title">{p.architecture.process.title[locale]}</h3>
+            <ol className="arch-process">
+              {p.architecture.process.steps.map((s) => <li key={s.en}>{s[locale]}</li>)}
+            </ol>
+          </section>
+        )}
+
+        {tour.length > 0 && (
+          <section className="tour" aria-labelledby="tour-title">
+            <h2 id="tour-title">{locale === "es" ? "Recorrido por la demo: panel de administración y cuenta del cliente" : "Demo tour: the admin panel and the customer account"}</h2>
+            <div className="gallery">{tour.map((s) => figure(s))}</div>
+          </section>
+        )}
 
         {p.slug === "javascript-para-subir-de-nivel" && <EventLoopLab locale={locale} />}
 
