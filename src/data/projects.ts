@@ -31,7 +31,9 @@ export type Project = {
   /** Featured projects open the select screen and the direct view. */
   featured: boolean;
   /** Optional deep dive: titled sections, each with verifiable bullet points. */
-  deep?: { title: L; points: L[] }[];
+  deep?: { title: L; lead: L; points: { label: L; text: L }[] }[];
+  /** Optional "at a glance" strip of verifiable figures. */
+  facts?: { label: L; value: L }[];
   /** Optional architecture write-up: layers (top to bottom), the reasons behind them, and how the work was done. */
   architecture?: {
     title: L;
@@ -53,104 +55,156 @@ export const projects: Project[] = [
     },
     status: { en: "Advanced demo · paused", es: "Demo avanzada · en pausa" },
     summary: {
-      en: "A full-stack Magic: The Gathering store (Next.js, TypeScript, PostgreSQL, Prisma) built end to end by one person. Beyond the storefront it runs its own back office: scheduled jobs that keep the catalog, prices and set artwork current without manual work, an inventory system safe under concurrent edits, a customer dashboard, and an admin dashboard with live business and system health. Deployed as a demo, not a live business.",
-      es: "Una tienda full-stack de Magic: The Gathering (Next.js, TypeScript, PostgreSQL, Prisma) construida de punta a punta por una sola persona. Más allá de la vitrina, tiene su propio back office: tareas programadas que mantienen catálogo, precios y arte de los sets al día sin trabajo manual, un sistema de inventario seguro ante ediciones concurrentes, un panel para el cliente y un panel de administración con salud del negocio y del sistema en vivo. Desplegada como demo, no como negocio activo.",
+      en: "A complete Magic: The Gathering store that I designed, built and tested alone: a public storefront, a deck builder, a customer account, and an admin back office that largely runs itself. It is a deployed demo, not a live business, and the code is private.",
+      es: "Una tienda completa de Magic: The Gathering que diseñé, construí y probé yo solo: vitrina pública, constructor de mazos, cuenta de cliente y un back office de administración que en gran parte se maneja solo. Es una demo desplegada, no un negocio activo, y el código es privado.",
     },
     built: {
-      en: "A PostgreSQL data model of 32 Prisma models (sets, products and variants, carts, orders, invoices, price history, inventory logs, decks, favorites, notifications). Catalog and set pages sync from the Scryfall API, and sealed products are imported from MTGJSON. Sign-in with better-auth, including two-factor authentication. Cloudinary-backed media management. A Wompi payment webhook. A deck builder with list import, export to Moxfield, Arena, MTGO and plain-text formats, a mana curve chart, a budget gauge and format-rule checks. English and Spanish. Next.js 16, React 19 and TypeScript, with 356 Vitest, integration and Playwright test files across more than 900 commits. The sections below cover the parts that make it a working business tool.",
-      es: "Un modelo de datos en PostgreSQL con 32 modelos de Prisma (sets, productos y variantes, carritos, órdenes, facturas, historial de precios, bitácoras de inventario, mazos, favoritos, notificaciones). Las páginas de catálogo y sets se sincronizan con la API de Scryfall y el producto sellado se importa desde MTGJSON. Inicio de sesión con better-auth, con autenticación de dos factores. Gestión de medios con Cloudinary. Un webhook de pagos con Wompi. Un constructor de mazos con importación de listas, exportación a Moxfield, Arena, MTGO y texto plano, gráfico de curva de maná, medidor de presupuesto y validación de reglas por formato. Español e inglés. Next.js 16, React 19 y TypeScript, con 356 archivos de pruebas Vitest, de integración y Playwright en más de 900 commits. Las secciones de abajo cubren lo que la convierte en una herramienta de negocio funcional.",
+      en: "A storefront with card and sealed-product catalogs fed by Scryfall and MTGJSON, a deck builder with list import and export, checkout with Wompi payments, sign-in with two-factor authentication, and English and Spanish. Built with Next.js 16, React 19, TypeScript and PostgreSQL (Prisma), and tested with Vitest and Playwright.",
+      es: "Una vitrina con catálogos de cartas y producto sellado alimentados por Scryfall y MTGJSON, un constructor de mazos con importación y exportación de listas, checkout con pagos Wompi, inicio de sesión con autenticación de dos factores, en inglés y español. Construida con Next.js 16, React 19, TypeScript y PostgreSQL (Prisma), y probada con Vitest y Playwright.",
     },
     learned: {
-      en: "A store is not a catalog: the hard part is everything around it staying correct without someone watching. Stock edits that never lose an update, art that heals itself, prices that never overwrite a manual decision, and a security audit with its findings fixed taught me to design for failure first. It is also a lot of surface for one person to maintain, so the project is paused as an advanced demo. The source repository is private, so this page links only the live demo.",
-      es: "Una tienda no es un catálogo: lo difícil es que todo lo que la rodea siga correcto sin que nadie lo vigile. Ediciones de stock que nunca pierden una actualización, arte que se repara solo, precios que nunca pisan una decisión manual y una auditoría de seguridad con sus hallazgos corregidos me enseñaron a diseñar pensando primero en el fallo. También es mucha superficie para mantener una sola persona, por eso el proyecto está en pausa como demo avanzada. El repositorio es privado, así que esta página enlaza solo la demo en vivo.",
+      en: "A store is not a catalog: the hard part is keeping everything around it correct without someone watching. That taught me to design for failure first. It is also a lot of surface for one person, so the project is paused as an advanced demo.",
+      es: "Una tienda no es un catálogo: lo difícil es que todo lo que la rodea siga correcto sin que nadie lo vigile. Eso me enseñó a diseñar pensando primero en el fallo. También es mucha superficie para una sola persona, por eso el proyecto está en pausa como demo avanzada.",
     },
+    facts: [
+      { label: { en: "Data model", es: "Modelo de datos" }, value: { en: "32 Prisma models", es: "32 modelos de Prisma" } },
+      { label: { en: "Server actions", es: "Server actions" }, value: { en: "33 modules", es: "33 módulos" } },
+      { label: { en: "Tests", es: "Pruebas" }, value: { en: "356 test files", es: "356 archivos de pruebas" } },
+      { label: { en: "History", es: "Historial" }, value: { en: "900+ commits", es: "más de 900 commits" } },
+      { label: { en: "Scheduled jobs", es: "Tareas programadas" }, value: { en: "3 cron jobs", es: "3 tareas cron" } },
+      { label: { en: "Languages", es: "Idiomas" }, value: { en: "EN and ES", es: "EN y ES" } },
+    ],
     deep: [
       {
-        title: { en: "Automation and media", es: "Automatización y medios" },
+        title: { en: "1. Catalog automation and media", es: "1. Automatización del catálogo y medios" },
+        lead: {
+          en: "New sets come out all the time. The store keeps its catalog, prices and artwork current without anyone doing it by hand.",
+          es: "Salen sets nuevos todo el tiempo. La tienda mantiene su catálogo, precios y arte al día sin que nadie lo haga a mano.",
+        },
         points: [
           {
-            en: "A daily job (03:00 UTC) runs the whole catalog pipeline in isolated steps: USD to COP exchange rate, new-set detection from Scryfall, a retry pass over upcoming and recently released sets, preorder activation, sealed-product import, artwork validation and price sync. One failing step never stops the others; each failure is recorded per step and the run is marked partial.",
-            es: "Un job diario (03:00 UTC) ejecuta todo el pipeline del catálogo en pasos aislados: tasa USD a COP, detección de sets nuevos desde Scryfall, un pase de reintento sobre sets próximos y recién lanzados, activación de preventas, importación de producto sellado, validación de arte y sincronización de precios. Un paso que falla no detiene a los demás; cada fallo se registra por paso y la ejecución queda marcada como parcial.",
+            label: { en: "Daily sync, 03:00 UTC", es: "Sincronización diaria, 03:00 UTC" },
+            text: { en: "Updates the USD to COP rate, finds new sets on Scryfall, imports sealed products, validates artwork and syncs prices, each as a separate step.", es: "Actualiza la tasa USD a COP, detecta sets nuevos en Scryfall, importa producto sellado, valida el arte y sincroniza precios, cada uno como un paso aparte." },
           },
           {
-            en: "Set lifecycle is date-driven: a set becomes a preorder when it is in the future and has enough cards, the homepage banner is chosen by rules (just released, admin-featured, active preorder, then graceful fallbacks), and at release stale preorder flags are cleared so items become regular stock.",
-            es: "El ciclo de vida de un set se rige por fechas: pasa a preventa cuando es futuro y tiene suficientes cartas, el banner del inicio se elige por reglas (recién lanzado, destacado por el admin, preventa activa y luego alternativas), y al lanzarse se limpian las marcas de preventa para que los productos pasen a stock normal.",
+            label: { en: "Failures stay contained", es: "Los fallos quedan contenidos" },
+            text: { en: "If one step fails, the others still run. The failure is logged and the admin sees the run marked as partial.", es: "Si un paso falla, los demás se ejecutan igual. El fallo se registra y el admin ve la ejecución marcada como parcial." },
           },
           {
-            en: "A weekly healer (Sundays 06:00 UTC) checks every set banner, cover and icon and every sealed-product image over HTTP, re-resolves broken set art and clears broken sealed images so the UI shows a placeholder instead of a dead image. It works in batches with a resumable cursor, so a time limit never loses progress.",
-            es: "Un reparador semanal (domingos 06:00 UTC) verifica por HTTP cada banner, portada e ícono de set y cada imagen de producto sellado, vuelve a resolver el arte roto y limpia las imágenes selladas rotas para que la interfaz muestre un marcador en vez de una imagen muerta. Trabaja por lotes con cursor reanudable, así que un límite de tiempo nunca pierde el avance.",
+            label: { en: "Date-driven preorders", es: "Preventas por fechas" },
+            text: { en: "A future set with enough cards becomes a preorder by itself. At release the flag is cleared and items become normal stock. The homepage banner is chosen by rules, not by hand.", es: "Un set futuro con suficientes cartas pasa a preventa solo. Al lanzarse se limpia la marca y los productos pasan a stock normal. El banner del inicio se elige por reglas, no a mano." },
           },
           {
-            en: "An admin media panel for the manual cases: signed Cloudinary uploads, per-set banner and cover editing, and cache invalidation by tag instead of rebuilding the whole site. Jobs are protected by a secret bearer token; the Vercel cron header alone is not trusted.",
-            es: "Un panel de medios para los casos manuales: subidas firmadas a Cloudinary, edición de banner y portada por set, e invalidación de caché por etiqueta en lugar de reconstruir todo el sitio. Los jobs se protegen con un token secreto; el encabezado de cron de Vercel por sí solo no se considera confiable.",
+            label: { en: "Weekly image repair, Sundays 06:00 UTC", es: "Reparación semanal de imágenes, domingos 06:00 UTC" },
+            text: { en: "Checks every set and sealed-product image, re-resolves broken set art and clears dead images so the page shows a placeholder. It resumes where it stopped if time runs out.", es: "Revisa cada imagen de sets y producto sellado, vuelve a resolver el arte roto y limpia las imágenes muertas para mostrar un marcador. Retoma donde quedó si se acaba el tiempo." },
+          },
+          {
+            label: { en: "Manual control when needed", es: "Control manual cuando hace falta" },
+            text: { en: "An admin media panel covers what automation gets wrong: signed Cloudinary uploads and per-set banner and cover editing. Jobs only run with a secret token.", es: "Un panel de medios del admin cubre lo que la automatización hace mal: subidas firmadas a Cloudinary y edición de banner y portada por set. Los jobs solo corren con un token secreto." },
           },
         ],
       },
       {
-        title: { en: "Inventory management", es: "Gestión de inventario" },
+        title: { en: "2. Inventory management", es: "2. Gestión de inventario" },
+        lead: {
+          en: "Stock has to stay correct when several people, and the checkout, touch it at the same time.",
+          es: "El stock tiene que seguir correcto cuando varias personas, y el checkout, lo tocan al mismo tiempo.",
+        },
         points: [
           {
-            en: "Stock is tracked per variant (condition, language, finish) for both singles and sealed products, with faceted filters, search and selection across large lists.",
-            es: "El stock se controla por variante (condición, idioma, acabado) tanto en singles como en producto sellado, con filtros por facetas, búsqueda y selección sobre listas grandes.",
+            label: { en: "Stock per variant", es: "Stock por variante" },
+            text: { en: "Condition, language and finish, for singles and sealed products, with filters, search and selection over large lists.", es: "Condición, idioma y acabado, para singles y producto sellado, con filtros, búsqueda y selección sobre listas grandes." },
           },
           {
-            en: "Optimistic locking: variants and sealed products carry a version number, and bulk edits, CSV import, single edits and checkout all write through the same conditional-update contract, so two people editing at once cannot silently overwrite each other. A dedicated integration test covers the stock race condition.",
-            es: "Bloqueo optimista: las variantes y el producto sellado llevan un número de versión, y las ediciones masivas, la importación CSV, las ediciones individuales y el checkout escriben con el mismo contrato de actualización condicional, de modo que dos personas editando a la vez no se pisan en silencio. Una prueba de integración dedicada cubre la condición de carrera del stock.",
+            label: { en: "No lost updates", es: "Sin actualizaciones perdidas" },
+            text: { en: "Each stock row carries a version number and every write checks it, so two people editing at once cannot silently overwrite each other. Bulk edits, CSV import and checkout follow the same rule, and an integration test reproduces the race.", es: "Cada fila de stock lleva un número de versión y cada escritura lo verifica, así que dos personas editando a la vez no se pisan en silencio. Las ediciones masivas, la importación CSV y el checkout siguen la misma regla, y una prueba de integración reproduce la carrera." },
           },
           {
-            en: "Every stock change is written to an audit log (separate logs for singles and sealed, with export). CSV import normalizes card names, previews before applying, and has low-stock alerts and CSV export.",
-            es: "Cada cambio de stock queda en una bitácora de auditoría (bitácoras separadas para singles y sellado, con exportación). La importación CSV normaliza nombres de cartas, muestra una vista previa antes de aplicar, y hay alertas de stock bajo y exportación a CSV.",
+            label: { en: "Audit trail", es: "Bitácora de auditoría" },
+            text: { en: "Every stock change is logged, with separate logs for singles and sealed, and can be exported.", es: "Cada cambio de stock queda registrado, con bitácoras separadas para singles y sellado, y se puede exportar." },
           },
           {
-            en: "Automatic price sync respects a per-item price mode, so a price an admin set by hand is never overwritten by the next sync. Prices are shown in Colombian pesos from the stored exchange rate, with price history kept per item.",
-            es: "La sincronización automática de precios respeta un modo de precio por producto, así que un precio fijado a mano por el admin nunca lo pisa la siguiente sincronización. Los precios se muestran en pesos colombianos desde la tasa guardada, con historial de precios por producto.",
+            label: { en: "CSV tools and alerts", es: "Herramientas CSV y alertas" },
+            text: { en: "CSV import normalizes card names and shows a preview before applying. CSV export and low-stock alerts are built in.", es: "La importación CSV normaliza nombres de cartas y muestra una vista previa antes de aplicar. Incluye exportación CSV y alertas de stock bajo." },
+          },
+          {
+            label: { en: "Prices a human sets stay set", es: "Los precios fijados a mano se respetan" },
+            text: { en: "Automatic price sync never overwrites a price the admin set manually. Prices show in Colombian pesos from the stored exchange rate, with history kept per item.", es: "La sincronización automática nunca pisa un precio fijado a mano por el admin. Los precios se muestran en pesos colombianos desde la tasa guardada, con historial por producto." },
           },
         ],
       },
       {
-        title: { en: "Customer dashboard", es: "Panel del cliente" },
+        title: { en: "3. Customer dashboard", es: "3. Panel del cliente" },
+        lead: {
+          en: "One place for everything a buyer needs after signing up.",
+          es: "Un solo lugar para todo lo que un comprador necesita después de registrarse.",
+        },
         points: [
           {
-            en: "A single account area with tabs for orders, favorites, saved decks, addresses, notifications, security and settings, linkable by URL and with a bottom tab bar on mobile.",
-            es: "Un área de cuenta con pestañas para pedidos, favoritos, mazos guardados, direcciones, notificaciones, seguridad y ajustes, enlazables por URL y con barra inferior en móvil.",
+            label: { en: "Orders", es: "Pedidos" },
+            text: { en: "Paginated history with seven order states, from pending to refunded, and a button to reorder a past order.", es: "Historial paginado con siete estados, de pendiente a reembolsado, y un botón para volver a pedir un pedido anterior." },
           },
           {
-            en: "Paginated order history with seven order states from pending to refunded, and a way to put a past order's items back into the cart.",
-            es: "Historial de pedidos paginado con siete estados, de pendiente a reembolsado, y una forma de volver a poner en el carrito los productos de un pedido anterior.",
+            label: { en: "Favorites and notifications", es: "Favoritos y notificaciones" },
+            text: { en: "Saved cards that tell you when they are back in stock, plus a notification inbox.", es: "Cartas guardadas que avisan cuando vuelven a tener stock, más un buzón de notificaciones." },
           },
           {
-            en: "Favorites that tell you when a card you saved is back in stock, plus notifications. Two-factor authentication setup and verification live in the security tab.",
-            es: "Favoritos que avisan cuando una carta guardada vuelve a tener stock, además de notificaciones. La configuración y verificación de la autenticación de dos factores están en la pestaña de seguridad.",
+            label: { en: "Decks and addresses", es: "Mazos y direcciones" },
+            text: { en: "Saved decks and shipping addresses in the same account area.", es: "Mazos guardados y direcciones de envío en la misma área de cuenta." },
+          },
+          {
+            label: { en: "Security", es: "Seguridad" },
+            text: { en: "Two-factor authentication with authenticator apps, and one click to sign out of other devices.", es: "Autenticación de dos factores con apps de autenticación y un clic para cerrar sesión en otros dispositivos." },
+          },
+          {
+            label: { en: "Built for phones too", es: "Pensado también para móvil" },
+            text: { en: "Every tab has its own URL, and phones get a bottom tab bar.", es: "Cada pestaña tiene su propia URL y en el móvil hay una barra de pestañas inferior." },
           },
         ],
       },
       {
-        title: { en: "Admin dashboard and back office", es: "Panel de administración y back office" },
+        title: { en: "4. Admin dashboard and back office", es: "4. Panel de administración y back office" },
+        lead: {
+          en: "Run the store from one place and see problems before a customer does.",
+          es: "Manejar la tienda desde un solo lugar y ver los problemas antes que un cliente.",
+        },
         points: [
           {
-            en: "A dashboard with month, year and all-time ranges: net profit, orders, stock alerts and completion rate KPIs, a revenue chart and a recent-activity feed.",
-            es: "Un panel con rangos de mes, año y total: KPIs de utilidad neta, pedidos, alertas de stock y tasa de cumplimiento, un gráfico de ingresos y un feed de actividad reciente.",
+            label: { en: "Overview", es: "Resumen" },
+            text: { en: "Net profit, orders, stock alerts and completion rate for the month, the year or all time, with a revenue chart and a recent-activity feed.", es: "Utilidad neta, pedidos, alertas de stock y tasa de cumplimiento del mes, del año o total, con un gráfico de ingresos y un feed de actividad reciente." },
           },
           {
-            en: "A live system-status panel for the database, the Wompi payment gateway and the exchange-rate feed, so a broken dependency is visible before a customer finds it.",
-            es: "Un panel de estado del sistema en vivo para la base de datos, la pasarela Wompi y la fuente de tasa de cambio, para ver una dependencia caída antes de que la encuentre un cliente.",
+            label: { en: "System status", es: "Estado del sistema" },
+            text: { en: "Live status of the database, the Wompi payment gateway and the exchange-rate feed.", es: "Estado en vivo de la base de datos, la pasarela de pagos Wompi y la fuente de tasa de cambio." },
           },
           {
-            en: "Dedicated screens for orders, invoices (PDF download), preorders, set lifecycle, sealed products, media, users and inventory. A nightly job reconciles invoices for paid orders, backed by an invoice counter model.",
-            es: "Pantallas dedicadas para pedidos, facturas (descarga en PDF), preventas, ciclo de vida de sets, producto sellado, medios, usuarios e inventario. Un job nocturno concilia las facturas de los pedidos pagados, apoyado en un modelo de contador de facturas.",
+            label: { en: "Back-office screens", es: "Pantallas de back office" },
+            text: { en: "Orders (state filters, search, CSV export), invoices with PDF download, preorders, set lifecycle, sealed products, media, users and inventory.", es: "Pedidos (filtros por estado, búsqueda, exportación CSV), facturas con descarga en PDF, preventas, ciclo de vida de sets, producto sellado, medios, usuarios e inventario." },
+          },
+          {
+            label: { en: "Invoice reconciliation", es: "Conciliación de facturas" },
+            text: { en: "A daily job checks paid orders for missing invoices, backed by an invoice counter model.", es: "Un job diario revisa los pedidos pagados en busca de facturas faltantes, apoyado en un modelo de contador de facturas." },
           },
         ],
       },
       {
-        title: { en: "Quality and security", es: "Calidad y seguridad" },
+        title: { en: "5. Quality and security", es: "5. Calidad y seguridad" },
+        lead: {
+          en: "I audited my own work and fixed what I found.",
+          es: "Audité mi propio trabajo y corregí lo que encontré.",
+        },
         points: [
           {
-            en: "I audited my own platform: an exhaustive admin QA pass on a local copy of the production catalog, a security review, and a written, staged remediation plan worked through one task at a time with a green test gate per commit.",
-            es: "Audité mi propia plataforma: una revisión exhaustiva del admin sobre una copia local del catálogo de producción, una revisión de seguridad y un plan de remediación escrito y por etapas, ejecutado tarea por tarea con una compuerta de pruebas en verde por commit.",
+            label: { en: "Own audit", es: "Auditoría propia" },
+            text: { en: "An exhaustive admin pass on a local copy of the production catalog, a security review, and a written remediation plan done one task at a time.", es: "Una revisión exhaustiva del admin sobre una copia local del catálogo de producción, una revisión de seguridad y un plan de remediación escrito, ejecutado tarea por tarea." },
           },
           {
-            en: "Fixes that shipped: critical framework vulnerabilities patched, an exposed debug endpoint removed, webhook and cron authentication tightened, a minimum password length, and a generic response on duplicate sign-ups so accounts cannot be enumerated. Production dependency audit reported zero known vulnerabilities after the fix.",
-            es: "Correcciones entregadas: vulnerabilidades críticas del framework parcheadas, un endpoint de depuración expuesto eliminado, autenticación de webhook y cron reforzada, longitud mínima de contraseña y una respuesta genérica ante registros duplicados para que no se puedan enumerar cuentas. La auditoría de dependencias de producción reportó cero vulnerabilidades conocidas tras la corrección.",
+            label: { en: "Fixes shipped", es: "Correcciones entregadas" },
+            text: { en: "Critical framework vulnerabilities patched, an exposed debug endpoint removed, webhook and cron authentication tightened, a minimum password length, and a generic response on duplicate sign-ups so accounts cannot be enumerated. The production dependency audit reported zero known vulnerabilities after the fix.", es: "Vulnerabilidades críticas del framework parcheadas, un endpoint de depuración expuesto eliminado, autenticación de webhook y cron reforzada, longitud mínima de contraseña y una respuesta genérica ante registros duplicados para que no se puedan enumerar cuentas. La auditoría de dependencias de producción reportó cero vulnerabilidades conocidas tras la corrección." },
+          },
+          {
+            label: { en: "A gate on every commit", es: "Una compuerta en cada commit" },
+            text: { en: "Type check, unit suite and lint with zero errors before a change counts as done.", es: "Verificación de tipos, suite unitaria y lint con cero errores antes de dar un cambio por terminado." },
           },
         ],
       },

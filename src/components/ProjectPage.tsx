@@ -36,6 +36,14 @@ export function ProjectPage({ locale, project: p }: { locale: Locale; project: P
         <p className="lead">{p.tagline[locale]}</p>
         <div className="chapter-meta"><span className="chip">{p.status[locale]}</span></div>
 
+        {p.facts && (
+          <dl className="facts">
+            {p.facts.map((f) => (
+              <div key={f.label.en}><dt>{f.label[locale]}</dt><dd>{f.value[locale]}</dd></div>
+            ))}
+          </dl>
+        )}
+
         {cover && (
           <figure className="banner" style={vt}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -57,10 +65,18 @@ export function ProjectPage({ locale, project: p }: { locale: Locale; project: P
             {p.deep.map((s) => (
               <section key={s.title.en}>
                 <h2>{s.title[locale]}</h2>
-                <ul>{s.points.map((pt) => <li key={pt.en}>{pt[locale]}</li>)}</ul>
+                <p className="deep-lead">{s.lead[locale]}</p>
+                <ul>{s.points.map((pt) => <li key={pt.label.en}><strong>{pt.label[locale]}</strong> {pt.text[locale]}</li>)}</ul>
               </section>
             ))}
           </div>
+        )}
+
+        {tour.length > 0 && (
+          <section className="tour" aria-labelledby="tour-title">
+            <h2 id="tour-title">{locale === "es" ? "Recorrido por la demo: panel de administración y cuenta del cliente" : "Demo tour: the admin panel and the customer account"}</h2>
+            <div className="gallery">{tour.map((s) => figure(s))}</div>
+          </section>
         )}
 
         {p.architecture && (
@@ -81,13 +97,6 @@ export function ProjectPage({ locale, project: p }: { locale: Locale; project: P
             <ol className="arch-process">
               {p.architecture.process.steps.map((s) => <li key={s.en}>{s[locale]}</li>)}
             </ol>
-          </section>
-        )}
-
-        {tour.length > 0 && (
-          <section className="tour" aria-labelledby="tour-title">
-            <h2 id="tour-title">{locale === "es" ? "Recorrido por la demo: panel de administración y cuenta del cliente" : "Demo tour: the admin panel and the customer account"}</h2>
-            <div className="gallery">{tour.map((s) => figure(s))}</div>
           </section>
         )}
 
