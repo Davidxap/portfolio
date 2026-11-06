@@ -53,18 +53,18 @@ export const projects: Project[] = [
       en: "A trading-card store, built end to end",
       es: "Una tienda de cartas coleccionables, construida de punta a punta",
     },
-    status: { en: "Advanced demo · paused", es: "Demo avanzada · en pausa" },
+    status: { en: "Advanced demo", es: "Demo avanzada" },
     summary: {
-      en: "A complete Magic: The Gathering store that I designed, built and tested alone: a public storefront, a deck builder, a customer account, and an admin back office that largely runs itself. It is a deployed demo, not a live business, and the code is private.",
-      es: "Una tienda completa de Magic: The Gathering que diseñé, construí y probé yo solo: vitrina pública, constructor de mazos, cuenta de cliente y un back office de administración que en gran parte se maneja solo. Es una demo desplegada, no un negocio activo, y el código es privado.",
+      en: "A complete Magic: The Gathering store that I designed, built and tested alone: a public storefront, a deck builder, a customer account, and an admin back office that largely runs itself. It runs as an online demo and the source code is private.",
+      es: "Una tienda completa de Magic: The Gathering que diseñé, construí y probé yo solo: vitrina pública, constructor de mazos, cuenta de cliente y un back office de administración que en gran parte se maneja solo. Funciona como demo en línea y el código fuente es privado.",
     },
     built: {
       en: "Eight areas, each described below: the storefront and catalog, checkout and payments, a deck builder with a community, catalog automation and media, inventory management, the customer account, the admin back office, and the quality and security work behind them. Built with Next.js 16, React 19, TypeScript and PostgreSQL (Prisma), and tested with Vitest and Playwright.",
       es: "Ocho áreas, cada una descrita abajo: la vitrina y el catálogo, el checkout y los pagos, un constructor de mazos con comunidad, la automatización del catálogo y los medios, la gestión de inventario, la cuenta del cliente, el back office de administración y el trabajo de calidad y seguridad que los respalda. Construida con Next.js 16, React 19, TypeScript y PostgreSQL (Prisma), y probada con Vitest y Playwright.",
     },
     learned: {
-      en: "A store is not a catalog: the hard part is keeping everything around it correct without someone watching. That taught me to design for failure first. It is also a lot of surface for one person, so the project is paused as an advanced demo.",
-      es: "Una tienda no es un catálogo: lo difícil es que todo lo que la rodea siga correcto sin que nadie lo vigile. Eso me enseñó a diseñar pensando primero en el fallo. También es mucha superficie para una sola persona, por eso el proyecto está en pausa como demo avanzada.",
+      en: "A store is not a catalog: the hard part is keeping everything around it correct without someone watching. That taught me to design for failure first.",
+      es: "Una tienda no es un catálogo: lo difícil es que todo lo que la rodea siga correcto sin que nadie lo vigile. Eso me enseñó a diseñar pensando primero en el fallo.",
     },
     facts: [
       { label: { en: "Data model", es: "Modelo de datos" }, value: { en: "32 Prisma models", es: "32 modelos de Prisma" } },
@@ -302,16 +302,16 @@ export const projects: Project[] = [
         },
         points: [
           {
-            label: { en: "Own audit", es: "Auditoría propia" },
-            text: { en: "An exhaustive admin pass on a local copy of the production catalog, a security review, and a written remediation plan done one task at a time.", es: "Una revisión exhaustiva del admin sobre una copia local del catálogo de producción, una revisión de seguridad y un plan de remediación escrito, ejecutado tarea por tarea." },
+            label: { en: "Reviewed end to end", es: "Revisado de punta a punta" },
+            text: { en: "An exhaustive pass over the admin panel on a local copy of the catalog, plus a security review of authentication, payments, cron jobs and uploads.", es: "Una revisión exhaustiva del panel de administración sobre una copia local del catálogo, más una revisión de seguridad de autenticación, pagos, jobs de cron y subidas." },
           },
           {
-            label: { en: "Fixes shipped", es: "Correcciones entregadas" },
-            text: { en: "Critical framework vulnerabilities patched, an exposed debug endpoint removed, webhook and cron authentication tightened, a minimum password length, and a generic response on duplicate sign-ups so accounts cannot be enumerated. The production dependency audit reported zero known vulnerabilities after the fix.", es: "Vulnerabilidades críticas del framework parcheadas, un endpoint de depuración expuesto eliminado, autenticación de webhook y cron reforzada, longitud mínima de contraseña y una respuesta genérica ante registros duplicados para que no se puedan enumerar cuentas. La auditoría de dependencias de producción reportó cero vulnerabilidades conocidas tras la corrección." },
+            label: { en: "Security by design", es: "Seguridad por diseño" },
+            text: { en: "Security headers, per-IP rate limiting on sign-in and admin routes, trusted-origin checks, authenticated webhook and cron routes, two-factor authentication, a minimum password length, a generic response on duplicate sign-ups so accounts cannot be enumerated, and no secrets in the browser.", es: "Encabezados de seguridad, límite de tasa por IP en inicio de sesión y rutas de admin, verificación de orígenes de confianza, rutas de webhook y cron autenticadas, autenticación de dos factores, longitud mínima de contraseña, una respuesta genérica ante registros duplicados para que no se puedan enumerar cuentas y ningún secreto en el navegador." },
           },
           {
-            label: { en: "Built-in protections", es: "Protecciones incluidas" },
-            text: { en: "Security headers, per-IP rate limiting on sign-in and admin routes, trusted-origin checks, and no secrets in the browser.", es: "Encabezados de seguridad, límite de tasa por IP en inicio de sesión y rutas de admin, verificación de orígenes de confianza y ningún secreto en el navegador." },
+            label: { en: "Clean dependencies", es: "Dependencias limpias" },
+            text: { en: "The audit of production dependencies reports zero known vulnerabilities.", es: "La auditoría de dependencias de producción reporta cero vulnerabilidades conocidas." },
           },
           {
             label: { en: "Performance", es: "Rendimiento" },
@@ -403,13 +403,6 @@ export const projects: Project[] = [
             es: "Una automatización solo es confiable si no puede deshacer una decisión humana. La sincronización de precios revisa un modo de precio por producto antes de escribir, y el panel de medios del admin existe justo para los casos en que el resolvedor automático de arte se equivoca.",
           },
         },
-        {
-          title: { en: "What is still open, written down", es: "Lo que sigue abierto, por escrito" },
-          body: {
-            en: "Known gaps are tracked rather than hidden: a technical-debt file in the repository and a staged plan with the unfinished tasks. For example, my own scaling audit found that rate limits and some caches were kept per instance, and moving them to shared storage is a planned task that needs an infrastructure decision.",
-            es: "Los huecos conocidos se registran en lugar de esconderse: un archivo de deuda técnica en el repositorio y un plan por etapas con las tareas sin terminar. Por ejemplo, mi propia auditoría de escalado encontró que los límites de tasa y algunas cachés se guardaban por instancia, y moverlos a almacenamiento compartido es una tarea planificada que necesita una decisión de infraestructura.",
-          },
-        },
       ],
       process: {
         title: { en: "How the work was done", es: "Cómo se hizo el trabajo" },
@@ -423,16 +416,16 @@ export const projects: Project[] = [
             es: "Trabajar en una rama por fase con commits pequeños, pruebas junto al comportamiento que cubren y una compuerta por commit: verificación de tipos, suite unitaria y lint con cero errores.",
           },
           {
-            en: "Test against reality: a local copy of the production catalog (read-only, no users or orders) to run an exhaustive admin pass, which surfaced real defects such as case-duplicated set codes breaking search.",
-            es: "Probar contra la realidad: una copia local del catálogo de producción (solo lectura, sin usuarios ni pedidos) para hacer una pasada exhaustiva del admin, que destapó defectos reales como códigos de set duplicados por mayúsculas que rompían la búsqueda.",
+            en: "Test against realistic data: a local copy of the catalog (read-only, no users or orders) for an exhaustive pass over the admin panel.",
+            es: "Probar con datos realistas: una copia local del catálogo (solo lectura, sin usuarios ni pedidos) para una revisión exhaustiva del panel de administración.",
           },
           {
-            en: "Deploy in small merged pull requests and check the live site right after each one. A dependency upgrade once broke sign-in on the deployed demo because of database columns it needed; the post-deploy check caught it, I rolled the version back, and re-applied it after the migration was in place.",
-            es: "Desplegar con pull requests pequeños y revisar el sitio en vivo justo después de cada uno. Una actualización de dependencia rompió una vez el inicio de sesión en la demo desplegada por columnas de base de datos que necesitaba; la revisión posterior al despliegue lo detectó, revertí la versión y la volví a aplicar con la migración ya hecha.",
+            en: "Deploy in small merged pull requests and check the live demo right after each one.",
+            es: "Desplegar con pull requests pequeños y revisar la demo en línea justo después de cada uno.",
           },
           {
-            en: "Keep the notes: a runbook for production, a document of golden rules (back up before risky changes, document the rollback) and the debt tracker, so the project can be picked up again after a pause.",
-            es: "Mantener las notas: un runbook de producción, un documento de reglas de oro (respaldar antes de cambios riesgosos, documentar la reversión) y el registro de deuda, para poder retomar el proyecto después de una pausa.",
+            en: "Keep the notes: a deployment runbook, a document of golden rules (back up before risky changes, document the rollback) and the debt tracker, so the project can be picked up again after a pause.",
+            es: "Mantener las notas: un runbook de despliegue, un documento de reglas de oro (respaldar antes de cambios riesgosos, documentar la reversión) y el registro de deuda, para poder retomar el proyecto después de una pausa.",
           },
         ],
       },
