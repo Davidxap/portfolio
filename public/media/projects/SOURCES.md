@@ -44,3 +44,9 @@ Real screenshots only; resized/cropped for framing, never retouched. Regenerate 
 | weather-app/repo-light.avif, .webp | https://github.com/Davidxap/weather-app-react (puppeteer-core, headless Chrome, light scheme, 1440x900, repository page) | 2026-10-25 |
 | ghibli-explorer/repo-dark.avif, .webp | https://github.com/Davidxap/studio-ghilbli-api (puppeteer-core, headless Chrome, dark scheme, 1440x900, repository page) | 2026-10-25 |
 | ghibli-explorer/repo-light.avif, .webp | https://github.com/Davidxap/studio-ghilbli-api (puppeteer-core, headless Chrome, light scheme, 1440x900, repository page) | 2026-10-25 |
+| tcg-store/admin-inventory.avif, .webp | https://tcg-store-sage.vercel.app/admin/inventory (puppeteer-core, headless Chrome, 1440x900, signed in with the demo admin account) | 2026-11-06 |
+| tcg-store/admin-lifecycle.avif, .webp | https://tcg-store-sage.vercel.app/admin/lifecycle (puppeteer-core, headless Chrome, 1440x900, signed in with the demo admin account) | 2026-11-06 |
+| tcg-store/admin-orders.avif, .webp | https://tcg-store-sage.vercel.app/admin/orders (puppeteer-core, headless Chrome, 1440x900, signed in with the demo admin account) | 2026-11-06 |
+| tcg-store/dash-overview.avif, .webp | https://tcg-store-sage.vercel.app/dashboard (puppeteer-core, headless Chrome, 1440x900, signed in with the demo customer account) | 2026-11-06 |
+| tcg-store/dash-favorites.avif, .webp | https://tcg-store-sage.vercel.app/dashboard?tab=favorites (puppeteer-core, headless Chrome, 1440x900, signed in with the demo customer account) | 2026-11-06 |
+| tcg-store/dash-security.avif, .webp | https://tcg-store-sage.vercel.app/dashboard?tab=security (puppeteer-core, headless Chrome, 1440x900, signed in with the demo customer account) | 2026-11-06 |
