@@ -93,8 +93,15 @@ p { margin: 0; }
 .deep { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 40px; margin-top: 48px; }
 .deep h2 { font: 500 12px var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-2, var(--accent)); margin-bottom: 12px; }
 .deep ul { list-style: none; padding: 0; display: grid; gap: 12px; }
+.deep-lead { font-weight: 500; color: var(--text); margin-bottom: 12px; }
+.deep li strong { display: block; color: var(--text); font-weight: 600; margin-bottom: 2px; }
 .deep li { padding-left: 14px; border-left: 2px solid color-mix(in srgb, var(--accent) 45%, transparent); color: color-mix(in srgb, var(--text) 82%, var(--muted)); }
 @media (max-width: 800px) { .deep { grid-template-columns: 1fr; } }
+.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 24px 0 8px; }
+.facts div { padding: 10px 14px; border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); border-radius: 10px; background: color-mix(in srgb, var(--accent) 6%, transparent); }
+.facts dt { font: 500 11px var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 2px 0 0; font-weight: 600; }
+@media (max-width: 520px) { .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .tour { margin-top: 56px; }
 .tour > h2 { font: 500 12px var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-2, var(--accent)); margin-bottom: 16px; }
 .arch { margin-top: 56px; }
