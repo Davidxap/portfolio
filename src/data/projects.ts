@@ -53,30 +53,125 @@ export const projects: Project[] = [
       en: "A trading-card store, built end to end",
       es: "Una tienda de cartas coleccionables, construida de punta a punta",
     },
-    status: { en: "Advanced demo · paused", es: "Demo avanzada · en pausa" },
+    status: { en: "Advanced demo", es: "Demo avanzada" },
     summary: {
-      en: "A complete Magic: The Gathering store that I designed, built and tested alone: a public storefront, a deck builder, a customer account, and an admin back office that largely runs itself. It is a deployed demo, not a live business, and the code is private.",
-      es: "Una tienda completa de Magic: The Gathering que diseñé, construí y probé yo solo: vitrina pública, constructor de mazos, cuenta de cliente y un back office de administración que en gran parte se maneja solo. Es una demo desplegada, no un negocio activo, y el código es privado.",
+      en: "A complete Magic: The Gathering store that I designed, built and tested alone: a public storefront, a deck builder, a customer account, and an admin back office that largely runs itself. It runs as an online demo and the source code is private.",
+      es: "Una tienda completa de Magic: The Gathering que diseñé, construí y probé yo solo: vitrina pública, constructor de mazos, cuenta de cliente y un back office de administración que en gran parte se maneja solo. Funciona como demo en línea y el código fuente es privado.",
     },
     built: {
-      en: "A storefront with card and sealed-product catalogs fed by Scryfall and MTGJSON, a deck builder with list import and export, checkout with Wompi payments, sign-in with two-factor authentication, and English and Spanish. Built with Next.js 16, React 19, TypeScript and PostgreSQL (Prisma), and tested with Vitest and Playwright.",
-      es: "Una vitrina con catálogos de cartas y producto sellado alimentados por Scryfall y MTGJSON, un constructor de mazos con importación y exportación de listas, checkout con pagos Wompi, inicio de sesión con autenticación de dos factores, en inglés y español. Construida con Next.js 16, React 19, TypeScript y PostgreSQL (Prisma), y probada con Vitest y Playwright.",
+      en: "Eight areas, each described below: the storefront and catalog, checkout and payments, a deck builder with a community, catalog automation and media, inventory management, the customer account, the admin back office, and the quality and security work behind them. Built with Next.js 16, React 19, TypeScript and PostgreSQL (Prisma), and tested with Vitest and Playwright.",
+      es: "Ocho áreas, cada una descrita abajo: la vitrina y el catálogo, el checkout y los pagos, un constructor de mazos con comunidad, la automatización del catálogo y los medios, la gestión de inventario, la cuenta del cliente, el back office de administración y el trabajo de calidad y seguridad que los respalda. Construida con Next.js 16, React 19, TypeScript y PostgreSQL (Prisma), y probada con Vitest y Playwright.",
     },
     learned: {
-      en: "A store is not a catalog: the hard part is keeping everything around it correct without someone watching. That taught me to design for failure first. It is also a lot of surface for one person, so the project is paused as an advanced demo.",
-      es: "Una tienda no es un catálogo: lo difícil es que todo lo que la rodea siga correcto sin que nadie lo vigile. Eso me enseñó a diseñar pensando primero en el fallo. También es mucha superficie para una sola persona, por eso el proyecto está en pausa como demo avanzada.",
+      en: "A store is not a catalog: the hard part is keeping everything around it correct without someone watching. That taught me to design for failure first.",
+      es: "Una tienda no es un catálogo: lo difícil es que todo lo que la rodea siga correcto sin que nadie lo vigile. Eso me enseñó a diseñar pensando primero en el fallo.",
     },
     facts: [
       { label: { en: "Data model", es: "Modelo de datos" }, value: { en: "32 Prisma models", es: "32 modelos de Prisma" } },
       { label: { en: "Server actions", es: "Server actions" }, value: { en: "33 modules", es: "33 módulos" } },
       { label: { en: "Tests", es: "Pruebas" }, value: { en: "356 test files", es: "356 archivos de pruebas" } },
-      { label: { en: "History", es: "Historial" }, value: { en: "900+ commits", es: "más de 900 commits" } },
+      { label: { en: "Integrations", es: "Integraciones" }, value: { en: "5 external services", es: "5 servicios externos" } },
       { label: { en: "Scheduled jobs", es: "Tareas programadas" }, value: { en: "3 cron jobs", es: "3 tareas cron" } },
       { label: { en: "Languages", es: "Idiomas" }, value: { en: "EN and ES", es: "EN y ES" } },
     ],
     deep: [
       {
-        title: { en: "1. Catalog automation and media", es: "1. Automatización del catálogo y medios" },
+        title: { en: "1. Storefront and catalog", es: "1. Vitrina y catálogo" },
+        lead: {
+          en: "A public store where every card shows its real price and live stock.",
+          es: "Una tienda pública donde cada carta muestra su precio real y su stock en vivo.",
+        },
+        points: [
+          {
+            label: { en: "Singles and sealed products", es: "Singles y producto sellado" },
+            text: { en: "Separate catalogs for single cards and sealed products such as booster boxes, browsed by game and by expansion.", es: "Catálogos separados para cartas individuales y producto sellado, como cajas de sobres, navegables por juego y por expansión." },
+          },
+          {
+            label: { en: "Card pages", es: "Páginas de carta" },
+            text: { en: "Card image, rules text, expansion, available languages and a price table by edition, condition and finish, with stock state.", es: "Imagen de la carta, texto de reglas, expansión, idiomas disponibles y una tabla de precios por edición, condición y acabado, con estado de stock." },
+          },
+          {
+            label: { en: "Expansion pages", es: "Páginas de expansión" },
+            text: { en: "Every set has its own page with featured cards, banners and its sealed products.", es: "Cada set tiene su propia página con cartas destacadas, banners y su producto sellado." },
+          },
+          {
+            label: { en: "Preorders", es: "Preventas" },
+            text: { en: "Upcoming sets appear as preorders, with the homepage hero showing the next release first.", es: "Los sets próximos aparecen como preventas, y el héroe del inicio muestra primero el próximo lanzamiento." },
+          },
+          {
+            label: { en: "Prices in pesos", es: "Precios en pesos" },
+            text: { en: "Prices are shown in Colombian pesos, converted from the stored USD rate, with price history kept per item.", es: "Los precios se muestran en pesos colombianos, convertidos desde la tasa USD guardada, con historial de precios por producto." },
+          },
+          {
+            label: { en: "Cart that follows you", es: "Carrito que te sigue" },
+            text: { en: "The cart is saved to the account, so it is the same on any device once you sign in.", es: "El carrito se guarda en la cuenta, así que es el mismo en cualquier dispositivo al iniciar sesión." },
+          },
+          {
+            label: { en: "Two languages", es: "Dos idiomas" },
+            text: { en: "Spanish and English across the whole site, each language loaded only when it is used.", es: "Español e inglés en todo el sitio, cada idioma cargado solo cuando se usa." },
+          },
+        ],
+      },
+      {
+        title: { en: "2. Checkout and payments", es: "2. Checkout y pagos" },
+        lead: {
+          en: "Buy with local payment methods and get every step confirmed by email.",
+          es: "Comprar con medios de pago locales y recibir cada paso confirmado por correo.",
+        },
+        points: [
+          {
+            label: { en: "Wompi payments", es: "Pagos con Wompi" },
+            text: { en: "Checkout through the Colombian gateway Wompi, with a webhook that confirms the payment back to the store.", es: "Checkout con la pasarela colombiana Wompi, con un webhook que confirma el pago a la tienda." },
+          },
+          {
+            label: { en: "Stock checked on the server", es: "Stock verificado en el servidor" },
+            text: { en: "Availability is validated on the server before a payment is processed, so a sold-out card cannot be bought.", es: "La disponibilidad se valida en el servidor antes de procesar un pago, así que una carta agotada no se puede comprar." },
+          },
+          {
+            label: { en: "Order lifecycle", es: "Ciclo de vida del pedido" },
+            text: { en: "Seven order states from pending to refunded, an order log per order, and invoices with PDF download.", es: "Siete estados de pedido, de pendiente a reembolsado, una bitácora por pedido y facturas con descarga en PDF." },
+          },
+          {
+            label: { en: "Transactional emails", es: "Correos transaccionales" },
+            text: { en: "Welcome, password reset, order confirmation, shipping notification, preorder confirmation and back-in-stock alerts, plus a notice to the admin on new preorders.", es: "Bienvenida, restablecer contraseña, confirmación de pedido, aviso de envío, confirmación de preventa y alertas de vuelta a stock, más un aviso al admin con cada preventa nueva." },
+          },
+        ],
+      },
+      {
+        title: { en: "3. Deck builder and community", es: "3. Constructor de mazos y comunidad" },
+        lead: {
+          en: "Build a deck, check it against the rules, and buy the cards from the store.",
+          es: "Armar un mazo, revisarlo contra las reglas y comprar las cartas en la tienda.",
+        },
+        points: [
+          {
+            label: { en: "Search and availability", es: "Búsqueda y disponibilidad" },
+            text: { en: "Card search with filters for mana value, rarity and availability, switching between all cards and only what is in stock.", es: "Búsqueda de cartas con filtros de coste de maná, rareza y disponibilidad, alternando entre todas las cartas y solo lo que hay en stock." },
+          },
+          {
+            label: { en: "Analysis tools", es: "Herramientas de análisis" },
+            text: { en: "Mana curve chart, a budget gauge with preset tiers, format-rule checks, Commander bracket guidance with an explanatory FAQ, and a hypergeometric probability calculator.", es: "Gráfico de curva de maná, medidor de presupuesto con niveles predefinidos, validación de reglas por formato, guía de brackets de Commander con una FAQ explicativa y una calculadora de probabilidad hipergeométrica." },
+          },
+          {
+            label: { en: "Import and export", es: "Importar y exportar" },
+            text: { en: "Import a deck list, export to Moxfield, Arena, MTGO or plain text, and export the deck as an image.", es: "Importar una lista de mazo, exportar a Moxfield, Arena, MTGO o texto plano, y exportar el mazo como imagen." },
+          },
+          {
+            label: { en: "Compare decks", es: "Comparar mazos" },
+            text: { en: "A comparison tool with charts to put two decks side by side.", es: "Una herramienta de comparación con gráficos para poner dos mazos lado a lado." },
+          },
+          {
+            label: { en: "Community decks", es: "Mazos de la comunidad" },
+            text: { en: "Public decks with an explorer and tags, likes, ratings, comments with reactions, and related-deck suggestions.", es: "Mazos públicos con un explorador y etiquetas, likes, calificaciones, comentarios con reacciones y sugerencias de mazos relacionados." },
+          },
+          {
+            label: { en: "Guided and mobile", es: "Guiado y móvil" },
+            text: { en: "A builder tour for new users, and a phone layout with collapsible filters and a fixed bar to view the deck.", es: "Un recorrido guiado para usuarios nuevos y un diseño para móvil con filtros plegables y una barra fija para ver el mazo." },
+          },
+        ],
+      },
+      {
+        title: { en: "4. Catalog automation and media", es: "4. Automatización del catálogo y medios" },
         lead: {
           en: "New sets come out all the time. The store keeps its catalog, prices and artwork current without anyone doing it by hand.",
           es: "Salen sets nuevos todo el tiempo. La tienda mantiene su catálogo, precios y arte al día sin que nadie lo haga a mano.",
@@ -84,7 +179,7 @@ export const projects: Project[] = [
         points: [
           {
             label: { en: "Daily sync, 03:00 UTC", es: "Sincronización diaria, 03:00 UTC" },
-            text: { en: "Updates the USD to COP rate, finds new sets on Scryfall, imports sealed products, validates artwork and syncs prices, each as a separate step.", es: "Actualiza la tasa USD a COP, detecta sets nuevos en Scryfall, importa producto sellado, valida el arte y sincroniza precios, cada uno como un paso aparte." },
+            text: { en: "Updates the USD to COP rate, finds new sets on Scryfall, imports sealed products from MTGJSON, validates artwork and syncs prices, each as a separate step.", es: "Actualiza la tasa USD a COP, detecta sets nuevos en Scryfall, importa producto sellado desde MTGJSON, valida el arte y sincroniza precios, cada uno como un paso aparte." },
           },
           {
             label: { en: "Failures stay contained", es: "Los fallos quedan contenidos" },
@@ -105,7 +200,7 @@ export const projects: Project[] = [
         ],
       },
       {
-        title: { en: "2. Inventory management", es: "2. Gestión de inventario" },
+        title: { en: "5. Inventory management", es: "5. Gestión de inventario" },
         lead: {
           en: "Stock has to stay correct when several people, and the checkout, touch it at the same time.",
           es: "El stock tiene que seguir correcto cuando varias personas, y el checkout, lo tocan al mismo tiempo.",
@@ -113,7 +208,7 @@ export const projects: Project[] = [
         points: [
           {
             label: { en: "Stock per variant", es: "Stock por variante" },
-            text: { en: "Condition, language and finish, for singles and sealed products, with filters, search and selection over large lists.", es: "Condición, idioma y acabado, para singles y producto sellado, con filtros, búsqueda y selección sobre listas grandes." },
+            text: { en: "Condition, language and finish, for singles and sealed products, with faceted filters, search and selection over large lists.", es: "Condición, idioma y acabado, para singles y producto sellado, con filtros por facetas, búsqueda y selección sobre listas grandes." },
           },
           {
             label: { en: "No lost updates", es: "Sin actualizaciones perdidas" },
@@ -129,24 +224,28 @@ export const projects: Project[] = [
           },
           {
             label: { en: "Prices a human sets stay set", es: "Los precios fijados a mano se respetan" },
-            text: { en: "Automatic price sync never overwrites a price the admin set manually. Prices show in Colombian pesos from the stored exchange rate, with history kept per item.", es: "La sincronización automática nunca pisa un precio fijado a mano por el admin. Los precios se muestran en pesos colombianos desde la tasa guardada, con historial por producto." },
+            text: { en: "Automatic price sync never overwrites a price the admin set manually.", es: "La sincronización automática nunca pisa un precio fijado a mano por el admin." },
           },
         ],
       },
       {
-        title: { en: "3. Customer dashboard", es: "3. Panel del cliente" },
+        title: { en: "6. Customer account", es: "6. Cuenta del cliente" },
         lead: {
           en: "One place for everything a buyer needs after signing up.",
           es: "Un solo lugar para todo lo que un comprador necesita después de registrarse.",
         },
         points: [
           {
-            label: { en: "Orders", es: "Pedidos" },
-            text: { en: "Paginated history with seven order states, from pending to refunded, and a button to reorder a past order.", es: "Historial paginado con siete estados, de pendiente a reembolsado, y un botón para volver a pedir un pedido anterior." },
+            label: { en: "Sign-in options", es: "Opciones de inicio de sesión" },
+            text: { en: "Email and password or Google, with password reset by email.", es: "Correo y contraseña o Google, con restablecimiento de contraseña por correo." },
           },
           {
-            label: { en: "Favorites and notifications", es: "Favoritos y notificaciones" },
-            text: { en: "Saved cards that tell you when they are back in stock, plus a notification inbox.", es: "Cartas guardadas que avisan cuando vuelven a tener stock, más un buzón de notificaciones." },
+            label: { en: "Orders", es: "Pedidos" },
+            text: { en: "Paginated history with seven order states and a button to reorder a past order.", es: "Historial paginado con siete estados y un botón para volver a pedir un pedido anterior." },
+          },
+          {
+            label: { en: "Favorites and alerts", es: "Favoritos y alertas" },
+            text: { en: "Saved cards that notify you when they are back in stock, plus a notification inbox.", es: "Cartas guardadas que te avisan cuando vuelven a tener stock, más un buzón de notificaciones." },
           },
           {
             label: { en: "Decks and addresses", es: "Mazos y direcciones" },
@@ -163,14 +262,14 @@ export const projects: Project[] = [
         ],
       },
       {
-        title: { en: "4. Admin dashboard and back office", es: "4. Panel de administración y back office" },
+        title: { en: "7. Admin back office", es: "7. Back office de administración" },
         lead: {
           en: "Run the store from one place and see problems before a customer does.",
           es: "Manejar la tienda desde un solo lugar y ver los problemas antes que un cliente.",
         },
         points: [
           {
-            label: { en: "Overview", es: "Resumen" },
+            label: { en: "Dashboard", es: "Panel" },
             text: { en: "Net profit, orders, stock alerts and completion rate for the month, the year or all time, with a revenue chart and a recent-activity feed.", es: "Utilidad neta, pedidos, alertas de stock y tasa de cumplimiento del mes, del año o total, con un gráfico de ingresos y un feed de actividad reciente." },
           },
           {
@@ -178,32 +277,48 @@ export const projects: Project[] = [
             text: { en: "Live status of the database, the Wompi payment gateway and the exchange-rate feed.", es: "Estado en vivo de la base de datos, la pasarela de pagos Wompi y la fuente de tasa de cambio." },
           },
           {
-            label: { en: "Back-office screens", es: "Pantallas de back office" },
-            text: { en: "Orders (state filters, search, CSV export), invoices with PDF download, preorders, set lifecycle, sealed products, media, users and inventory.", es: "Pedidos (filtros por estado, búsqueda, exportación CSV), facturas con descarga en PDF, preventas, ciclo de vida de sets, producto sellado, medios, usuarios e inventario." },
+            label: { en: "Orders and invoices", es: "Pedidos y facturas" },
+            text: { en: "Orders with state filters, search by ID, payment ID or user, a date range and CSV export. Invoices with PDF download, reconciled daily by a job.", es: "Pedidos con filtros por estado, búsqueda por ID, ID de pago o usuario, rango de fechas y exportación CSV. Facturas con descarga en PDF, conciliadas a diario por un job." },
           },
           {
-            label: { en: "Invoice reconciliation", es: "Conciliación de facturas" },
-            text: { en: "A daily job checks paid orders for missing invoices, backed by an invoice counter model.", es: "Un job diario revisa los pedidos pagados en busca de facturas faltantes, apoyado en un modelo de contador de facturas." },
+            label: { en: "Catalog operations", es: "Operaciones de catálogo" },
+            text: { en: "Inventory, sealed products, preorders, set lifecycle and the media panel, each with its own screen.", es: "Inventario, producto sellado, preventas, ciclo de vida de sets y panel de medios, cada uno con su propia pantalla." },
+          },
+          {
+            label: { en: "Users and guide", es: "Usuarios y guía" },
+            text: { en: "User management with a detail page per user, and an in-panel guide that explains how to operate the store.", es: "Gestión de usuarios con una página de detalle por usuario y una guía dentro del panel que explica cómo operar la tienda." },
+          },
+          {
+            label: { en: "Visible failures", es: "Fallos visibles" },
+            text: { en: "The set lifecycle screen shows the last automated run, its status and any failure message.", es: "La pantalla de ciclo de vida de sets muestra la última ejecución automática, su estado y cualquier mensaje de fallo." },
           },
         ],
       },
       {
-        title: { en: "5. Quality and security", es: "5. Calidad y seguridad" },
+        title: { en: "8. Quality, security and performance", es: "8. Calidad, seguridad y rendimiento" },
         lead: {
-          en: "I audited my own work and fixed what I found.",
-          es: "Audité mi propio trabajo y corregí lo que encontré.",
+          en: "I audited my own work, fixed what I found, and kept the site fast.",
+          es: "Audité mi propio trabajo, corregí lo que encontré y mantuve el sitio rápido.",
         },
         points: [
           {
-            label: { en: "Own audit", es: "Auditoría propia" },
-            text: { en: "An exhaustive admin pass on a local copy of the production catalog, a security review, and a written remediation plan done one task at a time.", es: "Una revisión exhaustiva del admin sobre una copia local del catálogo de producción, una revisión de seguridad y un plan de remediación escrito, ejecutado tarea por tarea." },
+            label: { en: "Reviewed end to end", es: "Revisado de punta a punta" },
+            text: { en: "An exhaustive pass over the admin panel on a local copy of the catalog, plus a security review of authentication, payments, cron jobs and uploads.", es: "Una revisión exhaustiva del panel de administración sobre una copia local del catálogo, más una revisión de seguridad de autenticación, pagos, jobs de cron y subidas." },
           },
           {
-            label: { en: "Fixes shipped", es: "Correcciones entregadas" },
-            text: { en: "Critical framework vulnerabilities patched, an exposed debug endpoint removed, webhook and cron authentication tightened, a minimum password length, and a generic response on duplicate sign-ups so accounts cannot be enumerated. The production dependency audit reported zero known vulnerabilities after the fix.", es: "Vulnerabilidades críticas del framework parcheadas, un endpoint de depuración expuesto eliminado, autenticación de webhook y cron reforzada, longitud mínima de contraseña y una respuesta genérica ante registros duplicados para que no se puedan enumerar cuentas. La auditoría de dependencias de producción reportó cero vulnerabilidades conocidas tras la corrección." },
+            label: { en: "Security by design", es: "Seguridad por diseño" },
+            text: { en: "Security headers, per-IP rate limiting on sign-in and admin routes, trusted-origin checks, authenticated webhook and cron routes, two-factor authentication, a minimum password length, a generic response on duplicate sign-ups so accounts cannot be enumerated, and no secrets in the browser.", es: "Encabezados de seguridad, límite de tasa por IP en inicio de sesión y rutas de admin, verificación de orígenes de confianza, rutas de webhook y cron autenticadas, autenticación de dos factores, longitud mínima de contraseña, una respuesta genérica ante registros duplicados para que no se puedan enumerar cuentas y ningún secreto en el navegador." },
           },
           {
-            label: { en: "A gate on every commit", es: "Una compuerta en cada commit" },
+            label: { en: "Clean dependencies", es: "Dependencias limpias" },
+            text: { en: "The audit of production dependencies reports zero known vulnerabilities.", es: "La auditoría de dependencias de producción reporta cero vulnerabilidades conocidas." },
+          },
+          {
+            label: { en: "Performance", es: "Rendimiento" },
+            text: { en: "A cached, rate-limited Scryfall client, a custom image loader that avoids serverless timeouts, streamed catalog pages and language files loaded on demand.", es: "Un cliente de Scryfall con caché y límite de tasa, un cargador de imágenes propio que evita timeouts en serverless, páginas de catálogo en streaming y archivos de idioma cargados bajo demanda." },
+          },
+          {
+            label: { en: "A gate on every change", es: "Una compuerta en cada cambio" },
             text: { en: "Type check, unit suite and lint with zero errors before a change counts as done.", es: "Verificación de tipos, suite unitaria y lint con cero errores antes de dar un cambio por terminado." },
           },
         ],
@@ -288,13 +403,6 @@ export const projects: Project[] = [
             es: "Una automatización solo es confiable si no puede deshacer una decisión humana. La sincronización de precios revisa un modo de precio por producto antes de escribir, y el panel de medios del admin existe justo para los casos en que el resolvedor automático de arte se equivoca.",
           },
         },
-        {
-          title: { en: "What is still open, written down", es: "Lo que sigue abierto, por escrito" },
-          body: {
-            en: "Known gaps are tracked rather than hidden: a technical-debt file in the repository and a staged plan with the unfinished tasks. For example, my own scaling audit found that rate limits and some caches were kept per instance, and moving them to shared storage is a planned task that needs an infrastructure decision.",
-            es: "Los huecos conocidos se registran en lugar de esconderse: un archivo de deuda técnica en el repositorio y un plan por etapas con las tareas sin terminar. Por ejemplo, mi propia auditoría de escalado encontró que los límites de tasa y algunas cachés se guardaban por instancia, y moverlos a almacenamiento compartido es una tarea planificada que necesita una decisión de infraestructura.",
-          },
-        },
       ],
       process: {
         title: { en: "How the work was done", es: "Cómo se hizo el trabajo" },
@@ -308,16 +416,16 @@ export const projects: Project[] = [
             es: "Trabajar en una rama por fase con commits pequeños, pruebas junto al comportamiento que cubren y una compuerta por commit: verificación de tipos, suite unitaria y lint con cero errores.",
           },
           {
-            en: "Test against reality: a local copy of the production catalog (read-only, no users or orders) to run an exhaustive admin pass, which surfaced real defects such as case-duplicated set codes breaking search.",
-            es: "Probar contra la realidad: una copia local del catálogo de producción (solo lectura, sin usuarios ni pedidos) para hacer una pasada exhaustiva del admin, que destapó defectos reales como códigos de set duplicados por mayúsculas que rompían la búsqueda.",
+            en: "Test against realistic data: a local copy of the catalog (read-only, no users or orders) for an exhaustive pass over the admin panel.",
+            es: "Probar con datos realistas: una copia local del catálogo (solo lectura, sin usuarios ni pedidos) para una revisión exhaustiva del panel de administración.",
           },
           {
-            en: "Deploy in small merged pull requests and check the live site right after each one. A dependency upgrade once broke sign-in on the deployed demo because of database columns it needed; the post-deploy check caught it, I rolled the version back, and re-applied it after the migration was in place.",
-            es: "Desplegar con pull requests pequeños y revisar el sitio en vivo justo después de cada uno. Una actualización de dependencia rompió una vez el inicio de sesión en la demo desplegada por columnas de base de datos que necesitaba; la revisión posterior al despliegue lo detectó, revertí la versión y la volví a aplicar con la migración ya hecha.",
+            en: "Deploy in small merged pull requests and check the live demo right after each one.",
+            es: "Desplegar con pull requests pequeños y revisar la demo en línea justo después de cada uno.",
           },
           {
-            en: "Keep the notes: a runbook for production, a document of golden rules (back up before risky changes, document the rollback) and the debt tracker, so the project can be picked up again after a pause.",
-            es: "Mantener las notas: un runbook de producción, un documento de reglas de oro (respaldar antes de cambios riesgosos, documentar la reversión) y el registro de deuda, para poder retomar el proyecto después de una pausa.",
+            en: "Keep the notes: a deployment runbook, a document of golden rules (back up before risky changes, document the rollback) and the debt tracker, so the project can be picked up again after a pause.",
+            es: "Mantener las notas: un runbook de despliegue, un documento de reglas de oro (respaldar antes de cambios riesgosos, documentar la reversión) y el registro de deuda, para poder retomar el proyecto después de una pausa.",
           },
         ],
       },
