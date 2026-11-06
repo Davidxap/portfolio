@@ -102,10 +102,6 @@ export const previews: Record<string, Shot[]> = {
       alt: { en: "Admin inventory screen (demo data): 4,946 results, filters for low and critical stock, CSV import and export, a recommended three-step flow, the stored exchange rate, and cards with condition, base price, stock and an edit button.", es: "Pantalla de inventario del admin (datos de demo): 4.946 resultados, filtros de stock bajo y crítico, importación y exportación CSV, un flujo recomendado de tres pasos, la tasa de cambio guardada y tarjetas con condición, precio base, stock y botón de editar." },
     },
     {
-      src: withBase("/media/projects/tcg-store/admin-lifecycle.avif"), width: 1440, height: 900,
-      alt: { en: "Admin set lifecycle screen: the last automated run with its status (partial), sets reviewed, new sets, failures and the failure message shown openly, above a table of upcoming and recent sets with phase, release date, next transition, card and sealed counts and art status.", es: "Pantalla de ciclo de vida de sets del admin: la última ejecución automática con su estado (parcial), sets revisados, sets nuevos, fallos y el mensaje del fallo a la vista, sobre una tabla de sets próximos y recientes con fase, fecha de lanzamiento, próxima transición, conteo de cartas y sellados y estado del arte." },
-    },
-    {
       src: withBase("/media/projects/tcg-store/admin-orders.avif"), width: 1440, height: 900,
       alt: { en: "Admin orders screen: tabs per order state with counts (pending, paid, processing, shipped, delivered, cancelled, refunded), a state legend, search by ID, payment ID or user, a date range, CSV export and order rows with totals.", es: "Pantalla de pedidos del admin: pestañas por estado con conteo (pendiente, pagado, procesando, enviado, entregado, cancelado, reembolsado), una leyenda de estados, búsqueda por ID, ID de pago o usuario, rango de fechas, exportación CSV y filas de pedidos con totales." },
     },
