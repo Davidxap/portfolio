@@ -30,6 +30,12 @@ describe("default theme (Chipre)", () => {
       expect(localStorage.getItem("theme")).toBeNull();
     }
   });
+  it("on a first night visit the trigger shows Cable", () => {
+    vi.spyOn(Date.prototype, "getUTCHours").mockReturnValue(3);
+    expect(runInit()).toBe("cable");
+    render(<ThemeMenu locale="en" />);
+    expect(screen.getByRole("button", { name: /Cable/ })).toBeInTheDocument();
+  });
   it("a stored choice wins over the clock", () => {
     vi.spyOn(Date.prototype, "getUTCHours").mockReturnValue(3);
     localStorage.setItem("theme", "paramo");
