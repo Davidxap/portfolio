@@ -1,5 +1,9 @@
 #!/bin/sh
 # Blocks secrets, AI-session files and chat text (prompts and transcripts). The files that hold the patterns themselves are skipped.
 # The prefixes are pinned because a user-level diff.mnemonicPrefix or diff.noprefix would hide the paths from the scanner.
-git diff --cached -U0 --no-color --src-prefix=a/ --dst-prefix=b/ -- . \
-  ':!scripts/check/leaks.sh' ':!tests/leaks.test.ts' | sh scripts/check/leaks.sh
+# Git's output is captured first so a failing git aborts the commit instead of feeding the scanner an empty diff.
+# Every staged path is also sent as a `+++ b/` line, so renames, empty files, binaries and quoted paths are checked by name too.
+fail() { echo "pre-commit: git diff failed, commit aborted." >&2; exit 1; }
+names=$(git -c core.quotePath=false diff --cached --name-only --diff-filter=ACMR -- . ':!scripts/check/leaks.sh' ':!tests/leaks.test.ts') || fail
+diff=$(git diff --cached -U0 --no-color --src-prefix=a/ --dst-prefix=b/ -- . ':!scripts/check/leaks.sh' ':!tests/leaks.test.ts') || fail
+{ printf '%s\n' "$names" | sed '/^$/d;s|^|+++ b/|'; printf '%s\n' "$diff"; } | sh scripts/check/leaks.sh
