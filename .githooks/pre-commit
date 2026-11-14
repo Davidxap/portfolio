@@ -1,0 +1,5 @@
+#!/bin/sh
+# Blocks secrets, AI-session files and chat text (prompts and transcripts). The files that hold the patterns themselves are skipped.
+# The prefixes are pinned because a user-level diff.mnemonicPrefix or diff.noprefix would hide the paths from the scanner.
+git diff --cached -U0 --no-color --src-prefix=a/ --dst-prefix=b/ -- . \
+  ':!scripts/check/leaks.sh' ':!tests/leaks.test.ts' | sh scripts/check/leaks.sh

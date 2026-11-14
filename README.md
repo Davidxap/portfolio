@@ -76,6 +76,7 @@ cv-src/         HTML sources for the English and Spanish CVs
 - `npm run check:honesty`: checks the copy of the exported site (`out/`).
 - `npm run check:contrast`: checks WCAG contrast for the colour palettes.
 - `npm run check:eventloop`: checks the event-loop traces shown in the demos.
+- `npm run check:leaks`: scans the staged changes for secrets, AI-session files and chat text (prompts and transcripts). The same scan runs as a pre-commit hook (`.githooks/`, enabled by `npm install`).
 
 ## Authorship and AI use
 
