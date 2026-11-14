@@ -7,7 +7,7 @@ An interactive portfolio presented as a Linux-style desktop of Manizales, Colomb
 - **Six places** on a painted map of Manizales: About, Projects, Experience, Stack, Arcade and Contact. Each one opens with the keyboard, a gamepad or a click.
 - **Direct view** (`/direct/`, `/es/directo/`): a single page with the essentials for a quick read.
 - **Arcade**: seven small minigames inspired by the projects on the site, each with a "How to play" card and an annotated code walkthrough.
-- **Eight colour themes** named after Manizales: Chipre (the default sunset), Páramo (the light one), Tinto, Cafetal, Niebla, Nevado, Cable and Catedral. The choice is remembered, and every theme passes WCAG AA contrast.
+- **Eight colour themes** named after Manizales: Chipre (the default sunset), Páramo (the light one), Tinto, Cafetal, Niebla, Nevado, Cable and Catedral. A first visit during the Manizales night opens on Cable, the night painting. The choice is remembered, and every theme passes WCAG AA contrast.
 - **Available in English and Spanish**, with reciprocal `hreflang` and JSON-LD.
 - **Prerendered pages** and a sitemap, so search engines and applicant tracking systems can read every page.
 - **ATS-friendly CV PDFs**, built from the HTML sources in `cv-src/`.

@@ -1,7 +1,9 @@
 export const THEMES = ["chipre", "paramo", "tinto", "cafetal", "niebla", "nevado", "cable", "catedral"] as const;
 export type Theme = (typeof THEMES)[number];
-/** Chipre (the Manizales sunset viewpoint) is what a first-time visitor sees; a stored choice always wins (THEME_INIT_SCRIPT). */
+/** Chipre (the Manizales sunset viewpoint) is what a first-time visitor sees by day; a stored choice always wins (THEME_INIT_SCRIPT). */
 export const DEFAULT_THEME: Theme = "chipre";
+/** A first visit during the Manizales night (19:00 to 05:00, UTC-5) opens on the night painting, matching the clock in the bar. */
+export const NIGHT_THEME: Theme = "cable";
 export const isTheme = (v: unknown): v is Theme => THEMES.includes(v as Theme);
 
 /** Ids stored by earlier versions, mapped to their successors section 6). */
@@ -51,5 +53,6 @@ export function applyTheme(theme: Theme, origin?: { x: number; y: number }) {
   )).catch(() => {});
 }
 
-/** Inline in <head> so the saved theme is applied before first paint; legacy ids migrate and the stored value is rewritten once. */
-export const THEME_INIT_SCRIPT = `try{var L=${JSON.stringify(LEGACY)},T=${JSON.stringify(THEMES)},t=localStorage.getItem("theme"),r=T.indexOf(t)>-1?t:(t&&L.hasOwnProperty(t)?L[t]:"${DEFAULT_THEME}");document.documentElement.dataset.theme=r;if(t&&t!==r)localStorage.setItem("theme",r)}catch(e){document.documentElement.dataset.theme="${DEFAULT_THEME}"}`;
+/** Inline in <head> so the saved theme is applied before first paint; legacy ids migrate and the stored value is rewritten once.
+ * With nothing stored the Manizales hour picks day or night, and that pick is not stored, so it keeps following the clock. */
+export const THEME_INIT_SCRIPT = `try{var L=${JSON.stringify(LEGACY)},T=${JSON.stringify(THEMES)},t=localStorage.getItem("theme"),h=(new Date().getUTCHours()+19)%24,r=T.indexOf(t)>-1?t:(t&&L.hasOwnProperty(t)?L[t]:(!t&&(h>=19||h<5)?"${NIGHT_THEME}":"${DEFAULT_THEME}"));document.documentElement.dataset.theme=r;if(t&&t!==r)localStorage.setItem("theme",r)}catch(e){document.documentElement.dataset.theme="${DEFAULT_THEME}"}`;

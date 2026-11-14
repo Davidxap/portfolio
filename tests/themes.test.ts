@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { DEFAULT_THEME, LEGACY, resolveTheme, THEME_INIT_SCRIPT, THEME_META, THEMES } from "@/lib/theme";
 
 const css = readFileSync("src/styles/tokens.css", "utf8");
@@ -74,6 +74,7 @@ describe("theme set", () => {
     expect(resolveTheme(null)).toBe("chipre");
   });
   it("the init script migrates and rewrites storage once", () => {
+    vi.spyOn(Date.prototype, "getUTCHours").mockReturnValue(17); // noon in Manizales: the daytime default
     const run = () => { new Function(THEME_INIT_SCRIPT)(); return document.documentElement.dataset.theme; };
     localStorage.setItem("theme", "night");
     expect(run()).toBe("cable");
@@ -88,3 +89,5 @@ describe("theme set", () => {
     expect(localStorage.getItem("theme")).toBeNull();
   });
 });
+
+afterEach(() => { vi.restoreAllMocks(); });
