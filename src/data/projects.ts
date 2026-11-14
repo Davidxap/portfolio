@@ -69,7 +69,7 @@ export const projects: Project[] = [
     facts: [
       { label: { en: "Data model", es: "Modelo de datos" }, value: { en: "32 Prisma models", es: "32 modelos de Prisma" } },
       { label: { en: "Server actions", es: "Server actions" }, value: { en: "33 modules", es: "33 módulos" } },
-      { label: { en: "Tests", es: "Pruebas" }, value: { en: "356 test files", es: "356 archivos de pruebas" } },
+      { label: { en: "Tests", es: "Pruebas" }, value: { en: "387 test files", es: "387 archivos de pruebas" } },
       { label: { en: "Integrations", es: "Integraciones" }, value: { en: "5 external services", es: "5 servicios externos" } },
       { label: { en: "Scheduled jobs", es: "Tareas programadas" }, value: { en: "3 cron jobs", es: "3 tareas cron" } },
       { label: { en: "Languages", es: "Idiomas" }, value: { en: "EN and ES", es: "EN y ES" } },

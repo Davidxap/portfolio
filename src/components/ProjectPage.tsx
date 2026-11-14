@@ -60,25 +60,6 @@ export function ProjectPage({ locale, project: p }: { locale: Locale; project: P
           <section><h2>{t("exp.learned")}</h2><p>{p.learned[locale]}</p></section>
         </div>
 
-        {p.deep && (
-          <div className="deep">
-            {p.deep.map((s) => (
-              <section key={s.title.en}>
-                <h2>{s.title[locale]}</h2>
-                <p className="deep-lead">{s.lead[locale]}</p>
-                <ul>{s.points.map((pt) => <li key={pt.label.en}><strong>{pt.label[locale]}</strong> {pt.text[locale]}</li>)}</ul>
-              </section>
-            ))}
-          </div>
-        )}
-
-        {tour.length > 0 && (
-          <section className="tour" aria-labelledby="tour-title">
-            <h2 id="tour-title">{locale === "es" ? "Recorrido por la demo: panel de administración y cuenta del cliente" : "Demo tour: the admin panel and the customer account"}</h2>
-            <div className="gallery">{tour.map((s) => figure(s))}</div>
-          </section>
-        )}
-
         {p.architecture && (
           <section className="arch" aria-labelledby="arch-title">
             <h2 id="arch-title">{p.architecture.title[locale]}</h2>
@@ -97,6 +78,26 @@ export function ProjectPage({ locale, project: p }: { locale: Locale; project: P
             <ol className="arch-process">
               {p.architecture.process.steps.map((s) => <li key={s.en}>{s[locale]}</li>)}
             </ol>
+          </section>
+        )}
+
+        {p.deep && (
+          <section className="deep" aria-labelledby="deep-title">
+            {/* The full inventory stays one click away, so the decisions above are what a first read finds. */}
+            <h2 id="deep-title">{locale === "es" ? "Inventario completo de funcionalidades" : "Full feature inventory"}</h2>
+            {p.deep.map((s) => (
+              <details key={s.title.en}>
+                <summary><span className="deep-name">{s.title[locale]}</span><span className="deep-lead">{s.lead[locale]}</span></summary>
+                <ul>{s.points.map((pt) => <li key={pt.label.en}><strong>{pt.label[locale]}</strong> {pt.text[locale]}</li>)}</ul>
+              </details>
+            ))}
+          </section>
+        )}
+
+        {tour.length > 0 && (
+          <section className="tour" aria-labelledby="tour-title">
+            <h2 id="tour-title">{locale === "es" ? "Recorrido por la demo: panel de administración y cuenta del cliente" : "Demo tour: the admin panel and the customer account"}</h2>
+            <div className="gallery">{tour.map((s) => figure(s))}</div>
           </section>
         )}
 
