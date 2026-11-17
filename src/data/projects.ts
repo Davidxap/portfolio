@@ -53,7 +53,7 @@ export const projects: Project[] = [
       en: "A trading-card store, built end to end",
       es: "Una tienda de cartas coleccionables, construida de punta a punta",
     },
-    status: { en: "Advanced demo", es: "Demo avanzada" },
+    status: { en: "Advanced demo · paused", es: "Demo avanzada · en pausa" },
     summary: {
       en: "A complete Magic: The Gathering store that I designed, built and tested alone: a public storefront, a deck builder, a customer account, and an admin back office that largely runs itself. It runs as an online demo and the source code is private.",
       es: "Una tienda completa de Magic: The Gathering que diseñé, construí y probé yo solo: vitrina pública, constructor de mazos, cuenta de cliente y un back office de administración que en gran parte se maneja solo. Funciona como demo en línea y el código fuente es privado.",
