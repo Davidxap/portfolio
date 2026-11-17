@@ -4,6 +4,9 @@ export type Theme = (typeof THEMES)[number];
 export const DEFAULT_THEME: Theme = "chipre";
 /** A first visit during the Manizales night (19:00 to 05:00, UTC-5) opens on the night painting, matching the clock in the bar. */
 export const NIGHT_THEME: Theme = "cable";
+/** Manizales night hours for the first-visit default: from NIGHT_FROM:00 until NIGHT_UNTIL:00. */
+export const NIGHT_FROM = 19;
+export const NIGHT_UNTIL = 5;
 export const isTheme = (v: unknown): v is Theme => THEMES.includes(v as Theme);
 
 /** Manizales offset from UTC in hours, used by THEME_INIT_SCRIPT to read the local hour. */
@@ -58,4 +61,4 @@ export function applyTheme(theme: Theme, origin?: { x: number; y: number }) {
 
 /** Inline in <head> so the saved theme is applied before first paint; legacy ids migrate and the stored value is rewritten once.
  * With nothing stored the Manizales hour picks day or night, and that pick is not stored, so it keeps following the clock. */
-export const THEME_INIT_SCRIPT = `try{var L=${JSON.stringify(LEGACY)},T=${JSON.stringify(THEMES)},t=localStorage.getItem("theme"),h=(new Date().getUTCHours()+24+${MANIZALES_UTC_OFFSET})%24,r=T.indexOf(t)>-1?t:(t&&L.hasOwnProperty(t)?L[t]:(!t&&(h>=19||h<5)?"${NIGHT_THEME}":"${DEFAULT_THEME}"));document.documentElement.dataset.theme=r;if(t&&t!==r)localStorage.setItem("theme",r)}catch(e){document.documentElement.dataset.theme="${DEFAULT_THEME}"}`;
+export const THEME_INIT_SCRIPT = `try{var L=${JSON.stringify(LEGACY)},T=${JSON.stringify(THEMES)},t=localStorage.getItem("theme"),h=(new Date().getUTCHours()+24+${MANIZALES_UTC_OFFSET})%24,r=T.indexOf(t)>-1?t:(t&&L.hasOwnProperty(t)?L[t]:(!t&&(h>=${NIGHT_FROM}||h<${NIGHT_UNTIL})?"${NIGHT_THEME}":"${DEFAULT_THEME}"));document.documentElement.dataset.theme=r;if(t&&t!==r)localStorage.setItem("theme",r)}catch(e){document.documentElement.dataset.theme="${DEFAULT_THEME}"}`;

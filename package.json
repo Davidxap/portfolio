@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "check:leaks": "sh .githooks/pre-commit",
-    "prepare": "git config core.hooksPath >/dev/null || git config core.hooksPath .githooks || true",
+    "prepare": "p=$(git config core.hooksPath); if [ -z \"$p\" ]; then git config core.hooksPath .githooks || true; elif [ \"$p\" != .githooks ]; then echo \"core.hooksPath is $p, so the leak hook is off. Run: git config core.hooksPath .githooks\"; fi",
     "check:honesty": "node scripts/check/honesty.mjs",
     "check:eventloop": "node --experimental-strip-types scripts/check/eventloop.mjs",
     "check:contrast": "node scripts/check/contrast.mjs",
