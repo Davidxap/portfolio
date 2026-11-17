@@ -41,8 +41,8 @@ export const story: StoryChapter[] = [
     period: "2025 →",
     title: { en: "Shipping end to end", es: "Entregar de punta a punta" },
     body: {
-      en: "As a freelance full-stack developer I carry a project alone, from the first client call to production. React, Next.js, Node.js, PostgreSQL. One of my solo builds is TCG Store: 31 Prisma models, a deck builder and an admin panel.",
-      es: "Como desarrollador full-stack freelance llevo un proyecto yo solo, desde la primera llamada con el cliente hasta producción. React, Next.js, Node.js, PostgreSQL. Uno de mis proyectos en solitario es TCG Store: 31 modelos de Prisma, un constructor de mazos y un panel de administración.",
+      en: "As a freelance full-stack developer I carry a project alone, from the first client call to production. React, Next.js, Node.js, PostgreSQL. One of my solo builds is TCG Store: 32 Prisma models, a deck builder and an admin panel.",
+      es: "Como desarrollador full-stack freelance llevo un proyecto yo solo, desde la primera llamada con el cliente hasta producción. React, Next.js, Node.js, PostgreSQL. Uno de mis proyectos en solitario es TCG Store: 32 modelos de Prisma, un constructor de mazos y un panel de administración.",
     },
   },
   {

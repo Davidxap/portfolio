@@ -201,9 +201,12 @@
   .windows { inset: 56px 6px calc(72px + env(safe-area-inset-bottom)); }
   /* the compact bar: name dot, the time, settings and the CV as an icon; the workspaces are the tab bar below */
   .wallpaper .wp-art, .wallpaper .pins, .wallpaper .wp-fx { --ox: 0.8; }
-  .bar { top: 8px; left: 8px; right: 8px; grid-template-columns: auto 1fr auto; gap: 6px; }
+  .bar { top: 8px; left: 6px; right: 6px; grid-template-columns: auto 1fr auto; gap: 4px; }
   .bar-left { padding: 2px; } .bar-brand { padding: 0 8px; } .bar-name, .ws, .bar-city, .bar-mid .bar-ic, .bar .mode-switch { display: none; }
-  .bar-mid { justify-self: center; padding: 4px 12px; }
+  /* tight on purpose: at 390px the CV button was pushed past the right edge */
+  .bar-mid { justify-self: center; padding: 4px 8px; }
+  .bar .settings .hud-btn.icon-only { width: 30px; }
+  .bar .theme-menu .lucide-chevron-down { display: none; }
   .bar-right { padding: 2px 4px 2px 2px; gap: 2px; }
   .bar .pill-cv { padding: 0; width: 34px; justify-content: center; } .bar .pill-cv span { display: none; }
   .bar .settings .theme-name { display: none; }

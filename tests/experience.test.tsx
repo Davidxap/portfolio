@@ -18,7 +18,7 @@ describe("experience data", () => {
     }
   });
   it("gives the freelance and marketing entries bullets, and the freelance one its stack", () => {
-    expect(experience[0].bullets).toHaveLength(5);
+    expect(experience[0].bullets).toHaveLength(4);
     expect(experience[0].stack).toEqual(["Next.js", "React", "TypeScript", "FastAPI", "Python", "PostgreSQL", "Supabase", "Vercel", "Bash"]);
     expect(experience[1].bullets).toHaveLength(3);
   });

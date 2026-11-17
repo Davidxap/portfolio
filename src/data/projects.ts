@@ -53,7 +53,7 @@ export const projects: Project[] = [
       en: "A trading-card store, built end to end",
       es: "Una tienda de cartas coleccionables, construida de punta a punta",
     },
-    status: { en: "Advanced demo", es: "Demo avanzada" },
+    status: { en: "Advanced demo · paused", es: "Demo avanzada · en pausa" },
     summary: {
       en: "A complete Magic: The Gathering store that I designed, built and tested alone: a public storefront, a deck builder, a customer account, and an admin back office that largely runs itself. It runs as an online demo and the source code is private.",
       es: "Una tienda completa de Magic: The Gathering que diseñé, construí y probé yo solo: vitrina pública, constructor de mazos, cuenta de cliente y un back office de administración que en gran parte se maneja solo. Funciona como demo en línea y el código fuente es privado.",
@@ -69,7 +69,7 @@ export const projects: Project[] = [
     facts: [
       { label: { en: "Data model", es: "Modelo de datos" }, value: { en: "32 Prisma models", es: "32 modelos de Prisma" } },
       { label: { en: "Server actions", es: "Server actions" }, value: { en: "33 modules", es: "33 módulos" } },
-      { label: { en: "Tests", es: "Pruebas" }, value: { en: "356 test files", es: "356 archivos de pruebas" } },
+      { label: { en: "Tests", es: "Pruebas" }, value: { en: "387 test files", es: "387 archivos de pruebas" } },
       { label: { en: "Integrations", es: "Integraciones" }, value: { en: "5 external services", es: "5 servicios externos" } },
       { label: { en: "Scheduled jobs", es: "Tareas programadas" }, value: { en: "3 cron jobs", es: "3 tareas cron" } },
       { label: { en: "Languages", es: "Idiomas" }, value: { en: "EN and ES", es: "EN y ES" } },

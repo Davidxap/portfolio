@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ThemeMenu } from "@/components/ThemeMenu";
@@ -7,7 +7,9 @@ import { currentTheme, DEFAULT_THEME, THEME_INIT_SCRIPT } from "@/lib/theme";
 const NAMES = ["Chipre", "Páramo", "Tinto", "Cafetal", "Niebla", "Nevado", "Cable", "Catedral"];
 const names = () => screen.getAllByRole("option").map((o) => o.getAttribute("aria-label"));
 
-beforeEach(() => { localStorage.clear(); document.documentElement.dataset.theme = "chipre"; });
+// 17:00 UTC is noon in Manizales, so first-entry tests see the daytime default unless they set the hour themselves.
+beforeEach(() => { localStorage.clear(); document.documentElement.dataset.theme = "chipre"; vi.spyOn(Date.prototype, "getUTCHours").mockReturnValue(17); });
+afterEach(() => { vi.restoreAllMocks(); });
 
 describe("default theme (Chipre)", () => {
   const runInit = () => { document.documentElement.dataset.theme = "cable"; new Function(THEME_INIT_SCRIPT)(); return document.documentElement.dataset.theme; };
@@ -17,6 +19,27 @@ describe("default theme (Chipre)", () => {
     expect(runInit()).toBe("chipre");
     render(<ThemeMenu locale="en" />);
     expect(screen.getByRole("button", { name: /Chipre/ })).toBeInTheDocument();
+  });
+  it("first entry follows the Manizales clock: Cable from 19:00 to 05:00, Chipre by day, and nothing is stored", () => {
+    // UTC hour -> Manizales hour (UTC-5): 0 -> 19, 3 -> 22, 9 -> 4, 10 -> 5, 23 -> 18.
+    for (const [utc, theme] of [[0, "cable"], [3, "cable"], [9, "cable"], [10, "chipre"], [23, "chipre"]] as const) {
+      vi.spyOn(Date.prototype, "getUTCHours").mockReturnValue(utc);
+      document.documentElement.dataset.theme = "nevado";
+      new Function(THEME_INIT_SCRIPT)();
+      expect(document.documentElement.dataset.theme, `UTC ${utc}`).toBe(theme);
+      expect(localStorage.getItem("theme")).toBeNull();
+    }
+  });
+  it("on a first night visit the trigger shows Cable", () => {
+    vi.spyOn(Date.prototype, "getUTCHours").mockReturnValue(3);
+    expect(runInit()).toBe("cable");
+    render(<ThemeMenu locale="en" />);
+    expect(screen.getByRole("button", { name: /Cable/ })).toBeInTheDocument();
+  });
+  it("a stored choice wins over the clock", () => {
+    vi.spyOn(Date.prototype, "getUTCHours").mockReturnValue(3);
+    localStorage.setItem("theme", "paramo");
+    expect(runInit()).toBe("paramo");
   });
   it("a stored choice wins, legacy ids migrate and are rewritten, garbage falls back to Chipre", () => {
     localStorage.setItem("theme", "nevado");

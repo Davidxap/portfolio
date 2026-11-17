@@ -31,7 +31,6 @@ export const experience: ExperienceEntry[] = [
       { en: "From requirements to production: scope, data model, API, interface and deployment.", es: "De los requisitos a producción: alcance, modelo de datos, API, interfaz y despliegue." },
       { en: "APIs and data: REST APIs with FastAPI and Next.js, PostgreSQL and Supabase databases.", es: "APIs y datos: APIs REST con FastAPI y Next.js, bases de datos PostgreSQL y Supabase." },
       { en: "Delivery: deployments on Vercel and the technical documentation that ships with each project.", es: "Entrega: despliegues en Vercel y la documentación técnica que acompaña cada proyecto." },
-      { en: "Automation: Python and Bash scripts for reporting, backups and data collection.", es: "Automatización: scripts en Python y Bash para reportes, copias de seguridad y recolección de datos." },
       { en: "Communication: I report progress directly to the client.", es: "Comunicación: informo el avance directamente al cliente." },
     ],
     stack: ["Next.js", "React", "TypeScript", "FastAPI", "Python", "PostgreSQL", "Supabase", "Vercel", "Bash"],

@@ -1,5 +1,5 @@
 "use client";
-import type { ReactNode } from "react";
+import { useLayoutEffect, useRef, type ReactNode } from "react";
 import { placeIndex, type PlaceId } from "@/data/places";
 import type { Locale } from "@/data/projects";
 import { useW } from "@/i18n/world";
@@ -12,8 +12,16 @@ import { ArtIcon } from "./icons";
  * exit before it leaves. The focused window owns the keyboard (scrolling) and the border. */
 export function AppWindow({ app, focus, locale, title, children }: { app: PlaceId; focus: boolean; locale: Locale; title?: string; children: ReactNode }) {
   const w = useW(locale);
+  const ref = useRef<HTMLElement>(null);
+  // The window grows out of its painted object: the entrance scales from the pin's position instead of the window's centre.
+  useLayoutEffect(() => {
+    const el = ref.current, pin = document.querySelector(`[data-pin="${app}"]`);
+    if (!el || !pin) return;
+    const a = el.getBoundingClientRect(), b = pin.getBoundingClientRect();
+    el.style.transformOrigin = `${b.left + b.width / 2 - a.left}px ${b.top + b.height / 2 - a.top}px`;
+  }, [app]);
   return (
-    <section className="win" data-app={app} data-focus={focus} aria-label={title ?? APP_TITLE[app]}>
+    <section ref={ref} className="win" data-app={app} data-focus={focus} aria-label={title ?? APP_TITLE[app]}>
       <header className="win-bar">
         <ArtIcon name={app} size={18} className="win-ic" />
         <BrandMark size={14} className="win-brand" />
