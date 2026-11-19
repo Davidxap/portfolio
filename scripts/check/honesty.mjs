@@ -1,9 +1,12 @@
 // Fails the build output if it contains claims or characters the portfolio must never show.
-// Usage: node scripts/check/honesty.mjs [outDir]
+// Usage: node scripts/check/honesty.mjs [--rules-only] [outDir]
+// --rules-only skips the site-page checks, for folders like cv-src that hold no built pages.
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 
-const dist = process.argv[2] ?? "out";
+const args = process.argv.slice(2);
+const rulesOnly = args.includes("--rules-only");
+const dist = args.find((a) => a !== "--rules-only") ?? "out";
 const files = [];
 (function walk(dir) {
   for (const name of readdirSync(dir)) {
@@ -49,7 +52,7 @@ for (const f of files) {
 
 // Text-first: the projects place and the direct view must carry every featured project name without JavaScript.
 const featured = ["IKAI", "omarchy-zen", "TCG Store", "AmplixMe", "JavaScript para Subir de Nivel"];
-for (const [page, names] of [
+for (const [page, names] of rulesOnly ? [] : [
   [join(dist, "projects/index.html"), featured], [join(dist, "es/proyectos/index.html"), featured],
   [join(dist, "direct/index.html"), featured], [join(dist, "es/directo/index.html"), featured],
 ]) {

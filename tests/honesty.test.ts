@@ -55,4 +55,20 @@ describe("check:honesty", () => {
   it("lets the now-featured Skorify contributions through", () => {
     expect(run("Two merged pull requests to Skorify").status).toBe(0);
   });
+  it("--rules-only checks a folder that has none of the site's pages", () => {
+    const dir = mkdtempSync(join(tmpdir(), "honesty-"));
+    dirs.push(dir);
+    page(dir, "cv.html", "A bilingual portfolio");
+    const bad = spawnSync("node", ["scripts/check/honesty.mjs", "--rules-only", dir], { encoding: "utf8" });
+    expect(bad.status).toBe(1);
+    expect(bad.stderr).toMatch(/FAIL .*bilingual wording/);
+    page(dir, "cv.html", "A portfolio in English and Spanish");
+    const ok = spawnSync("node", ["scripts/check/honesty.mjs", "--rules-only", dir], { encoding: "utf8" });
+    expect(ok.status, ok.stderr).toBe(0);
+  });
+  // The CVs are published as PDFs, so their sources must follow the same rules as the site.
+  it("the CV sources pass the honesty rules", () => {
+    const r = spawnSync("node", ["scripts/check/honesty.mjs", "--rules-only", "cv-src"], { encoding: "utf8" });
+    expect(r.status, r.stderr).toBe(0);
+  });
 });
