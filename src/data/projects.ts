@@ -718,14 +718,14 @@ export const projects: Project[] = [
       en: "A small weather app for any city",
       es: "Una pequeña app del clima para cualquier ciudad",
     },
-    status: { en: "University project · live demo offline", es: "Proyecto universitario · demo en línea apagada" },
+    status: { en: "University project · live demo", es: "Proyecto universitario · demo en línea" },
     context: {
       en: "A university project from my Information Systems studies at Universidad de Caldas.",
       es: "Un proyecto universitario de mis estudios de Sistemas de Información en la Universidad de Caldas.",
     },
     summary: {
-      en: "A small React app that shows the current weather and a forecast for a city, using the OpenWeatherMap API. I built it at university to practise calling an external API from React. Its Vercel deployment no longer exists, so the repository is all that remains.",
-      es: "Una pequeña app en React que muestra el clima actual y un pronóstico de una ciudad con la API de OpenWeatherMap. La hice en la universidad para practicar el consumo de una API externa desde React. Su despliegue en Vercel ya no existe, así que solo queda el repositorio.",
+      en: "A small React app that shows the current weather and a forecast for a city, using the OpenWeatherMap API. I built it at university to practise calling an external API from React. It is still live on Vercel.",
+      es: "Una pequeña app en React que muestra el clima actual y un pronóstico de una ciudad con la API de OpenWeatherMap. La hice en la universidad para practicar el consumo de una API externa desde React. Sigue en línea en Vercel.",
     },
     built: {
       en: "Search by city name or use the browser's geolocation, switch between metric and imperial units, and jump to Manizales, New York, Tokyo, Paris or Madrid with one click. A service module fetches the current weather and the forecast and formats times with Luxon; pages are routed with React Router. Styled with Tailwind CSS on Vite.",
@@ -736,7 +736,10 @@ export const projects: Project[] = [
       es: "Manejar la forma de los datos de una API externa, dar formato a las horas según la zona horaria y separar el código que pide los datos de los componentes.",
     },
     stack: ["React", "Vite", "Tailwind CSS", "React Router", "OpenWeatherMap API"],
-    links: [{ kind: "repo", url: "https://github.com/Davidxap/weather-app-react" }],
+    links: [
+      { kind: "demo", url: "https://weather-app-react-two-wine.vercel.app/" },
+      { kind: "repo", url: "https://github.com/Davidxap/weather-app-react" },
+    ],
     hue: ["#1d2f3f", "#8cc4ee"],
     color: "#4aa3df",
     category: "learning",
@@ -753,14 +756,14 @@ export const projects: Project[] = [
       en: "A Studio Ghibli film explorer",
       es: "Un explorador de películas de Studio Ghibli",
     },
-    status: { en: "University project · live demo offline", es: "Proyecto universitario · demo en línea apagada" },
+    status: { en: "University project · live demo", es: "Proyecto universitario · demo en línea" },
     context: {
       en: "A university project from my Information Systems studies at Universidad de Caldas.",
       es: "Un proyecto universitario de mis estudios de Sistemas de Información en la Universidad de Caldas.",
     },
     summary: {
-      en: "A small React app that lists Studio Ghibli films from a public Ghibli API and opens a detail page for each one. I built it at university to practise routing and data fetching. Its Vercel deployment no longer exists, so the repository is all that remains.",
-      es: "Una pequeña app en React que lista las películas de Studio Ghibli desde una API pública de Ghibli y abre una página de detalle de cada una. La hice en la universidad para practicar enrutamiento y consumo de datos. Su despliegue en Vercel ya no existe, así que solo queda el repositorio.",
+      en: "A small React app that lists Studio Ghibli films from a public Ghibli API and opens a detail page for each one. I built it at university to practise routing and data fetching. It is still live on Vercel.",
+      es: "Una pequeña app en React que lista las películas de Studio Ghibli desde una API pública de Ghibli y abre una página de detalle de cada una. La hice en la universidad para practicar enrutamiento y consumo de datos. Sigue en línea en Vercel.",
     },
     built: {
       en: "A film grid with posters and titles, and a detail page per film that also loads its people, species, locations and vehicles from the same API. Loading and error states, routing with React Router, and Bootstrap for the layout, on Vite.",
@@ -771,7 +774,10 @@ export const projects: Project[] = [
       es: "Pedir varios recursos relacionados para una sola página, manejar estados de carga y de error y estructurar una pequeña app de React con varias páginas.",
     },
     stack: ["React", "Vite", "Bootstrap", "React Router", "Studio Ghibli API"],
-    links: [{ kind: "repo", url: "https://github.com/Davidxap/studio-ghilbli-api" }],
+    links: [
+      { kind: "demo", url: "https://studio-ghilbli-api-nine.vercel.app/" },
+      { kind: "repo", url: "https://github.com/Davidxap/studio-ghilbli-api" },
+    ],
     hue: ["#243a2c", "#9fd9a6"],
     color: "#5fbf78",
     category: "learning",

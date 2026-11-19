@@ -82,8 +82,8 @@ export const places: Place[] = [
     label: { en: "Contact", es: "Contacto" },
     teaser: { en: "Let's have a coffee: email, GitHub, LinkedIn and the CV.", es: "Tomemos un café: correo, GitHub, LinkedIn y el CV." },
     description: {
-      en: "Contact David Arroyave Pérez: open to full-stack and frontend roles, remote, hybrid or on-site. Email, GitHub, LinkedIn and CV.",
-      es: "Contacta a David Arroyave Pérez: abierto a roles full-stack y frontend, remotos, híbridos o presenciales. Correo, GitHub, LinkedIn y CV.",
+      en: "Contact David Arroyave Pérez: open to AI product engineering, applied AI, full-stack and automation roles, remote, hybrid or on-site. Email, GitHub, LinkedIn and CV.",
+      es: "Contacta a David Arroyave Pérez: abierto a roles de ingeniería de producto con IA, IA aplicada, full-stack y automatización, remotos, híbridos o presenciales. Correo, GitHub, LinkedIn y CV.",
     },
     pin: { x: 48.7, y: 78.2 }, at: "left",
   },

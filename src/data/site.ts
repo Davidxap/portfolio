@@ -4,7 +4,7 @@ export const person = {
   shortName: "David Arroyave",
   /** Full name as written on the CV, so name searches and ATS matching connect both. */
   legalName: "David Arturo Arroyave Pérez",
-  jobTitle: "Full-Stack Developer",
+  jobTitle: "Software Developer",
   city: "Manizales",
   region: "Caldas",
   country: "CO",
