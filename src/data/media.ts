@@ -165,13 +165,13 @@ export const previews: Record<string, Shot[]> = {
   "weather-app": [
     {
       src: withBase("/media/projects/weather-app/repo-dark.avif"), width: 1440, height: 900,
-      alt: { en: "GitHub repository page of weather-app-react (dark theme); the live demo is offline, so this is the repository.", es: "Página del repositorio de weather-app-react en GitHub (tema oscuro); la demo en línea está apagada, así que esto es el repositorio." },
+      alt: { en: "GitHub repository page of weather-app-react (dark theme).", es: "Página del repositorio de weather-app-react en GitHub (tema oscuro)." },
     },
   ],
   "ghibli-explorer": [
     {
       src: withBase("/media/projects/ghibli-explorer/repo-dark.avif"), width: 1440, height: 900,
-      alt: { en: "GitHub repository page of studio-ghilbli-api (dark theme); the live demo is offline, so this is the repository.", es: "Página del repositorio de studio-ghilbli-api en GitHub (tema oscuro); la demo en línea está apagada, así que esto es el repositorio." },
+      alt: { en: "GitHub repository page of studio-ghilbli-api (dark theme).", es: "Página del repositorio de studio-ghilbli-api en GitHub (tema oscuro)." },
     },
   ],
   "linux-win-setup": [

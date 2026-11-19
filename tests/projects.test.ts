@@ -90,14 +90,18 @@ describe("projects data", () => {
     expect(JSON.stringify(team)).not.toMatch(/deadline|plazo|late|tarde/i);
   });
 
-  it("the weather app and Ghibli explorer are non-featured learning entries with honest offline previews", () => {
-    for (const [slug, repo] of [["weather-app", "Davidxap/weather-app-react"], ["ghibli-explorer", "Davidxap/studio-ghilbli-api"]]) {
+  it("the weather app and Ghibli explorer are non-featured learning entries that link their live demos", () => {
+    for (const [slug, repo, demo] of [
+      ["weather-app", "Davidxap/weather-app-react", "https://weather-app-react-two-wine.vercel.app/"],
+      ["ghibli-explorer", "Davidxap/studio-ghilbli-api", "https://studio-ghilbli-api-nine.vercel.app/"],
+    ]) {
       const p = projects.find((x) => x.slug === slug)!;
       expect(p.featured).toBe(false);
       expect(p.category).toBe("learning");
       expect(p.links.some((l) => l.kind === "repo" && l.url.endsWith(repo))).toBe(true);
-      expect(p.links.some((l) => l.kind === "demo")).toBe(false);
-      for (const shot of previews[slug]) expect(shot.alt.en).toMatch(/live demo is offline/i);
+      expect(p.links.some((l) => l.kind === "demo" && l.url === demo)).toBe(true);
+      // Both deployments answer 200, so nothing may call them offline or gone.
+      expect(JSON.stringify([p, previews[slug]])).not.toMatch(/offline|apagada|no longer exists|ya no existe/i);
     }
   });
 });
