@@ -54,6 +54,14 @@ describe("direct view", () => {
     expect(within(screen.getByRole("navigation", { name: "Modo de vista" })).getByRole("link", { name: /Interactivo/ })).toHaveAttribute("href", "/es/");
   });
 
+  it("has no print or save-as-PDF button in either language", async () => {
+    for (const locale of ["en", "es"] as const) {
+      const { unmount } = render(await DirectView({ locale }));
+      expect(screen.queryByRole("button", { name: /print|pdf|imprimir/i })).toBeNull();
+      unmount();
+    }
+  });
+
   it("opens with the painted opening: the paint field, the identity widget text of the interactive home as the only H1, the field card and the projects", async () => {
     render(await DirectView({ locale: "en" }));
     expect(document.querySelector(".d-paint .paintfield")).not.toBeNull();

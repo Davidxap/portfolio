@@ -16,7 +16,6 @@ import { ArtIcon } from "../world/icons";
 import { ModeSwitch } from "../world/ModeSwitch";
 import { PaintField } from "../world/PaintField";
 import { PixelDavid } from "../world/PixelDavid";
-import { PrintButton } from "../world/PrintButton";
 import { Headline } from "./PanelHead";
 import { withBase } from "@/lib/base";
 
@@ -25,11 +24,11 @@ const TONES = ["var(--accent)", "var(--accent-2)", "var(--cta)", "var(--paint-1)
 const tone = (c: string) => ({ "--k": c }) as CSSProperties;
 const pad = (n: number) => String(n).padStart(2, "0");
 
-/** One section head: mono label with its number and the place name, a large serif title (the interactive panel heading) with an italic accent word, and a hairline. */
+/** One section head: a small label with its number and the place name, a large serif title (the interactive panel heading) with an italic accent word, and a hairline. */
 function Head({ n, id, label, text }: { n: string; id: string; label: string; text: string }) {
   return (
     <div className="d-head d-rv">
-      <p className="d-label mono" aria-hidden="true"><span>{n}</span><i />{label} / {pad(places.length)}</p>
+      <p className="d-label" aria-hidden="true"><span>{n}</span><i />{label} / {pad(places.length)}</p>
       <h2 id={id}><Headline text={text} /></h2>
     </div>
   );
@@ -63,25 +62,24 @@ export async function DirectView({ locale }: { locale: Locale }) {
 
         <header className="d-opening">
           <div className="d-id">
-            <p className="d-eyebrow mono">{w("intro.sign")}</p>
-            <h1>{first} <em>{surname.join(" ")}</em></h1>
-            <p className="d-name mono">{person.jobTitle}</p>
+            <h1>{first} <span className="d-surname">{surname.join(" ")}</span></h1>
+            <p className="d-name">{person.jobTitle}</p>
+            <p className="d-eyebrow">{w("intro.sign")}</p>
             <p className="d-lead">{t("map.value")}</p>
             <div className="d-avail">
-              <span className="d-avail-label mono">{w("intro.availability")}</span>
+              <span className="d-avail-label">{w("intro.availability")}</span>
               <ul className="chips" aria-label={availability.line[locale]}>{availability.modes.map((m) => <li key={m.en} className="chip">{m[locale]}</li>)}</ul>
             </div>
             <p className="print-only">{person.email} · {person.github} · {person.linkedin}</p>
             <div className="d-cta no-print">
               <a className="btn cta" href={cvPath(locale)} download><ArtIcon name="cv" size={22} />{t("cv.download")}</a>
               <a className="btn cta-ghost" href={`mailto:${person.email}`}><ArtIcon name="contact" size={22} />{w("contact.coffee")}</a>
-              <PrintButton label={t("direct.print")} />
             </div>
           </div>
           <aside className="d-card" aria-label={person.name}>
             <div className="d-card-head">
               <figure className="d-face" aria-hidden="true"><PixelDavid height={124} /></figure>
-              <div><p className="d-card-title mono">{t("direct.card")}</p><p className="d-card-name">{person.name}</p></div>
+              <div><p className="d-card-title">{t("direct.card")}</p><p className="d-card-name">{person.name}</p></div>
             </div>
             <dl>
               {(["role", "base", "work", "langs", "core", "quality", "status"] as const).map((k) => (
@@ -141,7 +139,7 @@ export async function DirectView({ locale }: { locale: Locale }) {
                     <div className="chips">{p.metric && <span className="chip chip-key">{p.metric[locale]}</span>}<span className="chip">{p.period}</span></div>
                     <h3><a href={withBase(projectPath(locale, p.slug))}>{p.name}<ArrowUpRight className="d-arrow" size={20} aria-hidden="true" /></a></h3>
                     <p>{p.tagline[locale]}</p>
-                    <p className="d-meta mono">{p.role[locale]} · {p.stack.slice(0, 4).join(" · ")}</p>
+                    <p className="d-meta">{p.role[locale]}. {p.stack.slice(0, 4).join(", ")}</p>
                   </div>
                 </li>
               );
@@ -175,7 +173,7 @@ export async function DirectView({ locale }: { locale: Locale }) {
                   {e.bullets.length > 0 && <ul className="d-bullets">{e.bullets.map((b) => <li key={b.en}>{b[locale]}</li>)}</ul>}
                   {e.stack.length > 0 && <ul className="chips">{e.stack.map((x) => <li key={x} className="chip">{x}</li>)}</ul>}
                   {e.matters && <p>{e.matters[locale]}</p>}
-                  {e.related && <p className="d-meta mono">{e.related.label[locale]}: {e.related.slugs.map((slug, k) => <span key={slug}>{k ? ", " : ""}<a href={withBase(projectPath(locale, slug))}>{projects.find((p) => p.slug === slug)?.name ?? slug}</a></span>)}</p>}
+                  {e.related && <p className="d-meta">{e.related.label[locale]}: {e.related.slugs.map((slug, k) => <span key={slug}>{k ? ", " : ""}<a href={withBase(projectPath(locale, slug))}>{projects.find((p) => p.slug === slug)?.name ?? slug}</a></span>)}</p>}
                 </div>
               </li>
             ))}
@@ -213,7 +211,7 @@ export async function DirectView({ locale }: { locale: Locale }) {
         </section>
 
         <section id="d-contact" className="d-contact" aria-labelledby="d-contact-h">
-          <p className="d-label mono"><span aria-hidden="true">{n("contact")}</span><i aria-hidden="true" />{contact.label[locale]} / {pad(places.length)}</p>
+          <p className="d-label"><span aria-hidden="true">{n("contact")}</span><i aria-hidden="true" />{contact.label[locale]} / {pad(places.length)}</p>
           <h2 id="d-contact-h"><Headline text={w("head.contact")} /></h2>
           <p className="d-lead">{w("head.contact.lead")}</p>
           <p className="d-lead">{w("contact.reply")}</p>
