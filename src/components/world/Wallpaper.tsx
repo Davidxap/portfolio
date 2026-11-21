@@ -5,6 +5,30 @@ import { places, type Place, type PlaceId } from "@/data/places";
 import type { Locale } from "@/data/projects";
 import { useW } from "@/i18n/world";
 import { STAGE_ART, STAGE_RATIO } from "@/lib/stage";
+import { formatManizales } from "./LiveTime";
+
+export type Phase = "dawn" | "day" | "dusk" | "night";
+/** The part of day in Manizales from its "HH:MM" clock: the lamp and the sun follow David's time, never the visitor's.
+ * Anything unreadable (the "--:--" placeholder) is dusk, which is what the painting shows. Exported for tests. */
+export const phaseAt = (hhmm: string): Phase => {
+  const h = Number.parseInt(hhmm, 10);
+  if (Number.isNaN(h)) return "dusk";
+  if (h >= 5 && h < 7) return "dawn";
+  if (h >= 7 && h < 17) return "day";
+  if (h >= 17 && h < 19) return "dusk";
+  return "night";
+};
+
+function usePhase() {
+  const [phase, setPhase] = useState<Phase>("dusk");
+  useEffect(() => {
+    const tick = () => setPhase(phaseAt(formatManizales()));
+    tick();
+    const id = window.setInterval(tick, 60000);
+    return () => window.clearInterval(id);
+  }, []);
+  return phase;
+}
 
 type Props = {
   locale: Locale;
@@ -34,9 +58,10 @@ function useNightArt() {
 }
 
 /** The theme atmosphere over the painting, kept to two touches on purpose, for a professional, recruiter-facing site: the sun or moon
- * breathing and the desk lamp's warm flicker, glued to the painted objects like the pins. Nudged by the pointer on desktop; paused with
- * the motion toggle. */
+ * breathing and the desk lamp's warm flicker, both following the hour in Manizales, glued to the painted objects like the pins. Nudged by
+ * the pointer on desktop; paused with the motion toggle. */
 function ThemeFx() {
+  const phase = usePhase();
   const root = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = root.current;
@@ -51,7 +76,7 @@ function ThemeFx() {
     return () => { window.removeEventListener("pointermove", onMove); cancelAnimationFrame(raf); };
   }, []);
   return (
-    <div ref={root} className="wp-fx" aria-hidden="true">
+    <div ref={root} className="wp-fx" aria-hidden="true" data-phase={phase}>
       <div className="fx-box">
         <span className="fx-sun" />
         <span className="fx-lamp" />
