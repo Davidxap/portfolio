@@ -1,7 +1,7 @@
 /* Theme atmosphere: one animated layer per theme over the painting (Wallpaper.tsx ThemeFx). The .fx-box is sized and placed exactly like
-   the painting, so every effect sits on its painted object in % of the image. Kept to two touches on purpose, for a professional,
-   recruiter-facing site: the desk lamp's warm flicker everywhere, and a sun breathing only on the sunset paintings, where it blends into
-   the sky's own warm tones. The night paintings already have their own small painted moon; a CSS glow next to it only looked tacked on. */
+   the painting, so every effect sits on its painted object in % of the image. Kept quiet on purpose, for a professional,
+   recruiter-facing site: the desk lamp's warm flicker everywhere, a sun breathing only on the sunset paintings, both following the hour in
+   Manizales. The night paintings already have their own small painted moon; a CSS glow next to it only looked tacked on. */
 .wp-fx { --pace: 1; position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .fx-box { position: absolute; width: var(--iw); height: var(--ih); left: calc((100cqw - var(--iw)) * var(--ox)); top: calc((100cqh - var(--ih)) * 0.5); }
 .fx-box > span { position: absolute; display: none; }
@@ -30,3 +30,11 @@
 @keyframes fx-breathe { 0%, 100% { opacity: 0.45; scale: 0.94; } 50% { opacity: 0.8; scale: 1.05; } }
 @keyframes fx-lamp { 0%, 100% { opacity: 0.75; } 46% { opacity: 1; } 50% { opacity: 0.6; } 53% { opacity: 0.95; } }
 
+
+/* ----- Manizales time (Wallpaper.tsx phaseAt): the lamp burns brighter as the evening goes on, the sun fades at night. The painting itself
+   is never filtered; filter: opacity on the glow multiplies its own flicker. Dusk is the painting as drawn, so it changes nothing. ----- */
+.wp-fx[data-phase="day"] .fx-lamp { filter: opacity(0.35); }
+.wp-fx[data-phase="dawn"] .fx-lamp { filter: opacity(0.7); }
+.wp-fx[data-phase="night"] .fx-lamp { scale: 1.25; }
+.wp-fx[data-phase="day"] .fx-sun { filter: opacity(0.75); }
+.wp-fx[data-phase="night"] .fx-sun { filter: opacity(0.3); }

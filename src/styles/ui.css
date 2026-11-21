@@ -4,6 +4,9 @@
 
 .hud-btn { transition: border-color var(--t) var(--ease), color var(--t) var(--ease), box-shadow var(--t) var(--ease); }
 .hud-btn:focus-visible, .btn:focus-visible, .card:focus-visible, .menu a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; box-shadow: 0 0 0 6px var(--glow); }
+/* the ring appears instantly: box-shadow leaves the transition list while focused */
+.hud-btn:focus-visible { transition-property: border-color, color; }
+.btn:focus-visible { transition-property: transform, border-color, background-color, filter; }
 .menu a { position: relative; }
 .menu a::after { content: ""; position: absolute; left: 2px; right: 2px; bottom: 0; height: 1px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform var(--t) var(--ease); }
 .menu a[aria-current="true"]::after, .menu a:hover::after { transform: scaleX(1); }
